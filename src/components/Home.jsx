@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <div>
         {/* HERO SECTION */}
-        <section className="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-24">
+        <section className="bg-gradient-to-r from-green-500 to-emerald-600 text-white min-h-screen flex items-center">
           <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 items-center gap-10">
             <div>
               <h1 className="text-5xl font-bold leading-tight">
