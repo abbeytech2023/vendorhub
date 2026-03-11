@@ -1,28 +1,23 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Home from "./pages/Home";
+import Home from "./components/Home";
 import Navigation from "./components/Navigation";
-import SupportPage from "./pages/Support";
-import Blogs from "./pages/Blogs";
-import Skits from "./pages/Skits";
-import Footer from "./components/Footer";
-import PWAInstall from "./components/PwaInstall";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import AdminDashboard from "./pages/AdminDashboard";
+import BecomeVendor from "./components/BecomeAVendor";
+import VendorRegistration from "./pages/VendorRegistration";
+import VendorsSection from "./components/VendorGrid";
+import Cart from "./pages/Cart";
+import ProductListPage from "./pages/ProductList";
 
 // Context
 
 import { useAuthContext } from "./hooks/useAuthContext";
 import { useEffect } from "react";
-import { Spinner } from "./components/Spinner";
+import Spinner from "./components/Spinner";
+import Login from "./pages/Login";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <>
       {!authIsReady && <Spinner />}
@@ -31,16 +26,16 @@ export default function App() {
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/skits" element={<Skits />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/support" element={<SupportPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="sell" element={<BecomeVendor />} />
+            <Route path="shop" element={<ProductListPage />} />
+            <Route path="vendors" element={<VendorsSection />} />
+            <Route path="login" element={<Login />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="/vendor/register" element={<VendorRegistration />} />
           </Routes>
         </div>
       )}
-      <PWAInstall />
+      {/* <PWAInstall /> */}
       <Toaster
         position="top-center"
         gutter={12}
@@ -62,7 +57,7 @@ export default function App() {
           },
         }}
       />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

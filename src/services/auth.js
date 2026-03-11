@@ -88,5 +88,10 @@ export async function checkIfAdmin() {
 
   if (!user) return false;
 
-  return user.email === "yogeezyentertainment@gmail.com";
+  console.log(user.email);
+
+  const isAdmin = user.email === "yogeezyentertainment@gmail.com";
+  console.log(isAdmin);
+
+  return isAdmin;
 }

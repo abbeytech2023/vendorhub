@@ -1,103 +1,91 @@
-import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaBars, FaTimes, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
-import useLogout from "../hooks/useLogout";
-import { checkIfAdmin } from "../services/auth";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const { logout } = useLogout();
-  const { user } = useAuthContext();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [shadow, setShadow] = useState(false);
 
-  console.log(checkIfAdmin());
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Blogs", href: "/blogs" },
-    { name: "Skits", href: "/skits" },
-    { name: "Support", href: "/support" },
-
-    { name: "Admin", href: "/admin", requiresAuth: true },
-    { name: "Login", href: "/login", guestOnly: true },
-    { name: "Signup", href: "/signup", guestOnly: true },
-
-    // 👇 Logout as a link
-    { name: "Logout", requiresAuth: true, action: logout },
-  ];
-
-  const filteredLinks = navLinks.filter((link) => {
-    if (link.requiresAuth && !user) return false;
-    if (link.guestOnly && user) return false;
-    return true;
-  });
+  // Add shadow when scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setShadow(true);
+      } else {
+        setShadow(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-md text-white z-99 border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold tracking-widest">
-          YO GEEZY
+    <nav
+      className={`fixed w-full top-0 left-0 z-50 bg-white transition-shadow ${
+        shadow ? "shadow-lg" : ""
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="text-2xl font-bold text-green-600">
+          VendorHub
         </Link>
 
-        {/* Desktop */}
-        <ul className="hidden md:flex gap-8 text-sm cursor-pointer uppercase tracking-wide">
-          {filteredLinks.map((link) => (
-            <li key={link.name} className="cursor-pointer">
-              {link.action ? (
-                <button
-                  onClick={link.action}
-                  className="hover:text-red-500 cursor-pointer transition uppercase"
-                >
-                  {link.name}
-                </button>
-              ) : (
-                <Link
-                  to={link.href}
-                  className="hover:text-purple-500 transition"
-                >
-                  {link.name}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-6">
+          <Link to="/shop" className="hover:text-green-600">
+            Shop
+          </Link>
+          <Link to="/vendors" className="hover:text-green-600">
+            Vendors
+          </Link>
 
-        {/* Mobile Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+          <Link to="sell" className="hover:text-green-600">
+            Become a Vendor
+          </Link>
+          <Link to="/login" className="hover:text-green-600">
+            Login
+          </Link>
+          <Link to="/cart" className="relative">
+            <FaShoppingCart size={20} />
+          </Link>
+          <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg">
+            <FaWhatsapp />
+            Order
           </button>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+        </button>
       </div>
 
-      {/* Mobile */}
-      {isOpen && (
-        <div className="md:hidden bg-black border-t border-white/10">
-          <ul className="flex flex-col items-center gap-6 py-6 text-sm uppercase tracking-wide">
-            {filteredLinks.map((link) => (
-              <li key={link.name}>
-                {link.action ? (
-                  <button
-                    onClick={() => {
-                      link.action();
-                      setIsOpen(false);
-                    }}
-                    className="hover:text-red-500 transition"
-                  >
-                    {link.name}
-                  </button>
-                ) : (
-                  <Link
-                    to={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="hover:text-purple-500 transition"
-                  >
-                    {link.name}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden border-t bg-white">
+          <div className="flex flex-col p-6 gap-4">
+            <Link to="/" onClick={() => setMenuOpen(false)}>
+              Home
+            </Link>
+            <Link to="/vendors" onClick={() => setMenuOpen(false)}>
+              Vendors
+            </Link>
+
+            <Link to="/sell" onClick={() => setMenuOpen(false)}>
+              Become a Vendor
+            </Link>
+            <Link to="/cart" onClick={() => setMenuOpen(false)}>
+              Cart
+            </Link>
+            <Link to="/login" onClick={() => setMenuOpen(false)}>
+              Login
+            </Link>
+            <button className="flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded-lg">
+              <FaWhatsapp />
+              Order on WhatsApp
+            </button>
+          </div>
         </div>
       )}
     </nav>
