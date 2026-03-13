@@ -1,9 +1,10 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function ProductListPage() {
   const [cart, setCart] = useState([]);
-
+  const { addToCart } = useCartContext();
   // Example products (10+)
   const products = [
     {
@@ -99,6 +100,7 @@ export default function ProductListPage() {
   ];
 
   const handleAddToCart = (product) => {
+    addToCart(product);
     setCart([...cart, product]);
     console.log("Cart:", [...cart, product]);
   };

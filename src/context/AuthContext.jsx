@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import supabase from "../lib/supabaseClients";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -36,3 +36,5 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
