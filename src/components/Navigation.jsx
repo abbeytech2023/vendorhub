@@ -65,9 +65,10 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden border-t bg-white">
           <div className="flex flex-col p-6 gap-4">
-            <Link to="/" onClick={() => setMenuOpen(false)}>
-              Home
+            <Link to="/shop" onClick={() => setMenuOpen(false)}>
+              Shop
             </Link>
+
             <Link to="/vendors" onClick={() => setMenuOpen(false)}>
               Vendors
             </Link>
