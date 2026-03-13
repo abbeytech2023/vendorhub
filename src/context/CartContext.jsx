@@ -8,10 +8,12 @@ export const CartProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : {};
   });
 
+  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Add product to cart
   const addToCart = (product) => {
     setCart((prevCart) => {
       const vendorKey = product.whatsapp;
@@ -34,11 +36,12 @@ export const CartProvider = ({ children }) => {
       let updatedItems;
 
       if (existingProductIndex > -1) {
-        // create new array with updated item
+        // Increment quantity if product exists
         updatedItems = prevCart[vendorKey].items.map((item) =>
           item.id === product.id ? { ...item, qty: item.qty + 1 } : item,
         );
       } else {
+        // Add new product
         updatedItems = [...prevCart[vendorKey].items, { ...product, qty: 1 }];
       }
 
@@ -52,29 +55,25 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  // Remove product from cart (decrease qty or remove)
   const removeFromCart = (product) => {
     setCart((prevCart) => {
       const vendorKey = product.whatsapp;
-
       if (!prevCart[vendorKey]) return prevCart;
 
       const productIndex = prevCart[vendorKey].items.findIndex(
         (item) => item.id === product.id,
       );
-
       if (productIndex === -1) return prevCart;
 
       const updatedItems = [...prevCart[vendorKey].items];
 
       if (updatedItems[productIndex].qty > 1) {
-        // Reduce quantity
         updatedItems[productIndex].qty -= 1;
       } else {
-        // Remove product
         updatedItems.splice(productIndex, 1);
       }
 
-      // If vendor has no more items remove vendor cart
       if (updatedItems.length === 0) {
         const newCart = { ...prevCart };
         delete newCart[vendorKey];
@@ -91,11 +90,21 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  // Clear entire cart
   const clearCart = () => setCart({});
+
+  // ✅ Get total number of items in the cart (sum qty across all vendors)
+  const getCartCount = () => {
+    return Object.values(cart).reduce((total, vendorCart) => {
+      return (
+        total + vendorCart.items.reduce((sum, item) => sum + (item.qty || 1), 0)
+      );
+    }, 0);
+  };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, clearCart, getCartCount }}
     >
       {children}
     </CartContext.Provider>

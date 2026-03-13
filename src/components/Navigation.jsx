@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [shadow, setShadow] = useState(false);
+  const { getCartCount } = useCartContext();
+
+  const count = getCartCount();
 
   // Add shadow when scrolling
   useEffect(() => {
@@ -46,8 +50,16 @@ export default function Navbar() {
           <Link to="/login" className="hover:text-green-600">
             Login
           </Link>
+
           <Link to="/cart" className="relative">
-            <FaShoppingCart size={20} />
+            <FaShoppingCart size={24} />
+
+            {/* Badge */}
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {count}
+              </span>
+            )}
           </Link>
           <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg">
             <FaWhatsapp />
