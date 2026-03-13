@@ -10,8 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "Yo Geezy Entertainment",
-        short_name: "Yo Geezy",
+        name: "VendorHub",
+        short_name: "VendorHub",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",

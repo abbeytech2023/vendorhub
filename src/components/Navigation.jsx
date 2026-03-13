@@ -88,8 +88,17 @@ export default function Navbar() {
             <Link to="/sell" onClick={() => setMenuOpen(false)}>
               Become a Vendor
             </Link>
-            <Link to="/cart" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/cart"
+              onClick={() => setMenuOpen(false)}
+              className="relative flex items-center"
+            >
               Cart
+              {count > 0 && (
+                <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {count}
+                </span>
+              )}
             </Link>
             <Link to="/login" onClick={() => setMenuOpen(false)}>
               Login
