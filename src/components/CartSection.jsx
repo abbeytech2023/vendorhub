@@ -23,7 +23,7 @@ export default function CartSection({
             className="mb-8 bg-white rounded-2xl shadow p-6"
           >
             {/* Vendor Name */}
-            <h3 className="text-xl font-semibold mb-6 text-indigo-600">
+            <h3 className="text-xl text-center font-semibold mb-6 text-indigo-600">
               {vendorCart.vendor}
             </h3>
 
