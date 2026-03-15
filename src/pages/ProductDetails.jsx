@@ -1,69 +1,3 @@
-// import { useParams, useNavigate } from "react-router-dom";
-// import { useState, useEffect } from "react";
-// import { useCartContext } from "../hooks/useCartContext";
-// import { products } from "../hooks/useProduct";
-
-// export default function ProductDetails() {
-//   const { id } = useParams(); // Get product id from route
-//   const navigate = useNavigate(); // Hook to navigate
-//   const { addToCart } = useCartContext();
-//   const [product, setProduct] = useState(null);
-
-//   useEffect(() => {
-//     const prod = products.find((p) => p.id === parseInt(id));
-//     setProduct(prod);
-//   }, [id]);
-
-//   if (!product) return <p className="text-center mt-10">Product not found</p>;
-
-//   const handleAddToCart = () => {
-//     addToCart(product);
-//   };
-
-//   return (
-//     <section className="flex items-center justify-center h-screen max-w-5xl mx-auto p-6">
-//       {/* Go Back Button */}
-//       <button
-//         onClick={() => navigate(-1)}
-//         className="mb-6 text-indigo-600 hover:text-indigo-800 font-semibold"
-//       >
-//         &larr; Go Back
-//       </button>
-
-//       <div className="flex flex-col md:flex-row gap-10">
-//         {/* Product Image */}
-//         <div className="flex-1">
-//           <img
-//             src={product.image}
-//             alt={product.name}
-//             className="w-full h-auto rounded-xl shadow-lg"
-//           />
-//         </div>
-
-//         {/* Product Details */}
-//         <div className="flex-1 flex flex-col gap-4">
-//           <h1 className="text-3xl font-bold">{product.name}</h1>
-//           <p className="text-gray-600">Sold by: {product.vendor}</p>
-//           <p className="text-2xl font-semibold text-red-600">
-//             ₦{product.price.toLocaleString()}
-//           </p>
-//           <p className="text-gray-700">
-//             {product.description || "No description available"}
-//           </p>
-
-//           {/* Add to Cart Button */}
-//           <button
-//             onClick={handleAddToCart}
-//             className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md"
-//           >
-//             Add to Cart
-//           </button>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCartContext } from "../hooks/useCartContext";
@@ -86,7 +20,7 @@ export default function ProductDetails() {
   const handleAddToCart = () => addToCart(product);
 
   return (
-    <section className="h-screen flex flex-col gap-28 items-center justify-center max-w-6xl mx-auto p-6">
+    <section className="mt-15 flex flex-col gap-10 items-center justify-center max-w-6xl mx-auto p-6">
       {/* Go Back */}
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-12  rounded-2xl shadow-lg p-6 md:p-10">
