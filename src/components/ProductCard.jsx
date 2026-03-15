@@ -1,5 +1,7 @@
 // import { FaShoppingCart } from "react-icons/fa";
 
+import { Link } from "react-router-dom";
+
 // export default function ProductCard({ product, onAddToCart }) {
 //   return (
 //     <div className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-2 overflow-hidden flex flex-col">
@@ -44,7 +46,10 @@
 
 export default function ProductCard({ product, onAddToCart }) {
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition p-4">
+    <Link
+      to={`/details/${product.id}`}
+      className="bg-white rounded-xl shadow hover:shadow-lg transition p-4"
+    >
       <img
         src={product.image}
         alt={product.name}
@@ -63,6 +68,6 @@ export default function ProductCard({ product, onAddToCart }) {
       >
         Add to Cart
       </button>
-    </div>
+    </Link>
   );
 }

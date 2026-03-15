@@ -7,6 +7,7 @@ import VendorRegistration from "./pages/VendorRegistration";
 import VendorsSection from "./components/VendorGrid";
 import Cart from "./pages/Cart";
 import ProductListPage from "./pages/ProductList";
+import ProductDetails from "./pages/ProductDetails";
 
 // Context
 
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="vendors" element={<VendorsSection />} />
             <Route path="login" element={<Login />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="details/:id" element={<ProductDetails />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />
           </Routes>
         </div>
