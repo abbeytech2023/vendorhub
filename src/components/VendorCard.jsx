@@ -38,7 +38,7 @@ export default function VendorCard({ vendor }) {
 
         {/* Button */}
         <Link
-          to={`/vendors/${vendor.id}`}
+          to={`/vendor/${vendor.id}`}
           className="mt-3 sm:mt-4 inline-flex items-center gap-2 bg-gray-900 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm hover:bg-black transition"
         >
           <FaStore />

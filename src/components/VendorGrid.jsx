@@ -1,37 +1,7 @@
 import VendorCard from "./VendorCard";
+import { vendors } from "../hooks/useVendors";
 
 export default function VendorsSection() {
-  const vendors = [
-    {
-      id: 1,
-      name: "Abbey Electronics",
-      category: "Electronics",
-      rating: "4.8",
-      logo: "https://i.pravatar.cc/100?img=1",
-    },
-    {
-      id: 2,
-      name: "Fashion Hub",
-      category: "Fashion",
-      rating: "4.6",
-      logo: "https://i.pravatar.cc/100?img=2",
-    },
-    {
-      id: 3,
-      name: "Mobile World",
-      category: "Phones",
-      rating: "4.9",
-      logo: "https://i.pravatar.cc/100?img=3",
-    },
-    {
-      id: 4,
-      name: "Gadget Arena",
-      category: "Accessories",
-      rating: "4.7",
-      logo: "https://i.pravatar.cc/100?img=4",
-    },
-  ];
-
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
