@@ -16,6 +16,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import { useEffect } from "react";
 import Spinner from "./components/Spinner";
 import Login from "./pages/Login";
+import InstallButton from "./components/InstallButton";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
@@ -39,6 +40,7 @@ export default function App() {
           </Routes>
         </div>
       )}
+      <InstallButton />
       {/* <PWAInstall /> */}
       <Toaster
         position="top-center"

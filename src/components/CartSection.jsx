@@ -8,9 +8,7 @@ export default function CartSection({
   addToCart,
 }) {
   return (
-    <section className="max-w-7xl mx-auto p-6">
-      <h2 className="text-4xl font-bold mb-10 text-center">Your Cart</h2>
-
+    <section className="max-w-7xl mt-10 mx-auto p-6">
       {vendorCarts.map((vendorCart) => {
         const total = vendorCart.items.reduce(
           (sum, item) => sum + item.price * item.qty,
