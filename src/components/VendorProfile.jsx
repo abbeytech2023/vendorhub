@@ -1,83 +1,75 @@
 import { useParams } from "react-router-dom";
+import { vendors } from "../hooks/useVendors";
 import { FaWhatsapp, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 
 export default function VendorProfile() {
   const { id } = useParams();
 
-  const sellers = [
-    {
-      id: 1,
-      name: "Abbey Electronics",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-      location: "Ikeja, Lagos",
-      phone: "+2348162010121",
-      whatsapp: "+2348162010121",
-      description:
-        "We sell original smartphones, laptops and electronics at affordable prices.",
-    },
-    {
-      id: 2,
-      name: "Fashion Hub",
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050",
-      location: "Yaba, Lagos",
-      phone: "+2348098765432",
-      whatsapp: "+2348098765432",
-      description:
-        "Trendy fashion store for sneakers, shirts, and casual outfits.",
-    },
-    {
-      id: 3,
-      name: "Tech World",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-      location: "Computer Village, Lagos",
-      phone: "+2347012345678",
-      whatsapp: "+2347012345678",
-      description: "Your trusted shop for laptops, gadgets and accessories.",
-    },
-  ];
+  const vendor = vendors.find((s) => s.id === Number(id));
 
-  const seller = sellers.find((s) => s.id === Number(id));
-
-  if (!seller) {
+  if (!vendor) {
     return <p className="text-center mt-10 text-gray-500">Seller not found</p>;
   }
 
   return (
-    <section className="max-w-4xl mx-auto p-6">
-      <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col md:flex-row gap-6 items-center">
-        {/* Profile Image */}
-        <img
-          src={seller.image}
-          alt={seller.name}
-          className="w-32 h-32 rounded-full object-cover border"
-        />
+    <section className="bg-gray-50 px-4 py-6">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden">
+        {/* Store Banner */}
+        <div className="h-36 bg-gradient-to-r from-gray-900 to-gray-700"></div>
 
-        {/* Seller Details */}
-        <div className="flex flex-col gap-2 text-center md:text-left">
-          <h1 className="text-3xl font-bold">{seller.name}</h1>
+        {/* Store Header */}
+        <div className="px-6 pb-6 -mt-14 border-b">
+          <div className="flex flex-col md:flex-row md:items-end gap-4">
+            {/* Logo */}
+            <img
+              src={vendor.logo}
+              alt={vendor.name}
+              className="w-28 h-28 rounded-full border-4 border-white object-cover shadow"
+            />
 
-          <p className="flex items-center gap-2 text-gray-500 justify-center md:justify-start">
-            <FaMapMarkerAlt />
-            {seller.location}
-          </p>
+            {/* Store Info */}
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold">{vendor.name}</h1>
 
-          <p className="flex items-center gap-2 text-gray-500 justify-center md:justify-start">
-            <FaPhone />
-            {seller.phone}
-          </p>
+              <div className="flex flex-wrap gap-4 mt-2 text-gray-600 text-sm">
+                <span className="flex items-center gap-2">
+                  <FaMapMarkerAlt />
+                  {vendor.location}
+                </span>
 
-          <p className="text-gray-600 mt-2">{seller.description}</p>
+                <span className="flex items-center gap-2">
+                  <FaPhone />
+                  {vendor.whatsapp}
+                </span>
 
-          {/* WhatsApp Button */}
-          <a
-            href={`https://wa.me/${seller.whatsapp.replace(/\D/g, "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 mt-3 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
-          >
-            <FaWhatsapp />
-            Chat on WhatsApp
-          </a>
+                <span>{vendor.category}</span>
+              </div>
+            </div>
+
+            {/* WhatsApp Button */}
+            <a
+              href={`https://wa.me/${vendor.whatsapp.replace(/\D/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+            >
+              <FaWhatsapp />
+              Chat
+            </a>
+          </div>
+        </div>
+
+        {/* Products Section */}
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold">
+              Products from {vendor.name}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Product cards will render here */}
+          </div>
         </div>
       </div>
     </section>
