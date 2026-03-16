@@ -6,17 +6,21 @@ export default function InstallButton() {
 
   if (isInstalled) return null;
 
-  // iOS instruction
   if (isIOS) {
     return (
-      <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg animate-pulse">
+      <div
+        className="flex items-center gap-4 p-5 rounded-2xl 
+      bg-gradient-to-r from-green-500 to-emerald-600 
+      text-white shadow-xl text-base"
+      >
         <img
           src="/apple-touch-icon.png"
           alt="App logo"
-          className="w-10 h-10 rounded-xl border border-white"
+          className="w-12 h-12 rounded-xl border-2 border-white"
         />
-        <span className="text-sm font-medium">
-          Tap <b>Share</b> → <b>Add to Home Screen</b> to install this app
+
+        <span className="font-medium">
+          Tap <b>Share</b> → <b>Add to Home Screen</b> to install
         </span>
       </div>
     );
@@ -28,20 +32,23 @@ export default function InstallButton() {
     <button
       onClick={installApp}
       className="
-        group flex items-center gap-3 px-6 py-3
-        rounded-2xl
-        bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600
-        text-white font-semibold
-        shadow-lg
-        hover:scale-105 hover:shadow-2xl
+        group flex items-center gap-4
+        px-8 py-4
+        rounded-full
+        bg-gradient-to-r from-green-500 via-emerald-500 to-green-600
+        text-white text-lg font-bold
+        shadow-2xl
+        hover:scale-110
+        hover:shadow-green-500/50
         transition-all duration-300
+        animate-bounce
       "
     >
-      <div className="bg-white/20 p-2 rounded-lg group-hover:bg-white/30 transition">
-        <FaDownload size={18} />
+      <div className="bg-white/20 p-3 rounded-full group-hover:bg-white/30 transition">
+        <FaDownload size={22} />
       </div>
 
-      <span className="text-sm md:text-base tracking-wide">Install App</span>
+      <span className="tracking-wide">Install App</span>
     </button>
   );
 }
