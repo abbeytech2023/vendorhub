@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCartContext } from "../hooks/useCartContext";
 import { products } from "../hooks/useProduct";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -16,8 +17,6 @@ export default function ProductDetails() {
 
   if (!product)
     return <p className="text-center mt-20 text-gray-500">Product not found</p>;
-
-  const handleAddToCart = () => addToCart(product);
 
   return (
     <section className="mt-15 flex flex-col gap-10 items-center justify-center max-w-6xl mx-auto p-6">
@@ -54,7 +53,10 @@ export default function ProductDetails() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <button
-              onClick={handleAddToCart}
+              onClick={() => {
+                addToCart(product);
+                toast.success("Added To Cart");
+              }}
               className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md transition transform hover:-translate-y-1"
             >
               Add to Cart

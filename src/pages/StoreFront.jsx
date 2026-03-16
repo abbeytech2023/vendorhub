@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { vendors } from "../hooks/useVendors";
 import { products } from "../hooks/useProduct";
 import VendorProfile from "../components/VendorProfile";
+import { useCartContext } from "../hooks/useCartContext";
+import toast from "react-hot-toast";
 
 export default function StoreFront() {
   const { id } = useParams();
+  const { addToCart } = useCartContext();
   const paramId = parseInt(id, 10);
 
   const vendor = vendors.find((v) => v.id === paramId);
@@ -27,17 +30,25 @@ export default function StoreFront() {
                 key={product.id}
                 className=" rounded-xl p-4 hover:shadow-md transition"
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-40 object-cover rounded-md"
-                />
+                <Link to={`/details/${product.id}`}>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-40 object-cover rounded-md"
+                  />
 
-                <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
+                  <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
 
-                <p className="text-gray-500">₦{product.price}</p>
+                  <p className="text-gray-500">₦{product.price}</p>
+                </Link>
 
-                <button className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800">
+                <button
+                  onClick={() => {
+                    addToCart(product);
+                    toast.success("Added To Cart");
+                  }}
+                  className="mt-3 w-full cursor-pointer  bg-green-600 text-white py-2 rounded-lg hover:bg-green-800"
+                >
                   Add to Cart
                 </button>
               </div>

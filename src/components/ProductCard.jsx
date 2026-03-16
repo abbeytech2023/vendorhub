@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useCartContext } from "../hooks/useCartContext";
+import toast from "react-hot-toast";
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({ product }) {
+  const { addToCart } = useCartContext();
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition p-4">
       <Link to={`/details/${product.id}`}>
@@ -18,8 +21,11 @@ export default function ProductCard({ product, onAddToCart }) {
       </Link>
 
       <button
-        onClick={() => onAddToCart(product)}
-        className="mt-3 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+        onClick={() => {
+          addToCart(product);
+          toast.success("Added To Cart");
+        }}
+        className="mt-3 w-full cursor-pointer bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
       >
         Add to Cart
       </button>
