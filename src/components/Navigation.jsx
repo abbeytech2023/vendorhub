@@ -43,6 +43,9 @@ export default function Navbar() {
           <Link to="/vendors" className="hover:text-green-600">
             Vendors
           </Link>
+          <Link to="/seller-admin" className="hover:text-green-600">
+            Admin
+          </Link>
 
           <Link to="sell" className="hover:text-green-600">
             Become a Vendor
@@ -83,6 +86,10 @@ export default function Navbar() {
 
             <Link to="/vendors" onClick={() => setMenuOpen(false)}>
               Vendors
+            </Link>
+
+            <Link to="/seller-admin" onClick={() => setMenuOpen(false)}>
+              Admin
             </Link>
 
             <Link to="/sell" onClick={() => setMenuOpen(false)}>

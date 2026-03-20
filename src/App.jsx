@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import Spinner from "./components/Spinner";
 import Login from "./pages/Login";
 import InstallButton from "./components/InstallButton";
+import VendorAdmin from "./pages/VendorAdmin";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="sell" element={<BecomeVendor />} />
             <Route path="shop" element={<ProductListPage />} />
             <Route path="vendors" element={<VendorsSection />} />
+            <Route path="seller-admin" element={<VendorAdmin />} />
             <Route path="vendor/:id" element={<StoreFront />} />
             <Route path="login" element={<Login />} />
             <Route path="cart" element={<Cart />} />

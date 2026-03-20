@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaStore } from "react-icons/fa";
+import { useLogin } from "../hooks/useLogin";
 
 export default function Login() {
+  const { login } = useLogin();
   const {
     register,
     handleSubmit,
@@ -11,6 +13,7 @@ export default function Login() {
 
   const onSubmit = (data) => {
     console.log(data);
+    login({ ...data });
   };
 
   return (

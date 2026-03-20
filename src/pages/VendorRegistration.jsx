@@ -8,6 +8,9 @@ import {
   FaListAlt,
   FaImage,
 } from "react-icons/fa";
+import StateSelect from "../components/StateSelect";
+import LocalGovtSelect from "../components/LgaSelect";
+import { useState } from "react";
 
 export default function VendorRegistration() {
   const {
@@ -15,6 +18,8 @@ export default function VendorRegistration() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [selectedState, setSelectedState] = useState("");
 
   const onSubmit = (data) => {
     console.log("Vendor Data:", data);
@@ -68,6 +73,21 @@ export default function VendorRegistration() {
                 {errors.ownerName.message}
               </p>
             )}
+          </div>
+
+          <div>
+            <StateSelect
+              register={register}
+              selectedState={selectedState}
+              setSelectedState={setSelectedState}
+            />
+          </div>
+
+          <div>
+            <LocalGovtSelect
+              register={register}
+              selectedState={selectedState}
+            />
           </div>
 
           {/* Email */}
@@ -156,8 +176,10 @@ export default function VendorRegistration() {
             )}
           </div>
 
+          <div></div>
+
           {/* Logo Upload */}
-          <div className="relative md:col-span-2">
+          {/* <div className="relative md:col-span-2">
             <FaImage className="absolute left-3 top-3 text-green-500" />
             <input
               type="file"
@@ -165,7 +187,7 @@ export default function VendorRegistration() {
               accept="image/*"
               className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
             />
-          </div>
+          </div> */}
 
           {/* Submit */}
           <div className="md:col-span-2">
