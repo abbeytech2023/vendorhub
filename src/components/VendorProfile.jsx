@@ -1,77 +1,73 @@
-import { useParams } from "react-router-dom";
-import { vendors } from "../hooks/useVendors";
-import { FaWhatsapp, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import React from "react";
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 export default function VendorProfile() {
-  const { id } = useParams();
-
-  const vendor = vendors.find((s) => s.id === Number(id));
-
-  if (!vendor) {
-    return <p className="text-center mt-10 text-gray-500">Seller not found</p>;
-  }
+  const vendor = {
+    name: "Jane Smith",
+    profilePicture: "https://i.pravatar.cc/150?img=25",
+    bankName: "Access Bank",
+    accountName: "Jane Smith Enterprises",
+    accountNumber: "9876543210",
+    social: {
+      facebook: "https://facebook.com/janesmith",
+      instagram: "https://instagram.com/janesmith",
+      twitter: "https://twitter.com/janesmith",
+      linkedin: "https://linkedin.com/in/janesmith",
+    },
+  };
 
   return (
-    <section className="bg-gray-50 px-4 py-6">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden">
-        {/* Store Banner */}
-        <div className="h-36 bg-gradient-to-r from-gray-900 to-gray-700"></div>
+    <div className="w-full bg-gray-100 px-4 py-6">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-4">
+        {/* LEFT PANEL */}
+        <div className="bg-white rounded-2xl shadow p-4 flex flex-col items-center text-center">
+          <img
+            src={vendor.profilePicture}
+            alt={vendor.name}
+            className="w-24 h-24 rounded-full border-4 border-green-500 object-cover mb-3"
+          />
 
-        {/* Store Header */}
-        <div className="px-6 pb-6 -mt-14 border-b">
-          <div className="flex flex-col md:flex-row md:items-end gap-4">
-            {/* Logo */}
-            <img
-              src={vendor.logo}
-              alt={vendor.name}
-              className="w-28 h-28 rounded-full border-4 border-white object-cover shadow"
-            />
+          <h2 className="text-lg font-semibold text-gray-800">{vendor.name}</h2>
 
-            {/* Store Info */}
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold">{vendor.name}</h1>
+          <button className="mt-3 bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-md text-sm">
+            Edit
+          </button>
 
-              <div className="flex flex-wrap gap-4 mt-2 text-gray-600 text-sm">
-                <span className="flex items-center gap-2">
-                  <FaMapMarkerAlt />
-                  {vendor.location}
-                </span>
-
-                <span className="flex items-center gap-2">
-                  <FaPhone />
-                  {vendor.whatsapp}
-                </span>
-
-                <span>{vendor.category}</span>
-              </div>
-            </div>
-
-            {/* WhatsApp Button */}
-            <a
-              href={`https://wa.me/${vendor.whatsapp.replace(/\D/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
-            >
-              <FaWhatsapp />
-              Chat
-            </a>
+          {/* Socials */}
+          <div className="flex gap-3 mt-4">
+            <FaFacebook className="text-blue-600 cursor-pointer" size={18} />
+            <FaInstagram className="text-pink-500 cursor-pointer" size={18} />
+            <FaTwitter className="text-blue-400 cursor-pointer" size={18} />
+            <FaLinkedin className="text-blue-700 cursor-pointer" size={18} />
           </div>
         </div>
 
-        {/* Products Section */}
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">
-              Products from {vendor.name}
-            </h2>
-          </div>
+        {/* RIGHT PANEL */}
+        <div className="md:col-span-2 bg-white rounded-2xl shadow p-5">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Bank Information
+          </h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* Product cards will render here */}
+          <div className="grid sm:grid-cols-2 gap-3 text-sm text-gray-700">
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <p className="text-xs text-gray-500">Bank</p>
+              <p className="font-medium">{vendor.bankName}</p>
+            </div>
+
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <p className="text-xs text-gray-500">Account Name</p>
+              <p className="font-medium">{vendor.accountName}</p>
+            </div>
+
+            <div className="bg-gray-50 p-3 rounded-lg sm:col-span-2">
+              <p className="text-xs text-gray-500">Account Number</p>
+              <p className="font-medium tracking-widest">
+                {vendor.accountNumber}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

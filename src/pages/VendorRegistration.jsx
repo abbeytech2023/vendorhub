@@ -6,31 +6,63 @@ import {
   FaPhone,
   FaWhatsapp,
   FaListAlt,
-  FaImage,
+  FaLock,
 } from "react-icons/fa";
+import LoadingButton from "../components/LoadingButton";
 import StateSelect from "../components/StateSelect";
 import LocalGovtSelect from "../components/LgaSelect";
 import { useState } from "react";
+import { useSignup } from "../hooks/useSignup";
 
 export default function VendorRegistration() {
+  const { signup, isPending } = useSignup();
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
   const [selectedState, setSelectedState] = useState("");
 
+  const password = watch("password");
+
   const onSubmit = (data) => {
-    console.log("Vendor Data:", data);
+    const {
+      fullName,
+      email,
+      password,
+      phone,
+      storeName,
+      whatsapp,
+      category,
+      state,
+      lga,
+    } = data;
+
+    console.log(data);
+
+    signup({
+      fullName,
+      email,
+      password,
+      phone,
+      storeName,
+      whatsapp,
+      category,
+      state,
+      lga,
+    });
   };
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-green-400 to-emerald-600 flex items-center justify-center py-16">
       <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full p-10">
-        <h2 className="text-4xl font-bold text-green-600 text-center mb-6">
+        <h2 className="text-4xl font-bold text-green-600 text-center mb-4">
           Join VendorHub
         </h2>
+
         <p className="text-center text-gray-500 mb-10">
           Start selling your products to thousands of customers today.
         </p>
@@ -40,121 +72,76 @@ export default function VendorRegistration() {
           className="grid md:grid-cols-2 gap-6"
         >
           {/* Store Name */}
-          <div className="relative">
-            <FaStore className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="text"
-              placeholder="Store Name"
-              {...register("storeName", { required: "Store name required" })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.storeName ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.storeName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.storeName.message}
-              </p>
-            )}
-          </div>
+          <InputField
+            icon={<FaStore />}
+            placeholder="Store Name"
+            name="storeName"
+            register={register}
+            errors={errors}
+            rules={{ required: "Store name required" }}
+          />
 
           {/* Owner Name */}
-          <div className="relative">
-            <FaUser className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="text"
-              placeholder="Owner Name"
-              {...register("ownerName", { required: "Owner name required" })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.ownerName ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.ownerName && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.ownerName.message}
-              </p>
-            )}
-          </div>
+          <InputField
+            icon={<FaUser />}
+            placeholder="Owner Name"
+            name="fullName"
+            register={register}
+            errors={errors}
+            rules={{ required: "Owner name required" }}
+          />
 
-          <div>
-            <StateSelect
-              register={register}
-              selectedState={selectedState}
-              setSelectedState={setSelectedState}
-            />
-          </div>
+          {/* State */}
+          <StateSelect
+            register={register}
+            selectedState={selectedState}
+            setSelectedState={setSelectedState}
+          />
 
-          <div>
-            <LocalGovtSelect
-              register={register}
-              selectedState={selectedState}
-            />
-          </div>
+          {/* LGA */}
+          <LocalGovtSelect register={register} selectedState={selectedState} />
 
           {/* Email */}
-          <div className="relative">
-            <FaEnvelope className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="email"
-              placeholder="Email"
-              {...register("email", {
-                required: "Email required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Invalid email",
-                },
-              })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+          <InputField
+            icon={<FaEnvelope />}
+            placeholder="Email"
+            name="email"
+            register={register}
+            errors={errors}
+            type="email"
+            rules={{
+              required: "Email required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email",
+              },
+            }}
+          />
 
           {/* Phone */}
-          <div className="relative">
-            <FaPhone className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              {...register("phone", { required: "Phone number required" })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
+          <InputField
+            icon={<FaPhone />}
+            placeholder="Phone Number"
+            name="phone"
+            register={register}
+            errors={errors}
+            rules={{ required: "Phone number required" }}
+          />
 
           {/* WhatsApp */}
-          <div className="relative">
-            <FaWhatsapp className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="tel"
-              placeholder="WhatsApp Number"
-              {...register("whatsapp", {
-                required: "WhatsApp number required",
-              })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.whatsapp ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.whatsapp && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.whatsapp.message}
-              </p>
-            )}
-          </div>
+          <InputField
+            icon={<FaWhatsapp />}
+            placeholder="WhatsApp Number"
+            name="whatsapp"
+            register={register}
+            errors={errors}
+            rules={{ required: "WhatsApp number required" }}
+          />
 
           {/* Category */}
           <div className="relative">
             <FaListAlt className="absolute left-3 top-3 text-green-500" />
+
             <select
               {...register("category", { required: "Category required" })}
               className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
@@ -169,6 +156,7 @@ export default function VendorRegistration() {
               <option value="home">Home & Living</option>
               <option value="beauty">Beauty</option>
             </select>
+
             {errors.category && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.category.message}
@@ -176,30 +164,83 @@ export default function VendorRegistration() {
             )}
           </div>
 
-          <div></div>
+          {/* Password */}
+          <InputField
+            icon={<FaLock />}
+            placeholder="Password"
+            name="password"
+            type="password"
+            register={register}
+            errors={errors}
+            rules={{
+              required: "Password required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            }}
+          />
 
-          {/* Logo Upload */}
-          {/* <div className="relative md:col-span-2">
-            <FaImage className="absolute left-3 top-3 text-green-500" />
-            <input
-              type="file"
-              {...register("logo")}
-              accept="image/*"
-              className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500"
-            />
-          </div> */}
+          {/* Confirm Password */}
+          <InputField
+            icon={<FaLock />}
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            register={register}
+            errors={errors}
+            rules={{
+              required: "Confirm your password",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            }}
+          />
 
           {/* Submit */}
           <div className="md:col-span-2">
-            <button
+            {/* <button
               type="submit"
               className="w-full bg-green-500 text-white py-3 rounded-2xl font-bold text-lg hover:bg-green-600 transition"
             >
               Register as Vendor
-            </button>
+            </button> */}
+            <LoadingButton
+              text="Register as Vendor"
+              isLoading={isPending}
+              loadingText="Creating user..."
+            />
           </div>
         </form>
       </div>
     </section>
+  );
+}
+
+function InputField({
+  icon,
+  placeholder,
+  name,
+  register,
+  errors,
+  rules,
+  type = "text",
+}) {
+  return (
+    <div className="relative">
+      <span className="absolute left-3 top-3 text-green-500">{icon}</span>
+
+      <input
+        type={type}
+        placeholder={placeholder}
+        {...register(name, rules)}
+        className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
+          errors[name] ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+
+      {errors[name] && (
+        <p className="text-red-500 text-sm mt-1">{errors[name].message}</p>
+      )}
+    </div>
   );
 }

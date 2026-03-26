@@ -2,18 +2,21 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaStore } from "react-icons/fa";
 import { useLogin } from "../hooks/useLogin";
+import LoadingButton from "../components/LoadingButton";
 
 export default function Login() {
-  const { login } = useLogin();
+  const { login, isPending } = useLogin();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
+  console.log(isSubmitting);
+
+  const onSubmit = async (data) => {
     console.log(data);
-    login({ ...data });
+    await login({ ...data });
   };
 
   return (
@@ -72,12 +75,17 @@ export default function Login() {
           </div>
 
           {/* Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold transition"
-          >
-            Login
-          </button>
+          ></button> */}
+          {
+            <LoadingButton
+              isLoading={isPending}
+              text="Login"
+              loadingText="logging in..."
+            />
+          }
         </form>
 
         {/* Register link */}

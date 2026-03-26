@@ -2,11 +2,17 @@ import { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import useLogout from "../hooks/useLogout";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [shadow, setShadow] = useState(false);
   const { getCartCount } = useCartContext();
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
+
+  console.log(user);
 
   const count = getCartCount();
 
@@ -43,16 +49,30 @@ export default function Navbar() {
           <Link to="/vendors" className="hover:text-green-600">
             Vendors
           </Link>
-          <Link to="/seller-admin" className="hover:text-green-600">
-            Admin
-          </Link>
+          {user && (
+            <Link to="/seller-admin" className="hover:text-green-600">
+              Admin
+            </Link>
+          )}
 
-          <Link to="sell" className="hover:text-green-600">
-            Become a Vendor
-          </Link>
-          <Link to="/login" className="hover:text-green-600">
-            Login
-          </Link>
+          {!user && (
+            <Link to="sell" className="hover:text-green-600">
+              Become a Vendor
+            </Link>
+          )}
+          {!user && (
+            <Link to="/login" className="hover:text-green-600">
+              Login
+            </Link>
+          )}
+          {user && (
+            <button
+              onClick={() => logout()}
+              className="hover:text-green-600 cursor-pointer"
+            >
+              Logout
+            </button>
+          )}
 
           <Link to="/cart" className="relative">
             <FaShoppingCart size={24} />
@@ -92,9 +112,11 @@ export default function Navbar() {
               Admin
             </Link>
 
-            <Link to="/sell" onClick={() => setMenuOpen(false)}>
-              Become a Vendor
-            </Link>
+            {!user && (
+              <Link to="/sell" onClick={() => setMenuOpen(false)}>
+                Become a Vendor
+              </Link>
+            )}
             <Link
               to="/cart"
               onClick={() => setMenuOpen(false)}
@@ -107,9 +129,21 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
-              Login
-            </Link>
+            {!user && (
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                Login
+              </Link>
+            )}
+            {user && (
+              <button
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+              >
+                Logout
+              </button>
+            )}
             <button className="flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded-lg">
               <FaWhatsapp />
               Order on WhatsApp
