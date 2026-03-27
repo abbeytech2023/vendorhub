@@ -68,7 +68,7 @@ export default function Navbar() {
           {user && (
             <button
               onClick={() => logout()}
-              className="hover:text-green-600 cursor-pointer"
+              className="hover:text-red-600 cursor-pointer"
             >
               Logout
             </button>
@@ -140,11 +140,12 @@ export default function Navbar() {
                   logout();
                   setMenuOpen(false);
                 }}
+                className="bg-red-700 py-2 text-white rounded-lg hover:bg-red-900 cursor-pointer"
               >
                 Logout
               </button>
             )}
-            <button className="flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded-lg">
+            <button className="flex items-center cursor-pointer justify-center gap-2 bg-green-500 text-white py-2 rounded-lg">
               <FaWhatsapp />
               Order on WhatsApp
             </button>

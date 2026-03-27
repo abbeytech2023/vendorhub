@@ -38,7 +38,7 @@ export default function VendorRegistration() {
       whatsapp,
       category,
       state,
-      lga,
+      localGovernment,
     } = data;
 
     console.log(data);
@@ -52,7 +52,7 @@ export default function VendorRegistration() {
       whatsapp,
       category,
       state,
-      lga,
+      localGovernment,
     });
   };
 

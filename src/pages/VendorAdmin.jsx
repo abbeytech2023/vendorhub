@@ -1,16 +1,9 @@
 import { useState } from "react";
 import AddProductForm from "../components/AddProductForm";
 import VendorProfile from "../components/VendorProfile";
+import ProductGrid from "../components/AdminProduct";
 
 export default function VendorAdmin() {
-  const seller = {
-    id: 1,
-    name: "Abbey Electronics",
-    bank: "Access Bank",
-    accountName: "Abbey Electronics Ltd",
-    accountNumber: "0123456789",
-  };
-
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -49,6 +42,8 @@ export default function VendorAdmin() {
       {/* Product List */}
       <div>
         <h2 className="text-2xl font-semibold mt-12 mb-4">Your Products</h2>
+
+        <ProductGrid />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((product) => (
