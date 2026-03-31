@@ -1,91 +1,83 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+// pages/ProductDetails.jsx
+import { useParams } from "react-router-dom";
+import { useProductById } from "../hooks/useProduct";
+import { priceFormat } from "../utility/priceFormat";
 import { useCartContext } from "../hooks/useCartContext";
-import { useAllProducts } from "../hooks/useFecthProducts";
 import toast from "react-hot-toast";
 
 export default function ProductDetails() {
-  const { products } = useAllProducts();
-  const { id } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = useCartContext();
-  const [product, setProduct] = useState(null);
+  const { id } = useParams();
+  const { data: product, isLoading, error } = useProductById(id);
 
-  useEffect(() => {
-    const prod = products.find((p) => p.id === parseInt(id));
-    setProduct(prod);
-  }, [id]);
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-screen text-green-600 text-lg">
+        Loading product...
+      </div>
+    );
 
-  if (!product)
-    return <p className="text-center mt-20 text-gray-500">Product not found</p>;
+  if (error)
+    return (
+      <div className="text-center mt-10 text-red-500">{error.message}</div>
+    );
 
   return (
-    <section className="mt-15 flex flex-col gap-10 items-center justify-center max-w-6xl mx-auto p-6">
-      {/* Go Back */}
-
-      <div className="flex flex-col md:flex-row justify-center items-center gap-12  rounded-2xl shadow-lg p-6 md:p-10">
-        {/* Product Image */}
-        <div className="flex-1 flex justify-center items-center">
+    <div className="min-h-screen bg-green-50 p-6 flex justify-center items-center">
+      <div className="bg-white shadow-xl rounded-2xl overflow-hidden max-w-4xl w-full grid md:grid-cols-2">
+        {/* Image Section */}
+        <div className="bg-green-100 flex items-center justify-center p-6">
           <img
             src={product.image}
             alt={product.name}
-            className="rounded-xl max-h-[400px] object-contain shadow-md"
+            className="rounded-xl object-cover w-full max-h-[400px]"
           />
         </div>
 
-        {/* Product Details */}
-        <div className="flex-1 flex flex-col justify-between gap-6">
+        {/* Details Section */}
+        <div className="p-6 flex flex-col justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-800">{product.name}</h1>
-            <p className="mt-2 text-gray-500 text-sm">
-              Sold by: {product.vendor}
+            <h1 className="text-3xl font-bold text-green-800 mb-3">
+              {product.name}
+            </h1>
+
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              {product.description}
             </p>
 
-            <p className="mt-4 text-3xl font-extrabold text-red-600">
-              ₦{product.price.toLocaleString()}
+            <p className="text-2xl font-semibold text-red-900 mb-2">
+              {priceFormat(product.price)}
             </p>
 
-            <p className="mt-6 text-gray-700 leading-relaxed">
-              {product.description ||
-                "No description available for this product."}
-            </p>
+            <span
+              className={`inline-block px-3 py-1 text-sm rounded-full ${
+                product.in_stock
+                  ? "bg-green-200 text-green-800"
+                  : "bg-red-200 text-red-700"
+              }`}
+            >
+              {product.in_stock ? "In Stock" : "Out of Stock"}
+            </span>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+          <div className="mt-6 flex gap-4">
             <button
               onClick={() => {
                 addToCart(product);
-                toast.success("Added To Cart");
+                toast.success("added To cart");
               }}
-              className="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl shadow-md transition transform hover:-translate-y-1"
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition"
             >
               Add to Cart
             </button>
 
-            {/* <a
-              href={`https://wa.me/${product.whatsapp.replace(
-                /\D/g,
-                "",
-              )}?text=${encodeURIComponent(
-                `Hello ${product.vendor}, I want to order 1 x ${product.name}`,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex justify-center items-center gap-2 border-2 border-green-500 text-green-500 font-semibold py-3 rounded-xl hover:bg-green-500 hover:text-white transition"
-            >
-              Buy Now on WhatsApp
-            </a> */}
+            <button className="flex-1 border border-green-600 text-green-700 hover:bg-green-100 py-3 rounded-xl font-semibold transition">
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
-
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-6 inline-flex items-center cursor-pointer text-indigo-600 hover:text-indigo-800 font-semibold transition"
-      >
-        &larr; Go Back
-      </button>
-    </section>
+    </div>
   );
 }

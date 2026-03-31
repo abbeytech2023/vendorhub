@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
+import { priceFormat } from "../utility/priceFormat";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCartContext();
@@ -17,7 +18,7 @@ export default function ProductCard({ product }) {
 
         <p className="text-gray-500 text-sm">{product.vendor}</p>
 
-        <p className="font-bold text-lg mt-1">₦{product.price}</p>
+        <p className="font-bold text-lg mt-1">{priceFormat(product.price)}</p>
       </Link>
 
       <button

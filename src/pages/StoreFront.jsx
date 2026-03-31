@@ -5,6 +5,7 @@ import { useAllProducts } from "../hooks/useFecthProducts";
 import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
+import { priceFormat } from "../utility/priceFormat";
 
 export default function StoreFront() {
   const { products } = useAllProducts();
@@ -41,7 +42,7 @@ export default function StoreFront() {
 
                   <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
 
-                  <p className="text-gray-500">₦{product.price}</p>
+                  <p className="text-gray-500">{priceFormat(product.price)}</p>
                 </Link>
 
                 <button

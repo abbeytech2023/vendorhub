@@ -67,3 +67,17 @@ export async function getProductsByUser() {
 
   return data;
 }
+
+export const getProductById = async (productId) => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", productId)
+    .single(); // ensures one result
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
