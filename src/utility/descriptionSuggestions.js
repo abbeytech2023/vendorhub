@@ -1,52 +1,15 @@
-export const descriptionSuggestions = [
-  "High-performance electric fan with energy-saving motor and quiet operation.",
-  "Durable LED desk lamp with adjustable brightness and modern design.",
-  "Smart plug with WiFi connectivity for remote control of appliances.",
-  "Portable power bank with fast charging and long-lasting battery.",
-  "Rechargeable cordless vacuum cleaner with powerful suction.",
-  "Electric kettle with auto-shutoff and temperature control.",
-  "Wireless Bluetooth speaker with deep bass and compact design.",
-  "High-efficiency induction cooktop with touch control panel.",
-  "Smart thermostat with energy-saving features and easy app control.",
-  "LED ceiling light with dimmable and color-changing functionality.",
-  "Electric hair dryer with multiple heat and speed settings.",
-  "Home security camera with motion detection and night vision.",
-  "Smart home hub for controlling all connected devices in one place.",
-  "Rechargeable handheld blender with multiple speed settings.",
-  "Electric rice cooker with keep-warm function and timer.",
-  "Noise-canceling over-ear headphones with premium sound quality.",
-  "Portable mini air conditioner with adjustable cooling levels.",
-  "Electric toothbrush with multiple cleaning modes and timer.",
-  "Smart LED strip lights with color-changing remote control.",
-  "Cordless electric screwdriver with rechargeable battery.",
-  "High-capacity solar power bank for outdoor adventures.",
-  "Electric pressure cooker with preset cooking programs.",
-  "Smart doorbell with video and two-way audio features.",
-  "Wireless charging pad for fast and efficient device charging.",
-  "Smart plug with energy monitoring and scheduling features.",
-  "Electric griddle with non-stick surface and temperature control.",
-  "Bluetooth fitness tracker with heart rate and step monitoring.",
-  "Portable projector with HD display and built-in speaker.",
-  "Electric standing fan with remote control and timer function.",
-  "LED grow light for indoor plants with adjustable spectrum.",
-  "Rechargeable cordless mop with swivel head and long battery life.",
-  "Smart water purifier with filter status indicator.",
-  "Electric shaver with multi-directional blades and wet/dry use.",
-  "High-speed hand mixer with multiple attachments.",
-  "Smart smoke detector with mobile notifications and voice alerts.",
-  "Electric blanket with adjustable heat settings and safety auto-off.",
-  "Cordless vacuum mop hybrid with dual functionality.",
-  "Electric wine opener with foil cutter and rechargeable battery.",
-  "Smart home camera with night vision and AI detection.",
-  "Portable induction cooktop with safety shutoff features.",
-  "Wireless gaming controller with ergonomic design and vibration.",
-  "Electric coffee grinder with adjustable grind size.",
-  "Smart thermostat with voice control compatibility.",
-  "Rechargeable LED lantern for camping and emergency use.",
-  "Electric water heater with temperature regulation and safety features.",
-  "Cordless hair curler with fast heating and ceramic barrel.",
-  "Smart air purifier with HEPA filter and real-time air quality display.",
-  "Electric foot massager with heat and vibration modes.",
-  "Portable electric fan heater with multiple speed and temperature settings.",
-  "Smart kitchen scale with nutritional tracking and app connectivity.",
-];
+export const descriptionSuggestions = (form) => {
+  const { name, category, price } = form;
+
+  return [
+    `Upgrade your experience with ${name || "this product"}, a top-quality item in the ${category || "general"} category. Built for durability and performance at just ₦${price || 0}.`,
+
+    `The ${name || "product"} is a must-have in the ${category || "general"} collection. Designed for reliability, style, and everyday use.`,
+
+    `Experience premium quality with ${name || "this product"}. A perfect blend of functionality and modern design.`,
+
+    `Looking for value? ${name || "This product"} delivers performance and affordability at ₦${price || 0}.`,
+
+    `${name || "This item"} stands out in the ${category || "general"} category with its durability and sleek design.`,
+  ];
+};

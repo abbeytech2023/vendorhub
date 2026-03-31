@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCartContext } from "../hooks/useCartContext";
-import { products } from "../hooks/useProduct";
+import { useAllProducts } from "../hooks/useFecthProducts";
 import toast from "react-hot-toast";
 
 export default function ProductDetails() {
+  const { products } = useAllProducts();
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCartContext();

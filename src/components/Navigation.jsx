@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from "../hooks/useLogout";
+import { useUserProfileTable } from "../hooks/useUser";
+// import { useUsers } from "../hooks/useUsers";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,8 +13,7 @@ export default function Navbar() {
   const { getCartCount } = useCartContext();
   const { logout } = useLogout();
   const { user } = useAuthContext();
-
-  console.log(user);
+  const { data, isLoading, error } = useUserProfileTable();
 
   const count = getCartCount();
 

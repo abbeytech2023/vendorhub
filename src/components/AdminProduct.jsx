@@ -1,97 +1,90 @@
-import { useState } from "react";
+// import { useProducts } from "../hooks/useFecthProducts";
+import { useUserProducts } from "../hooks/useProduct";
 
-export default function ProductGrid() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "iPhone 13",
-      price: 450000,
-      image: "https://picsum.photos/200",
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Samsung Galaxy S21",
-      price: 380000,
-      image: "https://picsum.photos/201",
-      inStock: false,
-    },
-  ]);
+export default function ProductList() {
+  // const { products, isLoading, isError, error } = useProducts();
+  const { data: products, isLoading, error } = useUserProducts();
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
-  };
-
-  const toggleStock = (id) => {
-    setProducts(
-      products.map((p) => (p.id === id ? { ...p, inStock: !p.inStock } : p)),
+  if (isLoading) {
+    return (
+      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="animate-pulse bg-white rounded-2xl shadow p-4"
+          >
+            <div className="bg-gray-200 h-32 rounded-xl mb-3"></div>
+            <div className="bg-gray-200 h-4 w-3/4 mb-2 rounded"></div>
+            <div className="bg-gray-200 h-4 w-1/2 rounded"></div>
+          </div>
+        ))}
+      </div>
     );
-  };
+  }
+
+  // if (isError) {
+  //   return (
+  //     <div className="flex items-center justify-center h-40 text-red-500">
+  //       {error.message}
+  //     </div>
+  //   );
+  // }
+
+  if (!products.length) {
+    return (
+      <div className="flex flex-col items-center justify-center h-60 text-gray-500">
+        <p className="text-lg font-medium">No products yet</p>
+        <p className="text-sm">Start by adding your first product 🚀</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-4">
-      {products.length === 0 ? (
-        <p className="text-center text-gray-500">No products available</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className={`rounded-2xl p-4 shadow-md transition ${
-                product.inStock ? "bg-white" : "bg-gray-100 grayscale"
-              }`}
-            >
-              {/* Image */}
+    <div className="p-4 mt-8">
+      <h2 className="text-2xl font-bold mb-4">Your Products</h2>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden"
+          >
+            {/* Image */}
+            <div className="h-40 bg-gray-100 overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
-                className={`w-full h-36 sm:h-40 object-cover rounded-lg ${
-                  !product.inStock ? "opacity-70" : ""
-                }`}
+                className="w-full h-full object-cover hover:scale-105 transition duration-300"
               />
+            </div>
 
-              {/* Info */}
-              <h3 className="mt-3 font-semibold text-base sm:text-lg">
-                {product.name}
-              </h3>
+            {/* Content */}
+            <div className="p-3">
+              <h3 className="font-semibold text-sm truncate">{product.name}</h3>
 
-              <p className="text-red-600 font-bold text-sm sm:text-base">
-                ₦{product.price.toLocaleString()}
+              <p className="text-xs text-gray-500 truncate">
+                {product.description}
               </p>
 
-              {/* Status */}
-              <p
-                className={`text-xs sm:text-sm mt-1 font-medium ${
-                  product.inStock ? "text-green-600" : "text-gray-500"
-                }`}
-              >
-                {product.inStock ? "In Stock" : "Out of Stock"}
-              </p>
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-green-600 font-bold">
+                  ₦{product.price}
+                </span>
 
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                <button
-                  onClick={() => toggleStock(product.id)}
-                  className={`w-full py-2 rounded-lg text-white text-sm ${
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
                     product.inStock
-                      ? "bg-yellow-500 hover:bg-yellow-600"
-                      : "bg-green-500 hover:bg-green-600"
+                      ? "bg-green-100 text-green-600"
+                      : "bg-red-100 text-red-500"
                   }`}
                 >
-                  {product.inStock ? "Out of Stock" : "Restock"}
-                </button>
-
-                <button
-                  onClick={() => deleteProduct(product.id)}
-                  className="w-full py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600"
-                >
-                  Delete
-                </button>
+                  {product.inStock ? "In Stock" : "Out"}
+                </span>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

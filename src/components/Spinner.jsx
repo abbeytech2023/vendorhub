@@ -1,9 +1,26 @@
+// export default function Spinner() {
+//   return (
+//     <div className="animate-pulse bg-white rounded-xl shadow p-4">
+//       <div className="bg-gray-300 h-40 rounded-md mb-4">VendorHub</div>
+//       <div className="bg-gray-300 h-4 rounded w-3/4 mb-2">VendorHub</div>
+//       <div className="bg-gray-300 h-4 rounded w-1/2">VendorHub</div>
+//     </div>
+//   );
+// }
+
 export default function Spinner() {
   return (
-    <div className="animate-pulse bg-white rounded-xl shadow p-4">
-      <div className="bg-gray-300 h-40 rounded-md mb-4">VendorHub</div>
-      <div className="bg-gray-300 h-4 rounded w-3/4 mb-2">VendorHub</div>
-      <div className="bg-gray-300 h-4 rounded w-1/2">VendorHub</div>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-50">
+      {/* Logo / Brand */}
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        Vendor<span className="text-blue-600">Hub</span>
+      </h1>
+
+      {/* Spinner */}
+      <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+
+      {/* Loading text */}
+      <p className="mt-4 text-gray-500 text-sm">Loading, please wait...</p>
     </div>
   );
 }

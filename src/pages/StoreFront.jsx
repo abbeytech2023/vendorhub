@@ -1,11 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { vendors } from "../hooks/useVendors";
-import { products } from "../hooks/useProduct";
+import { useAllProducts } from "../hooks/useFecthProducts";
+
 import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 
 export default function StoreFront() {
+  const { products } = useAllProducts();
   const { id } = useParams();
   const { addToCart } = useCartContext();
   const paramId = parseInt(id, 10);
