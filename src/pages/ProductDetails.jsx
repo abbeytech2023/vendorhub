@@ -37,7 +37,7 @@ export default function ProductDetails() {
         {/* Details Section */}
         <div className="p-6 flex flex-col justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-green-800 mb-3">
+            <h1 className="uppercase text-3xl font-bold text-green-800 mb-3">
               {product.name}
             </h1>
 

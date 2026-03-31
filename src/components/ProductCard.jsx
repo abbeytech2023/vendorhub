@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
           className="h-40 w-full object-cover rounded-lg"
         />
 
-        <h3 className="font-semibold mt-3">{product.name}</h3>
+        <h3 className="uppercase font-semibold mt-3">{product.name}</h3>
 
         <p className="text-gray-500 text-sm">{product.vendor}</p>
 
