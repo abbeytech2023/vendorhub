@@ -1,5 +1,6 @@
 import { useCartContext } from "../hooks/useCartContext";
 import CartSection from "../components/CartSection";
+
 export default function Cart() {
   const { cart, removeFromCart, addToCart } = useCartContext();
 
@@ -8,6 +9,23 @@ export default function Cart() {
       style: "currency",
       currency: "NGN",
     }).format(price);
+
+  // ✅ Format WhatsApp number correctly
+  const formatWhatsappNumber = (number) => {
+    if (!number) return "";
+
+    const clean = number.replace(/\D/g, "");
+
+    if (clean.startsWith("0")) {
+      return "234" + clean.slice(1);
+    }
+
+    if (clean.startsWith("234")) {
+      return clean;
+    }
+
+    return clean;
+  };
 
   // Convert cart object to array for mapping
   const vendorCarts = Object.values(cart);
@@ -35,9 +53,10 @@ export default function Cart() {
 
     message += `\nTotal: ${formatPrice(total)}\nOrder from VendorHub`;
 
-    return `https://wa.me/${vendorCart.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(
-      message,
-    )}`;
+    // ✅ FIXED NUMBER HERE
+    const phone = formatWhatsappNumber(vendorCart.whatsapp);
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };
 
   return (
