@@ -21,3 +21,17 @@ export async function getUserProfile() {
 
   return data;
 }
+
+// Fetch all vendors
+export async function getVendors() {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("role", "vendor");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

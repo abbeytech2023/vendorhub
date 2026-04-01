@@ -109,9 +109,11 @@ export default function Navbar() {
               Vendors
             </Link>
 
-            <Link to="/seller-admin" onClick={() => setMenuOpen(false)}>
-              Admin
-            </Link>
+            {user && (
+              <Link to="/seller-admin" onClick={() => setMenuOpen(false)}>
+                Admin
+              </Link>
+            )}
 
             {!user && (
               <Link to="/sell" onClick={() => setMenuOpen(false)}>

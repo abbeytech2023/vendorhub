@@ -1,7 +1,11 @@
 import VendorCard from "./VendorCard";
-import { vendors } from "../hooks/useVendors";
+import { useVendors } from "../hooks/useVendors";
 
-export default function VendorsSection() {
+export default function VendorsSectionPage() {
+  const { data: vendors, isLoading, error } = useVendors();
+
+  console.log(vendors);
+
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -18,15 +22,15 @@ export default function VendorsSection() {
           </div>
 
           <span className="mt-4 md:mt-0 bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold">
-            {vendors.length}+ Vendors
+            {vendors?.length}+ Vendors
           </span>
         </div>
 
         {/* Vendor Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {vendors.map((vendor) => (
+          {vendors?.map((vendor) => (
             <div
-              key={vendor.id}
+              key={vendor?.id}
               className="transform hover:-translate-y-2 transition duration-300"
             >
               <VendorCard vendor={vendor} />

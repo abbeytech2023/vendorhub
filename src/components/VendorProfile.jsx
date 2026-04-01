@@ -1,71 +1,150 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedin,
+  FaWhatsapp,
+  FaPhone,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
-export default function VendorProfile() {
+export default function VendorProfile({ vendor: vendo }) {
+  console.log(vendo);
+
   const vendor = {
-    name: "Jane Smith",
+    fullName: "Jane Smith",
+    storeName: "Jane Smith Enterprises",
     profilePicture: "https://i.pravatar.cc/150?img=25",
+
+    phone: "+2348012345678",
+    whatsapp: "2348012345678",
+
+    state: "Lagos",
+    localGovernment: "Ikeja",
+
     bankName: "Access Bank",
     accountName: "Jane Smith Enterprises",
     accountNumber: "9876543210",
+
     social: {
-      facebook: "https://facebook.com/janesmith",
-      instagram: "https://instagram.com/janesmith",
-      twitter: "https://twitter.com/janesmith",
-      linkedin: "https://linkedin.com/in/janesmith",
+      facebook: "#",
+      instagram: "#",
+      twitter: "#",
+      linkedin: "#",
     },
   };
 
   return (
-    <div className="w-full bg-gray-100 px-4 py-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-4">
-        {/* LEFT PANEL */}
-        <div className="bg-white rounded-2xl shadow p-4 flex flex-col items-center text-center">
-          <img
-            src={vendor.profilePicture}
-            alt={vendor.name}
-            className="w-24 h-24 rounded-full border-4 border-green-500 object-cover mb-3"
-          />
+    <div className="min-h-screen bg-gray-900 px-4 py-8 text-gray-100">
+      <div className="max-w-5xl mx-auto">
+        {/* HEADER */}
+        <div className="bg-gray-800 rounded-2xl shadow-md p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <img
+              src={vendor.profilePicture}
+              alt={vendo.fullName}
+              className="w-20 h-20 rounded-full object-cover border-4 border-green-500"
+            />
 
-          <h2 className="text-lg font-semibold text-gray-800">{vendor.name}</h2>
+            <div>
+              <h1 className="text-xl font-bold">{vendo.fullName}</h1>
 
-          <button className="mt-3 bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-md text-sm">
-            Edit
-          </button>
+              <p className="text-gray-400">{vendo.storeName}</p>
 
-          {/* Socials */}
-          <div className="flex gap-3 mt-4">
-            <FaFacebook className="text-blue-600 cursor-pointer" size={18} />
-            <FaInstagram className="text-pink-500 cursor-pointer" size={18} />
-            <FaTwitter className="text-blue-400 cursor-pointer" size={18} />
-            <FaLinkedin className="text-blue-700 cursor-pointer" size={18} />
+              <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
+                <FaMapMarkerAlt />
+                <span>
+                  {vendor.state} • {vendo.localGovernment}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ACTIONS */}
+          <div className="flex flex-wrap gap-2">
+            <a
+              href={`tel:${vendo.phone}`}
+              className="px-4 py-2 bg-gray-700 rounded-lg text-sm flex items-center gap-2 hover:bg-gray-600 transition"
+            >
+              <FaPhone /> Call
+            </a>
+
+            <a
+              href={`https://wa.me/${vendo.whatsapp}`}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm flex items-center gap-2 hover:bg-green-700 transition"
+            >
+              <FaWhatsapp /> WhatsApp
+            </a>
           </div>
         </div>
 
-        {/* RIGHT PANEL */}
-        <div className="md:col-span-2 bg-white rounded-2xl shadow p-5">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
-            Bank Information
-          </h3>
+        {/* GRID */}
+        <div className="grid md:grid-cols-3 gap-4 mt-6">
+          {/* BUSINESS */}
+          <div className="bg-gray-800 rounded-2xl shadow-md p-5 space-y-3">
+            <h2 className="font-semibold text-gray-200">Business Info</h2>
 
-          <div className="grid sm:grid-cols-2 gap-3 text-sm text-gray-700">
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-xs text-gray-500">Bank</p>
-              <p className="font-medium">{vendor.bankName}</p>
+            <div className="text-sm text-gray-400 space-y-2">
+              <p>
+                <span className="text-gray-200">Store:</span> {vendo.storeName}
+              </p>
+              <p>
+                <span className="text-gray-200">State:</span> {vendo.state}
+              </p>
+              <p>
+                <span className="text-gray-200">LGA:</span>{" "}
+                {vendo.localGovernment}
+              </p>
             </div>
+          </div>
 
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-xs text-gray-500">Account Name</p>
-              <p className="font-medium">{vendor.accountName}</p>
-            </div>
+          {/* BANK */}
+          <div className="bg-gray-800 rounded-2xl shadow-md p-5 space-y-3">
+            <h2 className="font-semibold text-gray-200">Bank Details</h2>
 
-            <div className="bg-gray-50 p-3 rounded-lg sm:col-span-2">
-              <p className="text-xs text-gray-500">Account Number</p>
-              <p className="font-medium tracking-widest">
+            <div className="text-sm text-gray-400 space-y-2">
+              <p>
+                <span className="text-gray-200">Bank:</span> {vendor.bankName}
+              </p>
+              <p>
+                <span className="text-gray-200">Account:</span>{" "}
+                {vendor.accountName}
+              </p>
+              <p className="tracking-widest text-gray-300">
                 {vendor.accountNumber}
               </p>
             </div>
           </div>
+
+          {/* SOCIAL */}
+          <div className="bg-gray-800 rounded-2xl shadow-md p-5 space-y-3">
+            <h2 className="font-semibold text-gray-200">Social Links</h2>
+
+            <div className="flex gap-3 text-xl">
+              <a href={vendor.social.facebook}>
+                <FaFacebook className="text-blue-500" />
+              </a>
+              <a href={vendor.social.instagram}>
+                <FaInstagram className="text-pink-400" />
+              </a>
+              <a href={vendor.social.twitter}>
+                <FaTwitter className="text-blue-400" />
+              </a>
+              <a href={vendor.social.linkedin}>
+                <FaLinkedin className="text-blue-500" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* EDIT */}
+        <div className="mt-6 bg-gray-800 rounded-2xl shadow-md p-4 flex justify-end">
+          <button className="px-5 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition">
+            Edit Profile
+          </button>
         </div>
       </div>
     </div>

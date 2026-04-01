@@ -19,8 +19,8 @@ export default function VendorCard({ vendor }) {
       {/* Content */}
       <div className="pt-10 sm:pt-12 pb-5 px-4 sm:px-6 text-center">
         {/* Store Name */}
-        <h3 className="text-base sm:text-lg font-bold text-gray-800 truncate">
-          {vendor.name}
+        <h3 className="text-base uppercase sm:text-lg font-bold text-gray-800 truncate">
+          {vendor.storeName}
         </h3>
 
         {/* Category */}

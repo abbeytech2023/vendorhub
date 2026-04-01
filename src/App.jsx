@@ -4,8 +4,9 @@ import Home from "./components/Home";
 import Navigation from "./components/Navigation";
 import BecomeVendor from "./components/BecomeAVendor";
 import VendorRegistration from "./pages/VendorRegistration";
-import VendorsSection from "./components/VendorGrid";
+import VendorsSectionPage from "./components/VendorGrid";
 import Cart from "./pages/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
 import ProductListPage from "./pages/ProductList";
 import ProductDetails from "./pages/ProductDetails";
 import StoreFront from "./pages/StoreFront";
@@ -32,9 +33,11 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="sell" element={<BecomeVendor />} />
             <Route path="shop" element={<ProductListPage />} />
-            <Route path="vendors" element={<VendorsSection />} />
-            <Route path="seller-admin" element={<VendorAdmin />} />
+            <Route path="vendors" element={<VendorsSectionPage />} />
             <Route path="vendor/:id" element={<StoreFront />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="seller-admin" element={<VendorAdmin />} />
+            </Route>
             <Route path="login" element={<Login />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
