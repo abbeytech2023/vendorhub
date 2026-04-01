@@ -26,11 +26,11 @@ export default function ProductDetails() {
     <div className="min-h-screen bg-green-50 p-6 flex justify-center items-center">
       <div className="bg-white shadow-xl rounded-2xl overflow-hidden max-w-4xl w-full grid md:grid-cols-2">
         {/* Image Section */}
-        <div className="bg-green-100 flex items-center justify-center p-6">
+        <div className="bg-green-100 flex items-center justify-center p-6 h-64">
           <img
             src={product.image}
             alt={product.name}
-            className="rounded-xl object-cover w-full max-h-[400px]"
+            className="rounded-xl object-contain w-full h-full"
           />
         </div>
 

@@ -161,7 +161,7 @@ export default function AddProductForm() {
         {/* SUBMIT */}
         <button
           disabled={isLoading}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
+          className="w-full py-3 cursor-pointer rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
         >
           {isLoading ? "Creating product..." : "🚀 Add Product"}
         </button>

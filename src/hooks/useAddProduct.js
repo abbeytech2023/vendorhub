@@ -6,7 +6,6 @@ import { useUserProfileTable } from "./useUser";
 
 export const useAddProduct = () => {
   const { data, isLoading: isPending, error } = useUserProfileTable();
-  console.log(data);
 
   const whatsapp = data?.whatsapp;
   const { user } = useAuthContext();
