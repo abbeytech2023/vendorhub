@@ -11,7 +11,7 @@ export default function VendorAdmin() {
   const { vendor, loading: vendorLoading } = useVendor(id);
 
   return (
-    <section className="min-h-screen bg-gray-950 text-white px-4 sm:px-6 lg:px-12 py-6 sm:py-10">
+    <section className="min-h-screen mt-12 bg-gray-950 text-white px-4 sm:px-6 lg:px-12 py-6 sm:py-10">
       <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         {/* Vendor Profile */}
         <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">

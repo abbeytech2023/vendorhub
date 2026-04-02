@@ -183,7 +183,7 @@ export default function AddProductForm() {
             <button
               type="button"
               onClick={handleGenerateDescription}
-              className="text-xs bg-purple-600 px-3 py-1 rounded-lg text-white hover:bg-purple-700 transition"
+              className="text-xs bg-green-600 px-3 py-1 rounded-lg text-white hover:bg-green-700 transition"
             >
               ✨ AI Suggest
             </button>
@@ -241,7 +241,7 @@ export default function AddProductForm() {
         {/* SUBMIT */}
         <button
           disabled={isLoading}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-800 text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
         >
           {isLoading ? "Creating product..." : "🚀 Add Product"}
         </button>
