@@ -5,20 +5,16 @@ import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
-import { useVendors } from "../hooks/useVendors";
+import { useVendor } from "../hooks/useVendors";
 
 export default function StoreFront() {
-  const { data: vendors } = useVendors();
   const { products } = useAllProducts();
   const { id } = useParams();
   const { addToCart } = useCartContext();
   const paramId = parseInt(id, 10);
+  const { vendor } = useVendor(paramId);
 
-  const vendor = vendors?.map((v) => {
-    console.log(v.d);
-
-    if (v.id === id) return v;
-  });
+  console.log(vendor);
 
   if (!vendor) {
     return <p className="text-center mt-20 text-gray-500">Store not found</p>;

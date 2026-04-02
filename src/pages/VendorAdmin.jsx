@@ -1,29 +1,38 @@
-import { useState, useEffect } from "react";
-import AddProductForm from "../components/AddProductForm";
+import AddProduct12 from "../components/AddProducts12";
 import VendorProfile from "../components/VendorProfile";
 import ProductGrid from "../components/AdminProduct";
-import AddProduct12 from "../components/AddProducts12";
+import { useVendor } from "../hooks/useVendors";
+import { useUserProfileTable } from "../hooks/useUser";
 
 export default function VendorAdmin() {
-  const [form, setForm] = useState({
-    name: "",
-    price: "",
-    image: "",
-  });
+  const { data: user } = useUserProfileTable();
+  const id = user?.id;
+
+  const { vendor, loading: vendorLoading } = useVendor(id);
 
   return (
-    <section className="max-w-6xl mx-auto p-6 mt-12">
-      {/* Seller Info */}
-      <div className="bg-white shadow p-6 rounded-xl mb-8">
-        <VendorProfile />
-      </div>
+    <section className="min-h-screen bg-gray-950 text-white px-4 sm:px-6 lg:px-12 py-6 sm:py-10">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
+        {/* Vendor Profile */}
+        <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+          {vendorLoading ? (
+            <p className="text-gray-400 text-sm sm:text-base">
+              Loading vendor...
+            </p>
+          ) : (
+            <VendorProfile vendor={vendor} />
+          )}
+        </div>
 
-      {/* <AddProductForm /> */}
-      <AddProduct12 />
+        {/* Add Product Section */}
+        <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+          <AddProduct12 />
+        </div>
 
-      {/* Product List */}
-      <div>
-        <ProductGrid />
+        {/* Product Grid */}
+        <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+          <ProductGrid />
+        </div>
       </div>
     </section>
   );
