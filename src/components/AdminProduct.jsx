@@ -1,8 +1,28 @@
 import { useUserProducts } from "../hooks/useProduct";
 import { priceFormat } from "../utility/priceFormat";
+import { useEffect, useState } from "react";
 
 export default function ProductList() {
   const { data: products, isLoading } = useUserProducts();
+  const [localProducts, setLocalProducts] = useState([]);
+
+  // Sync API data to local state
+  useEffect(() => {
+    if (products) {
+      setLocalProducts(products);
+    }
+  }, [products]);
+
+  const handleStockToggle = (id) => {
+    setLocalProducts((prev) =>
+      prev.map((product) =>
+        product.id === id ? { ...product, inStock: !product.inStock } : product,
+      ),
+    );
+
+    console.log("Toggled product:", id);
+    // TODO: send update to backend here
+  };
 
   if (isLoading) {
     return (
@@ -21,7 +41,7 @@ export default function ProductList() {
     );
   }
 
-  if (!products?.length) {
+  if (!localProducts?.length) {
     return (
       <div className="flex flex-col items-center justify-center h-60 text-gray-500 text-center px-4">
         <p className="text-base sm:text-lg font-medium">No products yet</p>
@@ -39,10 +59,12 @@ export default function ProductList() {
       </h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 sm:gap-5">
-        {products.map((product) => (
+        {localProducts.map((product) => (
           <div
             key={product.id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden"
+            className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden ${
+              !product.inStock ? "grayscale opacity-70" : ""
+            }`}
           >
             {/* IMAGE */}
             <div className="h-28 sm:h-32 md:h-36 lg:h-40 bg-gray-100 overflow-hidden">
@@ -68,15 +90,16 @@ export default function ProductList() {
                   {priceFormat(product.price)}
                 </span>
 
-                <span
-                  className={`text-[10px] text-center font-bold sm:text-xs px-1 py-1 rounded-full ${
+                <button
+                  onClick={() => handleStockToggle(product.id)}
+                  className={`text-[10px] sm:text-xs px-2 py-1 rounded-full font-bold transition ${
                     product.inStock
-                      ? "bg-green-100 text-green-900"
-                      : "bg-red-100 text-red-500"
+                      ? "bg-green-100 text-green-900 hover:bg-green-200"
+                      : "bg-red-100 text-red-500 hover:bg-red-200"
                   }`}
                 >
-                  {product.inStock ? "In Stock" : "Out"}
-                </span>
+                  {product.inStock ? "In Stock" : "Out of stock"}
+                </button>
               </div>
             </div>
           </div>
