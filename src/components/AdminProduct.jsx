@@ -34,7 +34,7 @@ export default function ProductList() {
 
   return (
     <div className="p-3 sm:p-5 lg:p-6 mt-6 sm:mt-8">
-      <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-gray-800">
+      <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-white">
         Your Products
       </h2>
 
@@ -63,13 +63,13 @@ export default function ProductList() {
                 {product.description}
               </p>
 
-              <div className="flex items-center justify-between mt-2">
+              <div className="flex items-center gap-2 justify-between mt-2">
                 <span className="text-green-900 font-bold text-xs sm:text-sm">
                   {priceFormat(product.price)}
                 </span>
 
                 <span
-                  className={`text-[10px] sm:text-xs px-1 py-1 rounded-full ${
+                  className={`text-[10px] text-center font-bold sm:text-xs px-1 py-1 rounded-full ${
                     product.inStock
                       ? "bg-green-100 text-green-900"
                       : "bg-red-100 text-red-500"
