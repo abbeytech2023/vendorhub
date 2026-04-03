@@ -4,6 +4,7 @@ import ProductGrid from "../components/AdminProduct";
 import { useVendor } from "../hooks/useVendors";
 import { useUserProfileTable } from "../hooks/useUser";
 import Spinner from "../components/Spinner";
+import EditProduct from "../components/EditProducts";
 
 export default function VendorAdmin() {
   const { data: user } = useUserProfileTable();
@@ -30,6 +31,9 @@ export default function VendorAdmin() {
             {/* Product Grid */}
             <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
               <ProductGrid />
+            </div>
+            <div>
+              <EditProduct />
             </div>
           </div>
         </section>

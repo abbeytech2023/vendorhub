@@ -81,3 +81,21 @@ export const getProductById = async (productId) => {
 
   return data;
 };
+
+/**
+ * Update a row in a Supabase table
+ */
+export async function updateRow({ table, id, updates }) {
+  const { data, error } = await supabase
+    .from(table)
+    .update(updates)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

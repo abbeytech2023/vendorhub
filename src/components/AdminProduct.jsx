@@ -1,10 +1,13 @@
 import { useUserProducts } from "../hooks/useProduct";
 import { priceFormat } from "../utility/priceFormat";
 import { useEffect, useState } from "react";
+import EditProductModal from "./EditProducts";
 
 export default function ProductList() {
   const { data: products, isLoading } = useUserProducts();
   const [localProducts, setLocalProducts] = useState([]);
+
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Sync API data to local state
   useEffect(() => {
@@ -62,6 +65,7 @@ export default function ProductList() {
         {localProducts.map((product) => (
           <div
             key={product.id}
+            onClick={() => setSelectedProduct(product)}
             className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition duration-300 overflow-hidden ${
               !product.inStock ? "grayscale opacity-70" : ""
             }`}
@@ -105,6 +109,61 @@ export default function ProductList() {
           </div>
         ))}
       </div>
+      {selectedProduct && (
+        <EditProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 }
+
+// import { useState } from "react";
+// import { useQuery } from "@tanstack/react-query";
+// import EditProductModal from "./EditProducts";
+// import supabase from "../lib/supabaseClients";
+
+// async function fetchProducts() {
+//   const { data, error } = await supabase.from("products").select("*");
+//   if (error) throw new Error(error.message);
+//   return data;
+// }
+
+// export default function ProductList() {
+//   const { data: products, isLoading } = useQuery({
+//     queryKey: ["products"],
+//     queryFn: fetchProducts,
+//   });
+
+//   const [selectedProduct, setSelectedProduct] = useState(null);
+
+//   if (isLoading) return <p>Loading...</p>;
+
+//   return (
+//     <div className="p-6">
+//       <h1 className="text-xl mb-4">Products</h1>
+
+//       <div className="grid gap-3">
+//         {products?.map((product) => (
+//           <div
+//             key={product.id}
+//             onClick={() => setSelectedProduct(product)}
+//             className="border p-4 rounded cursor-pointer hover:bg-gray-100 transition"
+//           >
+//             <p className="font-semibold">{product.name}</p>
+//             <p>₦{product.price}</p>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* 🔥 Modal appears on click */}
+//       {selectedProduct && (
+//         <EditProductModal
+//           product={selectedProduct}
+//           onClose={() => setSelectedProduct(null)}
+//         />
+//       )}
+//     </div>
+//   );
+// }
