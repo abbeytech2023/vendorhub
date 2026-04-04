@@ -81,7 +81,7 @@ export default function ProductList() {
 
             {/* CONTENT */}
             <div className="p-2 sm:p-3">
-              <h3 className="font-semibold text-xs sm:text-sm truncate">
+              <h3 className="font-semibold text-black uppercase text-xs sm:text-sm truncate">
                 {product.name}
               </h3>
 

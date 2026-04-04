@@ -1,6 +1,6 @@
 import AddProduct12 from "../components/AddProducts12";
 import VendorProfile from "../components/VendorProfile";
-import ProductGrid from "../components/AdminProduct";
+import ProductGrid from "../components/AdminProductList";
 import { useVendor } from "../hooks/useVendors";
 import { useUserProfileTable } from "../hooks/useUser";
 import Spinner from "../components/Spinner";
