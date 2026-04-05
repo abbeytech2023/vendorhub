@@ -1,4 +1,4 @@
-import { FaWhatsapp, FaTrash } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function CartSection({
   vendorCarts,
@@ -8,7 +8,7 @@ export default function CartSection({
   addToCart,
 }) {
   return (
-    <section className="max-w-7xl mt-10 mx-auto p-6">
+    <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6 lg:px-8 space-y-10">
       {vendorCarts.map((vendorCart) => {
         const total = vendorCart.items.reduce(
           (sum, item) => sum + item.price * item.qty,
@@ -18,48 +18,51 @@ export default function CartSection({
         return (
           <div
             key={vendorCart.whatsapp}
-            className="mb-8 bg-white rounded-2xl shadow p-6"
+            className="bg-white rounded-3xl shadow-lg border border-gray-100 p-5 sm:p-8"
           >
             {/* Vendor Name */}
-            <h3 className="text-xl text-center font-semibold mb-6 text-green-600">
+            <h3 className="text-2xl font-bold text-center text-green-600 mb-8">
               {vendorCart.vendor}
             </h3>
 
             {/* Items */}
-            <div className="space-y-4">
+            <div className="space-y-6">
               {vendorCart.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center gap-4 border-b pb-4"
+                  className="flex flex-col sm:flex-row items-center gap-6 border-b pb-6 last:border-b-0"
                 >
-                  {/* Product Image */}
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-24 h-24 object-cover rounded-lg"
-                  />
+                  {/* Product Image (BIGGER + RESPONSIVE) */}
+                  <div className="w-full sm:w-40 flex justify-center">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-40 h-40 sm:w-36 sm:h-36 object-cover rounded-2xl shadow-md"
+                    />
+                  </div>
 
                   {/* Product Info */}
-                  <div className="flex-1 text-center sm:text-left">
-                    <h4 className="font-semibold">{item.name}</h4>
-                    <p className="text-gray-500 text-sm">
-                      {formatPrice(item.price)}
-                    </p>
+                  <div className="flex-1 text-center sm:text-left space-y-2">
+                    <h4 className="text-lg font-semibold">{item.name}</h4>
 
-                    {/* Quantity Control */}
-                    <div className="flex items-center justify-center sm:justify-start mt-2 gap-2">
+                    <p className="text-gray-500">{formatPrice(item.price)}</p>
+
+                    {/* Quantity Controls */}
+                    <div className="flex items-center justify-center sm:justify-start gap-3 mt-2">
                       <button
                         onClick={() => removeFromCart(item)}
-                        className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded hover:bg-gray-300 transition"
+                        className="w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition text-lg"
                       >
                         -
                       </button>
-                      <span className="px-3 text-lg font-medium">
+
+                      <span className="text-lg font-semibold w-6 text-center">
                         {item.qty}
                       </span>
+
                       <button
                         onClick={() => addToCart(item)}
-                        className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded hover:bg-gray-300 transition"
+                        className="w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition text-lg"
                       >
                         +
                       </button>
@@ -67,24 +70,16 @@ export default function CartSection({
                   </div>
 
                   {/* Subtotal */}
-                  <div className="font-semibold text-center sm:text-left">
+                  <div className="text-lg font-bold text-gray-800">
                     {formatPrice(item.price * item.qty)}
                   </div>
-
-                  {/* Remove */}
-                  {/* <button
-                    onClick={() => removeFromCart(vendorCart.whatsapp, item.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <FaTrash />
-                  </button> */}
                 </div>
               ))}
             </div>
 
             {/* Footer */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
-              <span className="font-bold text-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4 pt-6 border-t">
+              <span className="text-xl font-bold">
                 Total: {formatPrice(total)}
               </span>
 
@@ -92,9 +87,9 @@ export default function CartSection({
                 href={generateWhatsappLink(vendorCart)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg"
+                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition shadow-md"
               >
-                <FaWhatsapp />
+                <FaWhatsapp className="text-lg" />
                 Checkout on WhatsApp
               </a>
             </div>

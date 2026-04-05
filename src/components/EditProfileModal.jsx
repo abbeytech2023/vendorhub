@@ -18,10 +18,9 @@ export default function EditProfileModal({ vendor, onClose }) {
     bankName: "",
     accountName: "",
     accountNumber: "",
-    profilePicture: "",
+    officeAddress: "",
   });
 
-  // preload vendor data
   useEffect(() => {
     if (vendor) {
       setFormData({
@@ -34,7 +33,7 @@ export default function EditProfileModal({ vendor, onClose }) {
         bankName: vendor.bankName || "",
         accountName: vendor.accountName || "",
         accountNumber: vendor.accountNumber || "",
-        profilePicture: vendor.profilePicture || "",
+        officeAddress: vendor.officeAddress || "",
       });
     }
   }, [vendor]);
@@ -64,6 +63,11 @@ export default function EditProfileModal({ vendor, onClose }) {
     );
   };
 
+  const disabledInput =
+    "w-full p-2 rounded bg-gray-800 text-gray-400 outline-none opacity-60 cursor-not-allowed";
+
+  const input = "w-full p-2 rounded bg-gray-800 text-white outline-none";
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 w-full max-w-2xl rounded-2xl p-5 relative max-h-[90vh] overflow-y-auto">
@@ -80,90 +84,136 @@ export default function EditProfileModal({ vendor, onClose }) {
         {/* ERROR */}
         {error && <p className="text-red-500 text-sm mb-2">{error.message}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="Full Name"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
-
-          <input
-            name="storeName"
-            value={formData.storeName}
-            onChange={handleChange}
-            placeholder="Store Name"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* FULL NAME */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Full Name
+            </label>
             <input
-              name="phone"
-              value={formData.phone}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
-              placeholder="Phone"
-              className="p-2 rounded bg-gray-800 text-white outline-none"
-            />
-
-            <input
-              name="whatsapp"
-              value={formData.whatsapp}
-              onChange={handleChange}
-              placeholder="WhatsApp"
-              className="p-2 rounded bg-gray-800 text-white outline-none"
+              className={input}
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* STORE NAME */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Store Name
+            </label>
             <input
-              name="state"
-              value={formData.state}
+              name="storeName"
+              value={formData.storeName}
               onChange={handleChange}
-              placeholder="State"
-              className="p-2 rounded bg-gray-800 text-white outline-none"
-            />
-
-            <input
-              name="localGovernment"
-              value={formData.localGovernment}
-              onChange={handleChange}
-              placeholder="LGA"
-              className="p-2 rounded bg-gray-800 text-white outline-none"
+              className={input}
             />
           </div>
 
-          <input
-            name="bankName"
-            value={formData.bankName}
-            onChange={handleChange}
-            placeholder="Bank Name"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
+          {/* PHONE + WHATSAPP (DISABLED) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">Phone</label>
+              <input
+                name="phone"
+                value={formData.phone}
+                disabled
+                className={disabledInput}
+              />
+            </div>
 
-          <input
-            name="accountName"
-            value={formData.accountName}
-            onChange={handleChange}
-            placeholder="Account Name"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">
+                WhatsApp
+              </label>
+              <input
+                name="whatsapp"
+                value={formData.whatsapp}
+                disabled
+                className={disabledInput}
+              />
+            </div>
+          </div>
 
-          <input
-            name="accountNumber"
-            value={formData.accountNumber}
-            onChange={handleChange}
-            placeholder="Account Number"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
+          {/* STATE + LGA */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">State</label>
+              <input
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                className={input}
+              />
+            </div>
 
-          <input
-            name="profilePicture"
-            value={formData.profilePicture}
-            onChange={handleChange}
-            placeholder="Profile Picture URL"
-            className="w-full p-2 rounded bg-gray-800 text-white outline-none"
-          />
+            <div>
+              <label className="text-sm text-gray-300 mb-1 block">LGA</label>
+              <input
+                name="localGovernment"
+                value={formData.localGovernment}
+                onChange={handleChange}
+                className={input}
+              />
+            </div>
+          </div>
+
+          {/* OFFICE ADDRESS */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Office Address
+            </label>
+
+            <textarea
+              name="officeAddress"
+              value={formData.officeAddress}
+              onChange={handleChange}
+              rows={3}
+              className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none 
+                         border border-gray-700 focus:border-green-500 resize-none"
+            />
+          </div>
+
+          {/* BANK NAME (DISABLED) */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Bank Name
+            </label>
+            <input
+              name="bankName"
+              value={formData.bankName}
+              disabled
+              className={input}
+            />
+          </div>
+
+          {/* ACCOUNT NAME */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Account Name
+            </label>
+            <input
+              disabled
+              name="accountName"
+              value={formData.accountName}
+              onChange={handleChange}
+              className={disabledInput}
+            />
+          </div>
+
+          {/* ACCOUNT NUMBER */}
+          <div>
+            <label className="text-sm text-gray-300 mb-1 block">
+              Account Number
+            </label>
+            <input
+              name="accountNumber"
+              value={formData.accountNumber}
+              onChange={handleChange}
+              className={input}
+            />
+          </div>
 
           {/* BUTTONS */}
           <div className="flex gap-3 pt-2">

@@ -4,7 +4,6 @@ import ProductGrid from "../components/AdminProductList";
 import { useVendor } from "../hooks/useVendors";
 import { useUserProfileTable } from "../hooks/useUser";
 import Spinner from "../components/Spinner";
-import EditProduct from "../components/EditProducts";
 
 export default function VendorAdmin() {
   const { data: user } = useUserProfileTable();
@@ -15,21 +14,36 @@ export default function VendorAdmin() {
   return (
     <>
       {vendorLoading && <Spinner />}
+
       {vendor && (
-        <section className="min-h-screen mt-12 bg-gray-950 text-white px-4 sm:px-6 lg:px-12 py-6 sm:py-10">
-          <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
-            {/* Vendor Profile */}
-            <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+        <section className="relative min-h-screen mt-12 text-white px-4 sm:px-6 lg:px-12 py-6 sm:py-10 overflow-hidden bg-gradient-to-b from-gray-950 via-gray-950 to-black">
+          {/* BACKGROUND GLOW EFFECT */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),transparent_60%)]" />
+
+          <div className="relative max-w-6xl mx-auto space-y-6 sm:space-y-8">
+            {/* PAGE HEADER (optional future upgrade space) */}
+            <div className="flex items-center justify-between">
+              <h1 className="text-lg sm:text-2xl font-semibold text-gray-100">
+                Vendor Dashboard
+              </h1>
+
+              <p className="text-xs sm:text-sm text-gray-400">
+                Manage your store
+              </p>
+            </div>
+
+            {/* VENDOR PROFILE */}
+            <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
               <VendorProfile vendor={vendor} />
             </div>
 
-            {/* Add Product Section */}
-            <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+            {/* ADD PRODUCT */}
+            <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
               <AddProduct12 />
             </div>
 
-            {/* Product Grid */}
-            <div className="w-full bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6">
+            {/* PRODUCT GRID */}
+            <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
               <ProductGrid />
             </div>
           </div>

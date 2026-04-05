@@ -1,5 +1,6 @@
 import { useCartContext } from "../hooks/useCartContext";
 import CartSection from "../components/CartSection";
+import GoBackButton from "../components/GoBackButton";
 
 export default function Cart() {
   const { cart, removeFromCart, addToCart } = useCartContext();
@@ -10,34 +11,18 @@ export default function Cart() {
       currency: "NGN",
     }).format(price);
 
-  // ✅ Format WhatsApp number correctly
   const formatWhatsappNumber = (number) => {
     if (!number) return "";
 
     const clean = number.replace(/\D/g, "");
 
-    if (clean.startsWith("0")) {
-      return "234" + clean.slice(1);
-    }
-
-    if (clean.startsWith("234")) {
-      return clean;
-    }
+    if (clean.startsWith("0")) return "234" + clean.slice(1);
+    if (clean.startsWith("234")) return clean;
 
     return clean;
   };
 
-  // Convert cart object to array for mapping
   const vendorCarts = Object.values(cart);
-
-  if (vendorCarts.length === 0) {
-    return (
-      <section className="max-w-6xl mx-auto p-6 text-center">
-        <h2 className="text-3xl font-bold mb-4">Your Cart</h2>
-        <p className="text-gray-500">Your cart is empty</p>
-      </section>
-    );
-  }
 
   const generateWhatsappLink = (vendorCart) => {
     let message = `Hello ${vendorCart.vendor}, I want to order:\n\n`;
@@ -53,19 +38,45 @@ export default function Cart() {
 
     message += `\nTotal: ${formatPrice(total)}\nOrder from VendorHub`;
 
-    // ✅ FIXED NUMBER HERE
     const phone = formatWhatsappNumber(vendorCart.whatsapp);
 
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };
 
+  // ================= EMPTY STATE =================
+  if (vendorCarts.length === 0) {
+    return (
+      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 bg-gray-50">
+        <h2 className="text-3xl font-bold mb-3">Your Cart 🛒</h2>
+        <p className="text-gray-500 mb-6">You haven’t added anything yet</p>
+
+        <GoBackButton label="Continue Shopping" />
+      </section>
+    );
+  }
+
+  // ================= CART PAGE =================
   return (
-    <CartSection
-      removeFromCart={removeFromCart}
-      generateWhatsappLink={generateWhatsappLink}
-      formatPrice={formatPrice}
-      addToCart={addToCart}
-      vendorCarts={vendorCarts}
-    />
+    <div className="min-h-screen bg-gray-50 mt-12">
+      {/* HEADER */}
+      <div className="max-w-7xl text-black mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex items-center justify-between">
+        <GoBackButton />
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+          Your Cart
+        </h1>
+        <div className="w-24" /> {/* spacer for balance */}
+      </div>
+
+      {/* CART CONTENT */}
+      <div className="pb-10">
+        <CartSection
+          removeFromCart={removeFromCart}
+          addToCart={addToCart}
+          vendorCarts={vendorCarts}
+          generateWhatsappLink={generateWhatsappLink}
+          formatPrice={formatPrice}
+        />
+      </div>
+    </div>
   );
 }
