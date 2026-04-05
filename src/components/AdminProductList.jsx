@@ -61,7 +61,7 @@ export default function ProductList() {
         Your Products
       </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 sm:gap-5">
+      <div className="grid grid-cols-2 cursor-pointer sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 sm:gap-5">
         {localProducts.map((product) => (
           <div
             key={product.id}
@@ -118,52 +118,3 @@ export default function ProductList() {
     </div>
   );
 }
-
-// import { useState } from "react";
-// import { useQuery } from "@tanstack/react-query";
-// import EditProductModal from "./EditProducts";
-// import supabase from "../lib/supabaseClients";
-
-// async function fetchProducts() {
-//   const { data, error } = await supabase.from("products").select("*");
-//   if (error) throw new Error(error.message);
-//   return data;
-// }
-
-// export default function ProductList() {
-//   const { data: products, isLoading } = useQuery({
-//     queryKey: ["products"],
-//     queryFn: fetchProducts,
-//   });
-
-//   const [selectedProduct, setSelectedProduct] = useState(null);
-
-//   if (isLoading) return <p>Loading...</p>;
-
-//   return (
-//     <div className="p-6">
-//       <h1 className="text-xl mb-4">Products</h1>
-
-//       <div className="grid gap-3">
-//         {products?.map((product) => (
-//           <div
-//             key={product.id}
-//             onClick={() => setSelectedProduct(product)}
-//             className="border p-4 rounded cursor-pointer hover:bg-gray-100 transition"
-//           >
-//             <p className="font-semibold">{product.name}</p>
-//             <p>₦{product.price}</p>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* 🔥 Modal appears on click */}
-//       {selectedProduct && (
-//         <EditProductModal
-//           product={selectedProduct}
-//           onClose={() => setSelectedProduct(null)}
-//         />
-//       )}
-//     </div>
-//   );
-// }

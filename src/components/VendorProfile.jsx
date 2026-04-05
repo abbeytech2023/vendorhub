@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaFacebook,
   FaInstagram,
@@ -9,7 +9,11 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
+import EditProfileModal from "./EditProfileModal";
+
 export default function VendorProfile({ vendor }) {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
   if (!vendor) return null;
 
   return (
@@ -104,11 +108,22 @@ export default function VendorProfile({ vendor }) {
 
         {/* EDIT BUTTON */}
         <div className="bg-gray-800 rounded-2xl shadow-md p-4 flex justify-center sm:justify-end">
-          <button className="w-full sm:w-auto px-5 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition">
+          <button
+            onClick={() => setIsEditOpen(true)}
+            className="w-full sm:w-auto px-5 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition"
+          >
             Edit Profile
           </button>
         </div>
       </div>
+
+      {/* MODAL */}
+      {isEditOpen && (
+        <EditProfileModal
+          vendor={vendor}
+          onClose={() => setIsEditOpen(false)}
+        />
+      )}
     </div>
   );
 }

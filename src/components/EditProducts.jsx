@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useUpdateRow } from "../hooks/useUpdateTableRow";
 
 export default function EditProductModal({ product, onClose }) {
-  const { mutate, isPending, error } = useUpdateRow("products", "products");
+  const { mutate, isPending, error } = useUpdateRow({
+    table: "products",
+    queryKey: ["products"],
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -12,7 +15,7 @@ export default function EditProductModal({ product, onClose }) {
     inStock: true,
   });
 
-  // Populate form when product changes
+  // 🔹 Fill form when product changes
   useEffect(() => {
     if (product) {
       setFormData({
@@ -25,7 +28,7 @@ export default function EditProductModal({ product, onClose }) {
     }
   }, [product]);
 
-  // Lock background scroll
+  // 🔹 Lock scroll when modal opens
   useEffect(() => {
     if (product) {
       document.body.style.overflow = "hidden";
@@ -59,7 +62,9 @@ export default function EditProductModal({ product, onClose }) {
         },
       },
       {
-        onSuccess: onClose,
+        onSuccess: () => {
+          onClose(); // close modal after success
+        },
       },
     );
   };
@@ -77,7 +82,6 @@ export default function EditProductModal({ product, onClose }) {
       {/* Modal */}
       <div className="relative z-10 w-full max-w-lg">
         <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl text-white max-h-[90vh] overflow-y-auto">
-          {/* Content wrapper */}
           <div className="p-6 sm:p-8 space-y-5">
             {/* Header */}
             <div className="flex justify-between items-center">
@@ -90,7 +94,7 @@ export default function EditProductModal({ product, onClose }) {
               </button>
             </div>
 
-            {/* Image Preview */}
+            {/* Image */}
             {product.image && (
               <img
                 src={product.image}
@@ -109,7 +113,6 @@ export default function EditProductModal({ product, onClose }) {
                   value={formData.name}
                   onChange={handleChange}
                   className="input"
-                  placeholder="Enter product name"
                 />
               </div>
 
@@ -122,7 +125,6 @@ export default function EditProductModal({ product, onClose }) {
                   value={formData.price}
                   onChange={handleChange}
                   className="input"
-                  placeholder="Enter price"
                 />
               </div>
 
@@ -134,7 +136,6 @@ export default function EditProductModal({ product, onClose }) {
                   value={formData.category}
                   onChange={handleChange}
                   className="input"
-                  placeholder="e.g Electronics, Fashion"
                 />
               </div>
 
@@ -147,46 +148,38 @@ export default function EditProductModal({ product, onClose }) {
                   onChange={handleChange}
                   rows="3"
                   className="input resize-none"
-                  placeholder="Write product description..."
                 />
               </div>
 
-              {/* In Stock Toggle */}
+              {/* In Stock */}
               <div className="flex items-center justify-between bg-white/10 border border-white/20 rounded-xl px-4 py-3">
                 <span className="text-sm">In Stock</span>
 
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="inStock"
-                    checked={formData.inStock}
-                    onChange={handleChange}
-                    className="sr-only peer"
-                  />
-                  <div className="w-11 h-6 bg-gray-400 rounded-full peer peer-checked:bg-green-500 transition"></div>
-                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></div>
-                </label>
+                <input
+                  type="checkbox"
+                  name="inStock"
+                  checked={formData.inStock}
+                  onChange={handleChange}
+                />
               </div>
 
-              {/* Sticky Buttons */}
-              <div className="sticky bottom-0 pt-4 bg-transparent backdrop-blur-md">
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="w-1/2 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20"
-                  >
-                    Cancel
-                  </button>
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-1/2 py-2 rounded-xl bg-white/10 border border-white/20"
+                >
+                  Cancel
+                </button>
 
-                  <button
-                    type="submit"
-                    disabled={isPending}
-                    className="w-1/2 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600"
-                  >
-                    {isPending ? "Updating..." : "Save"}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  disabled={isPending}
+                  className="w-1/2 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600"
+                >
+                  {isPending ? "Updating..." : "Save"}
+                </button>
               </div>
 
               {/* Error */}
@@ -199,7 +192,7 @@ export default function EditProductModal({ product, onClose }) {
           </div>
         </div>
 
-        {/* reusable input style */}
+        {/* styles */}
         <style jsx>{`
           .input {
             width: 100%;
@@ -209,7 +202,6 @@ export default function EditProductModal({ product, onClose }) {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             outline: none;
-            transition: 0.2s;
           }
 
           .input:focus {

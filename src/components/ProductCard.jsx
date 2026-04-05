@@ -2,16 +2,14 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
-import { useUserProfileTable } from "../hooks/useUser";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCartContext();
   // console.log(product);
-  const { data } = useUserProfileTable();
 
   return (
     <div
-      className={`group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden ${
+      className={`group bg-white  rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden ${
         !product.inStock ? "grayscale opacity-70" : ""
       }`}
     >
@@ -54,7 +52,7 @@ export default function ProductCard({ product }) {
       </Link>
 
       {/* Button */}
-      <div className="p-3 pt-0">
+      <div className="p-3 pt-0 ">
         <button
           onClick={() => {
             if (!product.inStock) return;
@@ -62,7 +60,7 @@ export default function ProductCard({ product }) {
             toast.success("Added To Cart");
           }}
           disabled={!product.inStock}
-          className={`w-full text-sm sm:text-base py-2 rounded-xl transition ${
+          className={`w-full cursor-pointer text-sm sm:text-base py-2 rounded-xl transition ${
             product.inStock
               ? "bg-green-600 text-white hover:bg-green-700 active:scale-95"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
