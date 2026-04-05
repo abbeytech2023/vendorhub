@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
+import { useUserProfileTable } from "../hooks/useUser";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCartContext();
+  // console.log(product);
+  const { data } = useUserProfileTable();
 
   return (
     <div
@@ -40,8 +43,8 @@ export default function ProductCard({ product }) {
             {product.name}
           </h3>
 
-          <p className="text-xs sm:text-sm text-gray-500 truncate">
-            {product.vendor}
+          <p className="text-xs sm:text-sm uppercase text-gray-500 truncate">
+            {product.category}
           </p>
 
           <p className="text-sm sm:text-base font-bold text-green-600">
