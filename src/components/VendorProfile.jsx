@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import { FaWhatsapp, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import EditProfileModal from "./EditProfileModal";
 
-export default function VendorProfile({ vendor }) {
+export default function VendorProfile({
+  vendor,
+
+  // 🔹 NEW PROPS
+  background = "bg-gray-950",
+  cardBg = "bg-gray-900",
+  showEditButton = true,
+}) {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   if (!vendor) return null;
 
   const Label = ({ children }) => (
-    <p className="text-gray-400 text-xs uppercase tracking-wide">{children}</p>
+    <p className="text-gray-200 text-xs uppercase tracking-wide">{children}</p>
   );
 
   const Value = ({ children }) => (
@@ -23,10 +30,14 @@ export default function VendorProfile({ vendor }) {
   );
 
   return (
-    <div className="w-full text-gray-100 bg-gray-950 min-h-screen p-4 sm:p-6">
+    <div
+      className={`w-full text-gray-100 min-h-screen p-4 sm:p-6 ${background}`}
+    >
       <div className="max-w-5xl mx-auto space-y-6">
         {/* HEADER CARD */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5 shadow-sm">
+        <div
+          className={`${cardBg} border border-gray-800 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5 shadow-sm`}
+        >
           {/* PROFILE */}
           <div className="flex items-center gap-4">
             <img
@@ -76,13 +87,14 @@ export default function VendorProfile({ vendor }) {
         {/* GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* BUSINESS INFO */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-5">
+          <div
+            className={`${cardBg} border border-gray-800 rounded-2xl p-5 space-y-5`}
+          >
             <h2 className="text-gray-200 font-semibold">Business Info</h2>
 
             <Row label="Store Name" value={vendor.storeName} />
             <Row label="State" value={vendor.state} />
             <Row label="LGA" value={vendor.localGovernment} />
-
             <Row
               label="Office Address"
               value={vendor.officeAddress || "Not set"}
@@ -90,7 +102,9 @@ export default function VendorProfile({ vendor }) {
           </div>
 
           {/* BANK DETAILS */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-5">
+          <div
+            className={`${cardBg} border border-gray-800 rounded-2xl p-5 space-y-5`}
+          >
             <h2 className="text-gray-200 font-semibold">Bank Details</h2>
 
             <Row label="Bank Name" value={vendor.bankName} />
@@ -100,14 +114,16 @@ export default function VendorProfile({ vendor }) {
         </div>
 
         {/* EDIT BUTTON */}
-        <div className="flex justify-end">
-          <button
-            onClick={() => setIsEditOpen(true)}
-            className="px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition"
-          >
-            Edit Profile
-          </button>
-        </div>
+        {showEditButton && (
+          <div className="flex justify-end">
+            <button
+              onClick={() => setIsEditOpen(true)}
+              className="px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition"
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
       </div>
 
       {/* MODAL */}

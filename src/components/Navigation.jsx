@@ -5,7 +5,6 @@ import { useCartContext } from "../hooks/useCartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from "../hooks/useLogout";
 import { useUserProfileTable } from "../hooks/useUser";
-// import { useUsers } from "../hooks/useUsers";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);

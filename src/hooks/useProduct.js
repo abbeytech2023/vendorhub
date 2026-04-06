@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProductsByUser } from "../services/ProductService";
+import { getProductById } from "../services/ProductService";
 
 export function useUserProducts() {
   return useQuery({
@@ -7,8 +8,6 @@ export function useUserProducts() {
     queryFn: getProductsByUser,
   });
 }
-
-import { getProductById } from "../services/ProductService";
 
 export const useProductById = (productId) => {
   return useQuery({

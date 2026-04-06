@@ -1,63 +1,97 @@
 import { Link, useParams } from "react-router-dom";
-import { useAllProducts } from "../hooks/useFecthProducts";
-
 import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
 import { useVendor } from "../hooks/useVendors";
+import Spinner from "../components/Spinner";
+import { useAllProducts } from "../hooks/useFecthProducts";
 
 export default function StoreFront() {
-  const { products } = useAllProducts();
+  const { products, isLoading } = useAllProducts();
+
   const { id } = useParams();
   const { addToCart } = useCartContext();
   const paramId = parseInt(id, 10);
   const { vendor } = useVendor(paramId);
 
-  console.log(vendor);
+  if (!vendor) return <Spinner />;
 
-  if (!vendor) {
-    return <p className="text-center mt-20 text-gray-500">Store not found</p>;
-  }
+  const vendorProducts = products?.filter((prd) => prd?.uid === vendor?.uid);
+
+  console.log(vendorProducts);
 
   return (
-    <section className="bg-gray-50 py-10 px-4">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden">
-        {/* Store Header */}
-        <VendorProfile vendor={vendor} />
+    <section className="bg-green-100 min-h-screen py-10 px-4">
+      <div className="max-w-6xl mx-auto  rounded-2xl shadow-md overflow-hidden">
+        {/* 🔹 STORE HEADER */}
+        <VendorProfile
+          vendor={vendor}
+          showEditButton={false}
+          background="bg-transparent"
+          cardBg="bg-green-900"
+        />
 
-        {/* Products Section */}
-        <div className="p-6 ">
-          <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className=" rounded-xl p-4 hover:shadow-md transition"
-              >
-                <Link to={`/details/${product.id}`}>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-40 object-cover rounded-md"
-                  />
+        {/* 🔹 PRODUCTS SECTION */}
+        <div className="px-6 pb-8">
+          {/* HEADER */}
+          <div className="flex items-center justify-between mb-6 border-t pt-6">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+              Products
+            </h2>
 
-                  <h3 className="text-lg font-semibold mt-3">{product.name}</h3>
-
-                  <p className="text-gray-500">{priceFormat(product.price)}</p>
-                </Link>
-
-                <button
-                  onClick={() => {
-                    addToCart(product);
-                    toast.success("Added To Cart");
-                  }}
-                  className="mt-3 w-full cursor-pointer  bg-green-600 text-white py-2 rounded-lg hover:bg-green-800"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            ))}
+            <span className="text-sm text-gray-500">
+              {vendorProducts?.length || 0} items
+            </span>
           </div>
+
+          {/* LOADING */}
+          {isLoading ? (
+            <Spinner />
+          ) : vendorProducts?.length === 0 ? (
+            <p className="text-gray-500 text-center py-10">
+              No products available
+            </p>
+          ) : (
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
+              {vendorProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition"
+                >
+                  <Link to={`/details/${product.id}`}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-40 object-cover"
+                    />
+
+                    <div className="p-3 space-y-1">
+                      <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                        {product.name}
+                      </h3>
+
+                      <p className="text-green-600 font-medium">
+                        {priceFormat(product.price)}
+                      </p>
+                    </div>
+                  </Link>
+
+                  <div className="p-3 pt-0">
+                    <button
+                      onClick={() => {
+                        addToCart(product);
+                        toast.success("Added To Cart");
+                      }}
+                      className="w-full text-sm bg-green-600 cursor-pointer text-white py-2 rounded-lg hover:bg-green-700 transition"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
