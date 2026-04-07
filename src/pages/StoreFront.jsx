@@ -15,14 +15,11 @@ export default function StoreFront() {
   const paramId = parseInt(id, 10);
   const { vendor } = useVendor(paramId);
 
-  if (!vendor) return <Spinner />;
-
   const vendorProducts = products?.filter((prd) => prd?.uid === vendor?.uid);
-
-  console.log(vendorProducts);
 
   return (
     <section className="bg-green-100 min-h-screen py-10 px-4">
+      {!vendorProducts && <Spinner />}
       <div className="max-w-6xl mx-auto  rounded-2xl shadow-md overflow-hidden">
         {/* 🔹 STORE HEADER */}
         <VendorProfile

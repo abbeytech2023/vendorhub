@@ -24,7 +24,7 @@ export default function VendorAdmin() {
             {/* PAGE HEADER (optional future upgrade space) */}
             <div className="flex items-center justify-between">
               <h1 className="text-lg sm:text-2xl font-semibold text-gray-100">
-                Vendor Dashboard
+                {`${vendor.storeName} Dashboard`}
               </h1>
 
               <p className="text-xs sm:text-sm text-gray-400">

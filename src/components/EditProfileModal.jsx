@@ -37,7 +37,6 @@ export default function EditProfileModal({ vendor, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     mutate({ id: vendor.id, updates: formData }, { onSuccess: onClose });
   };
 
@@ -48,33 +47,36 @@ export default function EditProfileModal({ vendor, onClose }) {
     "w-full p-3 rounded-lg bg-gray-800 text-gray-400 opacity-60 cursor-not-allowed";
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-6">
-      <div className="bg-gray-900 w-full max-w-2xl rounded-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-        {/* CLOSE */}
+    <div className="fixed inset-0 z-50 bg-gray-950 text-white flex flex-col">
+      {/* HEADER */}
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-800 bg-gray-900 sticky top-0 z-10">
+        <h2 className="text-lg sm:text-xl font-semibold">Edit Profile</h2>
+
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white"
+          className="text-gray-400 hover:text-white text-xl"
         >
           <FaTimes />
         </button>
+      </div>
 
-        <h2 className="text-xl font-bold text-white mt-4 mb-6">Edit Profile</h2>
-
+      {/* BODY */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-10">
         {/* IMAGE */}
-        <div className="mb-8">
-          <ProfileImageUploader vendor={vendor} />
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4">
+          <ProfileImageUploader user={vendor} />
         </div>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error.message}</p>}
+        {error && <p className="text-red-500 text-sm">{error.message}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-10">
           {/* PROFILE */}
           <section className="space-y-4">
-            <h3 className="text-gray-300 text-sm uppercase tracking-wider">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Profile
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 name="fullName"
                 placeholder="Full Name"
@@ -95,11 +97,11 @@ export default function EditProfileModal({ vendor, onClose }) {
 
           {/* CONTACT */}
           <section className="space-y-4">
-            <h3 className="text-gray-300 text-sm uppercase tracking-wider">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Contact
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 value={formData.phone}
                 disabled
@@ -115,11 +117,11 @@ export default function EditProfileModal({ vendor, onClose }) {
 
           {/* LOCATION */}
           <section className="space-y-4">
-            <h3 className="text-gray-300 text-sm uppercase tracking-wider">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Location
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 name="state"
                 value={formData.state}
@@ -138,7 +140,7 @@ export default function EditProfileModal({ vendor, onClose }) {
 
           {/* ADDRESS */}
           <section className="space-y-4">
-            <h3 className="text-gray-300 text-sm uppercase tracking-wider">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Address
             </h3>
 
@@ -146,18 +148,18 @@ export default function EditProfileModal({ vendor, onClose }) {
               name="officeAddress"
               value={formData.officeAddress}
               onChange={handleChange}
-              rows={4}
+              rows={5}
               className={input}
             />
           </section>
 
           {/* BANK */}
           <section className="space-y-4">
-            <h3 className="text-gray-300 text-sm uppercase tracking-wider">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Bank Details
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 value={formData.bankName}
                 disabled
@@ -177,26 +179,26 @@ export default function EditProfileModal({ vendor, onClose }) {
               className={input}
             />
           </section>
-
-          {/* ACTIONS */}
-          <div className="flex gap-4 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-full py-3 bg-gray-700 rounded-lg"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full py-3 bg-green-600 rounded-lg disabled:opacity-50"
-            >
-              {isPending ? "Updating..." : "Save Changes"}
-            </button>
-          </div>
         </form>
+      </div>
+
+      {/* FOOTER ACTIONS (sticky like app UI) */}
+      <div className="border-t border-gray-800 bg-gray-900 px-4 sm:px-8 py-4 flex gap-3">
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-full py-3 bg-gray-700 hover:bg-gray-600 rounded-lg"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleSubmit}
+          disabled={isPending}
+          className="w-full py-3 bg-green-600 hover:bg-green-700 rounded-lg disabled:opacity-50"
+        >
+          {isPending ? "Updating..." : "Save Changes"}
+        </button>
       </div>
     </div>
   );

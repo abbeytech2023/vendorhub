@@ -1,7 +1,7 @@
 import { useUserProducts } from "../hooks/useProduct";
-import { priceFormat } from "../utility/priceFormat";
 import { useEffect, useState } from "react";
 import EditProductModal from "./EditProducts";
+import UserAdminProducts from "./UserAdminProducts";
 
 export default function ProductList() {
   const { data: products, isLoading } = useUserProducts();
@@ -56,70 +56,11 @@ export default function ProductList() {
       </div>
 
       {/* GRID */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {localProducts.map((product) => (
-          <div
-            key={product.id}
-            onClick={() => setSelectedProduct(product)}
-            className={`group bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg hover:border-gray-700 transition ${
-              !product.inStock ? "opacity-60" : ""
-            }`}
-          >
-            {/* IMAGE */}
-            <div className="relative h-36 sm:h-40 overflow-hidden bg-gray-800">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-              />
-
-              {/* STOCK BADGE */}
-              <div className="absolute top-2 right-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleStockToggle(product.id);
-                  }}
-                  className={`text-[10px] px-2 py-1 rounded-full font-semibold ${
-                    product.inStock
-                      ? "bg-green-600 text-white"
-                      : "bg-red-600 text-white"
-                  }`}
-                >
-                  {product.inStock ? "In stock" : "Out"}
-                </button>
-              </div>
-            </div>
-
-            {/* CONTENT */}
-            <div className="p-3 space-y-2">
-              <h3 className="text-sm font-semibold text-gray-100 uppercase truncate">
-                {product.name}
-              </h3>
-
-              <p className="text-xs text-gray-400 line-clamp-2">
-                {product.description}
-              </p>
-
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-green-400 font-bold text-sm">
-                  {priceFormat(product.price)}
-                </span>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedProduct(product);
-                  }}
-                  className="text-xs px-3 py-1 rounded-lg bg-gray-800 text-gray-200 hover:bg-gray-700 transition"
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <UserAdminProducts
+        localProducts={localProducts}
+        handleStockToggle={handleStockToggle}
+        setSelectedProduct={setSelectedProduct}
+      />
 
       {/* MODAL */}
       {selectedProduct && (

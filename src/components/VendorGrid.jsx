@@ -1,13 +1,13 @@
 import VendorCard from "./VendorCard";
 import { useVendors } from "../hooks/useVendors";
+import Spinner from "./Spinner";
 
 export default function VendorsSectionPage() {
   const { data: vendors, isLoading, error } = useVendors();
 
-  console.log(vendors);
-
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      {!vendors && <Spinner />}
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12">
