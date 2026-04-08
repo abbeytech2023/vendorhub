@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { useUpdateRow } from "../hooks/useUpdateTableRow";
+import ConfirmDelete from "./ConfirmDelete";
+
+import { useDeleteProduct } from "../hooks/useDeleteProduct";
 
 export default function EditProductModal({ product, onClose }) {
   const { mutate, isPending, error } = useUpdateRow({
     table: "products",
     queryKey: ["products"],
   });
+
+  const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct();
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -46,8 +53,6 @@ export default function EditProductModal({ product, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log({ ...formData });
-
     mutate(
       {
         id: product.id,
@@ -58,6 +63,15 @@ export default function EditProductModal({ product, onClose }) {
       },
       { onSuccess: onClose },
     );
+  };
+
+  const handleDelete = () => {
+    deleteProduct(product, {
+      onSuccess: () => {
+        setShowConfirm(false);
+        onClose();
+      },
+    });
   };
 
   if (!product) return null;
@@ -165,7 +179,9 @@ export default function EditProductModal({ product, onClose }) {
                   >
                     <div
                       className={`w-4 h-4 bg-white rounded-full shadow-md transform transition
-                        ${formData.inStock ? "translate-x-6" : "translate-x-0"}`}
+                        ${
+                          formData.inStock ? "translate-x-6" : "translate-x-0"
+                        }`}
                     />
                   </div>
                 </button>
@@ -182,6 +198,15 @@ export default function EditProductModal({ product, onClose }) {
 
           {/* FOOTER */}
           <div className="border-t border-white/10 bg-gray-900 px-4 sm:px-6 py-4 flex gap-3">
+            {/* DELETE */}
+            <button
+              type="button"
+              onClick={() => setShowConfirm(true)}
+              className="px-4 py-3 rounded-xl bg-red-600/20 border border-red-500 text-red-400 hover:bg-red-600/30"
+            >
+              Delete
+            </button>
+
             <button
               type="button"
               onClick={onClose}
@@ -200,6 +225,15 @@ export default function EditProductModal({ product, onClose }) {
           </div>
         </div>
       </div>
+
+      {/* CONFIRM DELETE MODAL */}
+      {showConfirm && (
+        <ConfirmDelete
+          handleDelete={handleDelete}
+          setShowConfirm={setFormData}
+          isDeleting={isDeleting}
+        />
+      )}
     </div>
   );
 }

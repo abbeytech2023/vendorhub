@@ -9,13 +9,10 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
-  console.log(isSubmitting);
-
   const onSubmit = async (data) => {
-    console.log(data);
     await login({ ...data });
   };
 
