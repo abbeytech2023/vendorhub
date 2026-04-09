@@ -1,6 +1,6 @@
-import { useCartContext } from "../hooks/useCartContext";
 import CartSection from "../components/CartSection";
 import GoBackButton from "../components/GoBackButton";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function Cart() {
   const { cart, removeFromCart, addToCart } = useCartContext();

@@ -22,11 +22,16 @@ export default function VendorRegistration() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      role: "",
+    },
+  });
 
   const [selectedState, setSelectedState] = useState("");
 
   const password = watch("password");
+  const role = watch("role");
 
   const onSubmit = (data) => {
     const {
@@ -39,9 +44,8 @@ export default function VendorRegistration() {
       category,
       state,
       localGovernment,
+      role,
     } = data;
-
-    console.log(data);
 
     signup({
       fullName,
@@ -53,6 +57,7 @@ export default function VendorRegistration() {
       category,
       state,
       localGovernment,
+      role,
     });
   };
 
@@ -71,25 +76,78 @@ export default function VendorRegistration() {
           onSubmit={handleSubmit(onSubmit)}
           className="grid md:grid-cols-2 gap-6"
         >
-          {/* Store Name */}
-          <InputField
-            icon={<FaStore />}
-            placeholder="Store Name"
-            name="storeName"
-            register={register}
-            errors={errors}
-            rules={{ required: "Store name required" }}
-          />
+          {/* Role */}
+          <div className="relative md:col-span-2">
+            <FaUser className="absolute left-3 top-3 text-green-500" />
 
-          {/* Owner Name */}
+            <select
+              {...register("role", { required: "Role is required" })}
+              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
+                errors.role ? "border-red-500" : "border-gray-300"
+              }`}
+            >
+              <option value="">Select Role</option>
+              <option value="vendor">Vendor</option>
+              <option value="shopper">Shopper</option>
+            </select>
+
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">{errors.role.message}</p>
+            )}
+          </div>
+
+          {/* Full Name */}
           <InputField
             icon={<FaUser />}
-            placeholder="Owner Name"
+            placeholder={role === "vendor" ? "Owner Full Name" : "Full Name"}
             name="fullName"
             register={register}
             errors={errors}
-            rules={{ required: "Owner name required" }}
+            rules={{ required: "Full name required" }}
           />
+
+          {/* Vendor-only fields */}
+          {role === "vendor" && (
+            <>
+              {/* Store Name */}
+              <InputField
+                icon={<FaStore />}
+                placeholder="Store Name"
+                name="storeName"
+                register={register}
+                errors={errors}
+                rules={{ required: "Store name required" }}
+              />
+
+              {/* Category */}
+              <div className="relative">
+                <FaListAlt className="absolute left-3 top-3 text-green-500" />
+
+                <select
+                  {...register("category", {
+                    required: "Category required",
+                  })}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
+                    errors.category ? "border-red-500" : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select Category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="phones">Phones & Accessories</option>
+                  <option value="food">Food</option>
+                  <option value="home">Home & Living</option>
+                  <option value="beauty">Beauty</option>
+                </select>
+
+                {errors.category && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.category.message}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
 
           {/* State */}
           <StateSelect
@@ -138,32 +196,6 @@ export default function VendorRegistration() {
             rules={{ required: "WhatsApp number required" }}
           />
 
-          {/* Category */}
-          <div className="relative">
-            <FaListAlt className="absolute left-3 top-3 text-green-500" />
-
-            <select
-              {...register("category", { required: "Category required" })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-                errors.category ? "border-red-500" : "border-gray-300"
-              }`}
-            >
-              <option value="">Select Category</option>
-              <option value="electronics">Electronics</option>
-              <option value="fashion">Fashion</option>
-              <option value="phones">Phones & Accessories</option>
-              <option value="food">Food</option>
-              <option value="home">Home & Living</option>
-              <option value="beauty">Beauty</option>
-            </select>
-
-            {errors.category && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.category.message}
-              </p>
-            )}
-          </div>
-
           {/* Password */}
           <InputField
             icon={<FaLock />}
@@ -198,14 +230,8 @@ export default function VendorRegistration() {
 
           {/* Submit */}
           <div className="md:col-span-2">
-            {/* <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-3 rounded-2xl font-bold text-lg hover:bg-green-600 transition"
-            >
-              Register as Vendor
-            </button> */}
             <LoadingButton
-              text="Register as Vendor"
+              text="Create Account"
               isLoading={isPending}
               loadingText="Creating user..."
             />

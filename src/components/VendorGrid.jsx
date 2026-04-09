@@ -1,6 +1,6 @@
 import VendorCard from "./VendorCard";
-import { useVendors } from "../hooks/useVendors";
 import Spinner from "./Spinner";
+import { useVendors } from "../hooks/useVendors";
 
 export default function VendorsSectionPage() {
   const { data: vendors, isLoading, error } = useVendors();

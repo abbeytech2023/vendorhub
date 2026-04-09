@@ -21,5 +21,7 @@ export function useUserProfileTable() {
   return useQuery({
     queryKey: ["user-profile"],
     queryFn: getUserProfile,
+    staleTime: 0, // 👈 important for role changes
+    refetchOnMount: "always",
   });
 }

@@ -11,6 +11,7 @@ export async function signUp({
   category,
   state,
   localGovernment,
+  role,
 }) {
   console.log(email, password, state, localGovernment);
 
@@ -49,6 +50,7 @@ export async function signUp({
       state,
       localGovernment,
       phone,
+      role,
     },
   ]);
 
@@ -93,7 +95,6 @@ export async function login({ email, password }) {
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
-  console.log(error);
 }
 
 export async function checkIfAdmin() {
