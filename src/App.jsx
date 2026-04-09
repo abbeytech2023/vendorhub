@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+
 import Home from "./components/Home";
 import Navigation from "./components/Navigation";
 import BecomeVendor from "./components/BecomeAVendor";
@@ -10,43 +11,50 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProductListPage from "./pages/ProductList";
 import ProductDetails from "./pages/ProductDetails";
 import StoreFront from "./pages/StoreFront";
-
-// Context
-
-import { useAuthContext } from "./hooks/useAuthContext";
-import { useEffect } from "react";
-import Spinner from "./components/Spinner";
+import VendorAdmin from "./pages/VendorAdmin";
 import Login from "./pages/Login";
 import InstallButton from "./components/InstallButton";
-import VendorAdmin from "./pages/VendorAdmin";
+import Spinner from "./components/Spinner";
+
+import { useAuthContext } from "./hooks/useAuthContext";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
 
   return (
     <>
+      {/* Loader */}
       {!authIsReady && <Spinner />}
+
+      {/* App Content */}
       {authIsReady && (
-        <div>
+        <div className="min-h-screen bg-gray-50">
           <Navigation />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="sell" element={<BecomeVendor />} />
             <Route path="shop" element={<ProductListPage />} />
             <Route path="vendors" element={<VendorsSectionPage />} />
             <Route path="vendor/:id" element={<StoreFront />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="seller-admin" element={<VendorAdmin />} />
-            </Route>
             <Route path="login" element={<Login />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="seller-admin" element={<VendorAdmin />} />
+            </Route>
           </Routes>
         </div>
       )}
-      <InstallButton />
-      {/* <PWAInstall /> */}
+
+      {/* Floating Install Button */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <InstallButton />
+      </div>
+
+      {/* Toast Notifications */}
       <Toaster
         position="top-center"
         gutter={12}
@@ -68,10 +76,6 @@ export default function App() {
           },
         }}
       />
-      {/* <Footer /> */}
     </>
   );
 }
-
-// // https://images.unsplash.com/photo-1597156776667-501b49b1f3d8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2FycyUyMHdhc2glMjBuaWdlcmlhfGVufDB8fDB8fHww
-// https://plus.unsplash.com/premium_photo-1675881512867-ddd71d031c15?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGJhciUyMGFuZCUyMGxvdW5nZSUyMGluJTIwbmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D
