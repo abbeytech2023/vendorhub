@@ -62,13 +62,13 @@ export default function VendorRegistration() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-r from-green-400 to-emerald-600 flex items-center justify-center py-16">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full p-10">
-        <h2 className="text-4xl font-bold text-green-600 text-center mb-4">
+    <section className="min-h-screen bg-gradient-to-r from-green-400 to-emerald-600 flex items-center justify-center py-16 px-4">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full p-6 md:p-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-green-600 text-center mb-3">
           Join VendorHub
         </h2>
 
-        <p className="text-center text-gray-500 mb-10">
+        <p className="text-center text-gray-500 mb-8">
           Start selling your products to thousands of customers today.
         </p>
 
@@ -78,11 +78,13 @@ export default function VendorRegistration() {
         >
           {/* Role */}
           <div className="relative md:col-span-2">
-            <FaUser className="absolute left-3 top-3 text-green-500" />
+            <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
 
             <select
               {...register("role", { required: "Role is required" })}
-              className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
+              className={`w-full pl-12 pr-4 h-14 text-base rounded-2xl border bg-white shadow-sm
+              focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+              appearance-none ${
                 errors.role ? "border-red-500" : "border-gray-300"
               }`}
             >
@@ -121,13 +123,15 @@ export default function VendorRegistration() {
 
               {/* Category */}
               <div className="relative">
-                <FaListAlt className="absolute left-3 top-3 text-green-500" />
+                <FaListAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
 
                 <select
                   {...register("category", {
                     required: "Category required",
                   })}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
+                  className={`w-full pl-12 pr-4 h-14 text-base rounded-2xl border bg-white shadow-sm
+                  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+                  appearance-none ${
                     errors.category ? "border-red-500" : "border-gray-300"
                   }`}
                 >
@@ -229,7 +233,7 @@ export default function VendorRegistration() {
           />
 
           {/* Submit */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 mt-2">
             <LoadingButton
               text="Create Account"
               isLoading={isPending}
@@ -242,6 +246,7 @@ export default function VendorRegistration() {
   );
 }
 
+/* INPUT FIELD */
 function InputField({
   icon,
   placeholder,
@@ -253,15 +258,17 @@ function InputField({
 }) {
   return (
     <div className="relative">
-      <span className="absolute left-3 top-3 text-green-500">{icon}</span>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500">
+        {icon}
+      </span>
 
       <input
         type={type}
         placeholder={placeholder}
         {...register(name, rules)}
-        className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-500 ${
-          errors[name] ? "border-red-500" : "border-gray-300"
-        }`}
+        className={`w-full pl-12 pr-4 h-14 text-base rounded-2xl border bg-white shadow-sm
+        focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+        ${errors[name] ? "border-red-500" : "border-gray-300"}`}
       />
 
       {errors[name] && (
