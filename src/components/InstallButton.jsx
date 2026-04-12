@@ -6,69 +6,58 @@ export default function InstallButton() {
   const { installApp, canInstall, isInstalled, isIOS } = usePWAInstall();
   const [dismissed, setDismissed] = useState(false);
 
-  if (isInstalled || dismissed) return null;
+  if (isInstalled || dismissed || (!canInstall && !isIOS)) return null;
 
-  if (isIOS) {
-    return (
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
       <div
-        className="relative flex items-center gap-4 p-5 rounded-2xl 
-        bg-gradient-to-r from-green-500 to-emerald-600 
-        text-white shadow-xl text-base"
-      >
+        onClick={() => setDismissed(true)}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+      />
+
+      {/* Modal */}
+      <div className="relative w-[90%] max-w-md rounded-2xl bg-white shadow-2xl p-6 animate-fade-in">
         {/* Close button */}
         <button
           onClick={() => setDismissed(true)}
-          className="absolute top-2 right-2 text-white/80 hover:text-white"
+          className="absolute top-3 right-3 text-gray-500 hover:text-black"
         >
           <FaTimes size={18} />
         </button>
 
-        <img
-          src="/apple-touch-icon.png"
-          alt="App logo"
-          className="w-12 h-12 rounded-xl border-2 border-white"
-        />
-
-        <span className="font-medium">
-          Tap <b>Share</b> → <b>Add to Home Screen</b> to install
-        </span>
-      </div>
-    );
-  }
-
-  if (!canInstall) return null;
-
-  return (
-    <div className="relative inline-block">
-      {/* Close button */}
-      <button
-        onClick={() => setDismissed(true)}
-        className="absolute -top-2 -right-2 z-10 bg-white text-gray-600 rounded-full p-1 shadow hover:bg-gray-100"
-      >
-        <FaTimes size={14} />
-      </button>
-
-      <button
-        onClick={installApp}
-        className="
-          group flex items-center gap-4
-          px-8 py-4
-          rounded-full
-          bg-gradient-to-r from-green-500 via-emerald-500 to-green-600
-          text-white text-lg font-bold
-          shadow-2xl
-          hover:scale-110
-          hover:shadow-green-500/50
-          transition-all duration-300
-          animate-bounce
-        "
-      >
-        <div className="bg-white/20 p-3 rounded-full group-hover:bg-white/30 transition">
-          <FaDownload size={22} />
+        {/* Icon */}
+        <div className="flex justify-center mb-4">
+          <div className="bg-green-100 p-4 rounded-full">
+            <FaDownload size={24} className="text-green-600" />
+          </div>
         </div>
 
-        <span className="tracking-wide">Install App</span>
-      </button>
+        {/* Content */}
+        <h2 className="text-xl font-bold text-center mb-2">Install Our App</h2>
+
+        <p className="text-gray-600 text-center text-sm mb-6">
+          Get faster access, offline support, and a smoother experience.
+        </p>
+
+        {/* iOS instruction */}
+        {isIOS ? (
+          <div className="bg-green-50 text-green-700 text-sm p-3 rounded-xl text-center">
+            Tap <b>Share</b> → <b>Add to Home Screen</b>
+          </div>
+        ) : (
+          <button
+            onClick={installApp}
+            className="w-full flex items-center justify-center gap-3 
+              bg-gradient-to-r from-green-500 to-emerald-600 
+              text-white font-semibold py-3 rounded-xl 
+              hover:scale-[1.02] transition"
+          >
+            <FaDownload />
+            Install Now
+          </button>
+        )}
+      </div>
     </div>
   );
 }
