@@ -45,6 +45,7 @@ export default function VendorRegistration() {
       state,
       localGovernment,
       role,
+      nin,
     } = data;
 
     signup({
@@ -58,6 +59,7 @@ export default function VendorRegistration() {
       state,
       localGovernment,
       role,
+      nin,
     });
   };
 
@@ -150,6 +152,30 @@ export default function VendorRegistration() {
                   </p>
                 )}
               </div>
+
+              {/* NIN */}
+              <InputField
+                icon={<FaUser />}
+                placeholder="National Identification Number (NIN)"
+                name="nin"
+                register={register}
+                errors={errors}
+                rules={{
+                  required: "NIN is required",
+                  minLength: {
+                    value: 11,
+                    message: "NIN must be 11 digits",
+                  },
+                  maxLength: {
+                    value: 11,
+                    message: "NIN must be 11 digits",
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "NIN must be numeric",
+                  },
+                }}
+              />
             </>
           )}
 

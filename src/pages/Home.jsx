@@ -1,12 +1,28 @@
 import { FaWhatsapp } from "react-icons/fa";
-import ProductsSection from "./ProductsSection";
-import Footer from "./Footer";
-import Features from "./Features";
+import ProductsSection from "../components/ProductsSection";
+import Footer from "../components/Footer";
+import Features from "../components/Features";
+import { useVendor } from "../hooks/useVendors";
+import ProfileCompletionChecker from "../components/ProfileCompletion";
+import { useUserProfileTable } from "../hooks/useUser";
 
 export default function Home() {
+  const { data: user } = useUserProfileTable();
+  const id = user?.id;
+  const { vendor } = useVendor(id);
+
+  console.log(vendor);
+
   return (
     <>
-      <div>
+      <div className="space-y-4">
+        {/* 🔥 PROFILE COMPLETION CHECKER (NEW) */}
+        {vendor && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+            <ProfileCompletionChecker vendor={vendor} />
+          </div>
+        )}
+
         {/* HERO SECTION */}
         <section className="bg-gradient-to-r from-green-500 to-emerald-600 text-white min-h-screen flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-10 py-10">

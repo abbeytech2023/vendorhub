@@ -25,6 +25,7 @@ export default function EditProfileModal({ vendor, onClose }) {
       accountName: vendor.accountName || "",
       accountNumber: vendor.accountNumber || "",
       officeAddress: vendor.officeAddress || "",
+      nin: vendor.nin || "",
     });
   }, [vendor]);
 
@@ -45,6 +46,10 @@ export default function EditProfileModal({ vendor, onClose }) {
 
   const disabledInput =
     "w-full p-3 rounded-lg bg-gray-800 text-gray-400 opacity-60 cursor-not-allowed";
+
+  // 🔥 helper: check if field already has value in DB
+  const isFilled = (field) =>
+    vendor?.[field] && vendor[field].toString().trim() !== "";
 
   return (
     <div className="fixed inset-0 z-50 bg-gray-950 text-white flex flex-col">
@@ -69,7 +74,7 @@ export default function EditProfileModal({ vendor, onClose }) {
 
         {error && <p className="text-red-500 text-sm">{error.message}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-10">
+        <form className="space-y-10">
           {/* PROFILE */}
           <section className="space-y-4">
             <h3 className="text-gray-400 text-xs uppercase tracking-wider">
@@ -79,18 +84,18 @@ export default function EditProfileModal({ vendor, onClose }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 name="fullName"
-                placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
                 className={input}
+                placeholder="Full Name"
               />
 
               <input
                 name="storeName"
-                placeholder="Store Name"
                 value={formData.storeName}
                 onChange={handleChange}
                 className={input}
+                placeholder="Store Name"
               />
             </div>
           </section>
@@ -153,36 +158,66 @@ export default function EditProfileModal({ vendor, onClose }) {
             />
           </section>
 
-          {/* BANK */}
+          {/* 🔥 NIN */}
+          <section className="space-y-4">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
+              Identity (NIN)
+            </h3>
+
+            <input
+              name="nin"
+              value={formData.nin}
+              onChange={handleChange}
+              disabled={isFilled("nin")} // 🔒 only locked if filled
+              className={isFilled("nin") ? disabledInput : input}
+              placeholder="NIN"
+            />
+          </section>
+
+          {/* 💳 BANK DETAILS */}
           <section className="space-y-4">
             <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Bank Details
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Bank Name (always editable) */}
+            <div className="space-y-1">
+              <label className="text-xs text-green-300">Bank Name</label>
               <input
+                name="bankName"
                 value={formData.bankName}
-                disabled
-                className={disabledInput}
-              />
-              <input
-                value={formData.accountName}
-                disabled
-                className={disabledInput}
+                onChange={handleChange}
+                className={input}
               />
             </div>
 
-            <input
-              name="accountNumber"
-              value={formData.accountNumber}
-              onChange={handleChange}
-              className={input}
-            />
+            {/* Account Name (locked if filled) */}
+            <div className="space-y-1">
+              <label className="text-xs text-green-300">Account Name</label>
+              <input
+                name="accountName"
+                value={formData.accountName}
+                onChange={handleChange}
+                disabled={isFilled("accountName")} // 🔒 lock if filled
+                className={isFilled("accountName") ? disabledInput : input}
+              />
+            </div>
+
+            {/* Account Number (always editable) */}
+            <div className="space-y-1">
+              <label className="text-xs text-green-300">Account Number</label>
+              <input
+                name="accountNumber"
+                value={formData.accountNumber}
+                onChange={handleChange}
+                className={input}
+              />
+            </div>
           </section>
         </form>
       </div>
 
-      {/* FOOTER ACTIONS (sticky like app UI) */}
+      {/* FOOTER */}
       <div className="border-t border-gray-800 bg-gray-900 px-4 sm:px-8 py-4 flex gap-3">
         <button
           type="button"

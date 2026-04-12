@@ -31,6 +31,13 @@ export default function VendorProfile({
     </div>
   );
 
+  // 🔥 Mask NIN for security (recommended)
+  const maskNIN = (nin) => {
+    if (!nin) return "Not verified";
+    if (nin.length < 7) return nin;
+    return `${nin.slice(0, 4)}****${nin.slice(-3)}`;
+  };
+
   return (
     <div
       className={`w-full min-h-screen ${background} text-gray-100 px-3 sm:px-6 py-5`}
@@ -104,6 +111,9 @@ export default function VendorProfile({
                 label="Office Address"
                 value={vendor.officeAddress || "Not set"}
               />
+
+              {/* 🔥 NIN ADDED */}
+              <Row label="NIN" value={maskNIN(vendor.nin)} />
             </div>
           </div>
 

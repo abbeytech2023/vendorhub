@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-import Home from "./components/Home";
+import Home from "./pages/Home";
 import Navigation from "./components/Navigation";
 import BecomeVendor from "./components/BecomeAVendor";
 import VendorRegistration from "./pages/VendorRegistration";

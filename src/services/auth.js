@@ -12,6 +12,7 @@ export async function signUp({
   state,
   localGovernment,
   role,
+  nin,
 }) {
   console.log(email, password, state, localGovernment);
 
@@ -51,6 +52,7 @@ export async function signUp({
       localGovernment,
       phone,
       role,
+      nin,
     },
   ]);
 
