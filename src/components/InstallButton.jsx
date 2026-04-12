@@ -1,12 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePWAInstall } from "../hooks/usePwaInstall";
 import { FaDownload, FaTimes } from "react-icons/fa";
 
 export default function InstallButton() {
   const { installApp, canInstall, isInstalled, isIOS } = usePWAInstall();
   const [dismissed, setDismissed] = useState(false);
+  const [isRunningStandalone, setIsRunningStandalone] = useState(false);
 
-  if (isInstalled || dismissed || (!canInstall && !isIOS)) return null;
+  useEffect(() => {
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true; // iOS fallback
+
+    setIsRunningStandalone(isStandalone);
+  }, []);
+
+  // 🚫 Hide if installed or dismissed
+  if (
+    isInstalled ||
+    isRunningStandalone ||
+    dismissed ||
+    (!canInstall && !isIOS)
+  )
+    return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -18,7 +34,7 @@ export default function InstallButton() {
 
       {/* Modal */}
       <div className="relative w-[90%] max-w-md rounded-2xl bg-white shadow-2xl p-6 animate-fade-in">
-        {/* Close button */}
+        {/* Close */}
         <button
           onClick={() => setDismissed(true)}
           className="absolute top-3 right-3 text-gray-500 hover:text-black"
@@ -40,7 +56,7 @@ export default function InstallButton() {
           Get faster access, offline support, and a smoother experience.
         </p>
 
-        {/* iOS instruction */}
+        {/* iOS */}
         {isIOS ? (
           <div className="bg-green-50 text-green-700 text-sm p-3 rounded-xl text-center">
             Tap <b>Share</b> → <b>Add to Home Screen</b>
