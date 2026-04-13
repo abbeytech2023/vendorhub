@@ -1,9 +1,11 @@
 import CartSection from "../components/CartSection";
 import GoBackButton from "../components/GoBackButton";
 import { useCartContext } from "../hooks/useCartContext";
+import { generateWhatsappLink } from "../utility/generateWhatsAppLink";
 
 export default function Cart() {
   const { cart, removeFromCart, addToCart } = useCartContext();
+  console.log(cart);
 
   const formatPrice = (price) =>
     new Intl.NumberFormat("en-NG", {
@@ -11,38 +13,8 @@ export default function Cart() {
       currency: "NGN",
     }).format(price);
 
-  const formatWhatsappNumber = (number) => {
-    if (!number) return "";
-
-    const clean = number.replace(/\D/g, "");
-
-    if (clean.startsWith("0")) return "234" + clean.slice(1);
-    if (clean.startsWith("234")) return clean;
-
-    return clean;
-  };
-
   const vendorCarts = Object.values(cart);
-  console.log(vendorCarts);
-
-  const generateWhatsappLink = (vendorCart) => {
-    let message = `Hello ${vendorCart}, I want to order:\n\n`;
-
-    vendorCart.items.forEach((item) => {
-      message += `${item.qty} x ${item.name} - ${formatPrice(item.price)}\n`;
-    });
-
-    const total = vendorCart.items.reduce(
-      (sum, item) => sum + item.price * item.qty,
-      0,
-    );
-
-    message += `\nTotal: ${formatPrice(total)}\nOrder from VendorHub`;
-
-    const phone = formatWhatsappNumber(vendorCart.whatsapp);
-
-    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  };
+  // console.log(vendorCarts);
 
   // ================= EMPTY STATE =================
   if (vendorCarts.length === 0) {

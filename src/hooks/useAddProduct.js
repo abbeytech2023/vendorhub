@@ -27,6 +27,8 @@ export const useAddProduct = () => {
         category: formData.category,
         image: imageUrl,
         inStock: true,
+        condition: formData.condition,
+        vendor: formData.vendor,
         uid: id,
         whatsapp,
       };

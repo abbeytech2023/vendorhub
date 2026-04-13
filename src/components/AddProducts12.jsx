@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAddProduct } from "../hooks/useAddProduct";
+import { useUserProfileTable } from "../hooks/useUser";
 
 export default function AddProductForm() {
   const { addProduct, isLoading } = useAddProduct();
+  const { data: user } = useUserProfileTable();
+
+  const storeName = user?.storeName;
 
   const {
     register,
@@ -18,8 +22,10 @@ export default function AddProductForm() {
       description: "",
       price: "",
       category: "",
+      condition: "", // ✅ added
       imageFile: null,
       inStock: true,
+      vendor: storeName,
     },
   });
 
@@ -106,11 +112,31 @@ export default function AddProductForm() {
               <option value="electronics">Electronics</option>
               <option value="fashion">Fashion</option>
               <option value="phones">Phones</option>
-              <option value="stationeries">Books&Stationery</option>
+              <option value="stationeries">Books & Stationery</option>
               <option value="food">Food</option>
             </select>
             {errors.category && (
               <p className={errorText}>{errors.category.message}</p>
+            )}
+          </div>
+
+          {/* CONDITION */}
+          <div>
+            <label className="text-sm text-gray-300">Condition</label>
+            <select
+              {...register("condition", {
+                required: "Select product condition",
+              })}
+              className={inputStyle}
+            >
+              <option value="">Select condition</option>
+              <option value="Brand-New">Brand New</option>
+              <option value="Uk-Used">UK Used</option>
+              <option value="Japa-Sales">Japa Sales</option>
+            </select>
+
+            {errors.condition && (
+              <p className={errorText}>{errors.condition.message}</p>
             )}
           </div>
 
@@ -139,7 +165,7 @@ export default function AddProductForm() {
               onClick={handleGenerateDescription}
               className="text-xs bg-green-600 px-3 py-1 rounded-lg hover:bg-green-700"
             >
-              ✨ AI Suggest
+              AI Suggest
             </button>
           </div>
 

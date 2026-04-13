@@ -9,6 +9,32 @@ export default function ProductCard({ product }) {
   const { addToCart } = useCartContext();
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const getConditionLabel = (condition) => {
+    switch (condition) {
+      case "Brand-New":
+        return "Brand New";
+      case "Uk-Used":
+        return "UK Used";
+      case "Japa-Sales":
+        return "Japa Sales";
+      default:
+        return "";
+    }
+  };
+
+  const getConditionColor = (condition) => {
+    switch (condition) {
+      case "Brand-New":
+        return "bg-blue-100 text-blue-700";
+      case "Uk-Used":
+        return "bg-yellow-100 text-yellow-700";
+      case "Japa-Sales":
+        return "bg-purple-100 text-purple-700";
+      default:
+        return "bg-gray-100 text-gray-600";
+    }
+  };
+
   const CardContent = (
     <>
       {/* Image */}
@@ -39,6 +65,17 @@ export default function ProductCard({ product }) {
         >
           {product.inStock ? "In Stock" : "Out of Stock"}
         </span>
+
+        {/* CONDITION BADGE */}
+        {product.condition && (
+          <span
+            className={`absolute top-2 left-2 text-[10px] sm:text-xs px-2 py-1 rounded-full font-bold ${getConditionColor(
+              product.condition,
+            )}`}
+          >
+            {getConditionLabel(product.condition)}
+          </span>
+        )}
       </div>
 
       {/* Content */}

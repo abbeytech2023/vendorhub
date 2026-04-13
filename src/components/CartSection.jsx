@@ -20,32 +20,66 @@ export default function CartSection({
             key={vendorCart.whatsapp}
             className="bg-white rounded-3xl shadow-lg border border-gray-100 p-5 sm:p-8"
           >
-            {/* Vendor Name */}
-            <h3 className="text-2xl font-bold text-center text-green-600 mb-8">
-              {vendorCart.vendor}
-            </h3>
+            {/* 🔥 Vendor Header */}
+            <div className="flex items-center justify-between mb-8 p-4 sm:p-5 bg-gradient-to-r from-green-50 to-white rounded-2xl border border-green-100 shadow-sm">
+              <div className="flex items-center gap-4">
+                {/* Avatar */}
+                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-green-500 text-white font-bold text-lg shadow-md">
+                  {vendorCart.vendor?.charAt(0).toUpperCase()}
+                </div>
 
-            {/* Items */}
+                {/* Name */}
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
+                    {vendorCart.vendor?.charAt(0).toUpperCase() +
+                      vendorCart.vendor?.slice(1)}
+                  </h3>
+                  <p className="text-xs text-green-600 mt-1 font-medium">
+                    Verified Vendor
+                  </p>
+                </div>
+              </div>
+
+              <div className="hidden sm:block">
+                <span className="text-xs font-semibold bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                  Store
+                </span>
+              </div>
+            </div>
+
+            {/* 🛒 Items */}
             <div className="space-y-6">
               {vendorCart.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center gap-6 border-b pb-6 last:border-b-0"
+                  className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 border-b pb-6 last:border-b-0"
                 >
-                  {/* Product Image (BIGGER + RESPONSIVE) */}
-                  <div className="w-full sm:w-40 flex justify-center">
+                  {/* 📸 Bigger Image */}
+                  <div className="w-full sm:w-52 flex justify-center">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-40 h-40 sm:w-36 sm:h-36 object-cover rounded-2xl shadow-md"
+                      className="w-48 h-48 sm:w-52 sm:h-52 object-cover rounded-2xl shadow-lg"
                     />
                   </div>
 
-                  {/* Product Info */}
+                  {/* 📝 Info */}
                   <div className="flex-1 text-center sm:text-left space-y-2">
-                    <h4 className="text-lg font-semibold">{item.name}</h4>
+                    <h4 className="text-lg font-semibold text-gray-800">
+                      {item.name}
+                    </h4>
 
-                    <p className="text-gray-500">{formatPrice(item.price)}</p>
+                    {/* Description */}
+                    {item.description && (
+                      <p className="text-sm text-gray-500 line-clamp-2">
+                        {item.description}
+                      </p>
+                    )}
+
+                    {/* Price */}
+                    <p className="text-lg font-semibold text-gray-700">
+                      {formatPrice(item.price)}
+                    </p>
 
                     {/* Quantity Controls */}
                     <div className="flex items-center justify-center sm:justify-start gap-3 mt-2">
@@ -69,20 +103,25 @@ export default function CartSection({
                     </div>
                   </div>
 
-                  {/* Subtotal */}
-                  <div className="text-lg font-bold text-gray-800">
+                  {/* 💰 Subtotal */}
+                  <div className="text-xl font-bold text-green-600">
                     {formatPrice(item.price * item.qty)}
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Footer */}
+            {/* 💳 Footer */}
             <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4 pt-6 border-t">
-              <span className="text-xl font-bold">
-                Total: {formatPrice(total)}
-              </span>
+              {/* Total */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Total</span>
+                <span className="text-2xl sm:text-3xl font-extrabold text-green-700">
+                  {formatPrice(total)}
+                </span>
+              </div>
 
+              {/* Checkout Button */}
               <a
                 href={generateWhatsappLink(vendorCart)}
                 target="_blank"

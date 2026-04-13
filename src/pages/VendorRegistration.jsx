@@ -15,7 +15,7 @@ import LocalGovtSelect from "../components/LgaSelect";
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 
-import { generateUniqueSlug, slugify } from "../utility/slug";
+import { slugify } from "../utility/slug";
 
 export default function VendorRegistration() {
   const { signup, isPending } = useSignup();

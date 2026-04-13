@@ -8,10 +8,8 @@ import { useUserProfileTable } from "../hooks/useUser";
 
 export default function Home() {
   const { data: user } = useUserProfileTable();
-  const id = user?.id;
+  const id = user?.slug;
   const { vendor } = useVendor(id);
-
-  console.log(vendor);
 
   return (
     <>

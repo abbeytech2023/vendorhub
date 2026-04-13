@@ -10,6 +10,33 @@ export default function ProductDetails() {
   const { id } = useParams();
   const { data: product, isLoading, error } = useProductById(id);
 
+  // ✅ normalize condition so it ALWAYS matches
+  const normalizeCondition = (condition) => {
+    if (!condition) return "";
+    return condition.toLowerCase().replace(/\s/g, "").replace(/_/g, "");
+  };
+
+  const getConditionLabel = (condition) => {
+    const c = normalizeCondition(condition);
+    console.log(c);
+
+    if (c === "brand-new") return "Brand New";
+    if (c === "uk-used") return "UK Used";
+    if (c === "japa-sales") return "Japa Sales";
+
+    return "Unknown";
+  };
+
+  const getConditionColor = (condition) => {
+    const c = normalizeCondition(condition);
+
+    if (c === "brand-new") return "bg-blue-100 text-blue-700";
+    if (c === "uk-used") return "bg-yellow-100 text-yellow-700";
+    if (c === "japa-sales") return "bg-purple-100 text-purple-700";
+
+    return "bg-gray-200 text-gray-700";
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-green-600 text-lg">
@@ -32,7 +59,7 @@ export default function ProductDetails() {
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b">
         <div className="max-w-6xl mx-auto px-4 mt-12 py-4 flex items-center justify-between">
           <GoBackButton label="Back" />
-          <div className="w-24" /> {/* balance spacer */}
+          <div className="w-24" />
         </div>
       </div>
 
@@ -40,12 +67,23 @@ export default function ProductDetails() {
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="bg-white shadow-xl rounded-3xl overflow-hidden grid md:grid-cols-2">
           {/* IMAGE */}
-          <div className="bg-green-50 flex items-center justify-center p-6">
+          <div className="bg-green-50 flex items-center justify-center p-6 relative">
             <img
               src={product.image}
               alt={product.name}
               className="w-full max-h-[420px] object-contain rounded-2xl"
             />
+
+            {/* CONDITION BADGE */}
+            {product.condition && (
+              <span
+                className={`absolute top-4 left-4 px-3 py-1 text-xs rounded-full font-bold ${getConditionColor(
+                  product.condition,
+                )}`}
+              >
+                {getConditionLabel(product.condition)}
+              </span>
+            )}
           </div>
 
           {/* DETAILS */}
@@ -63,33 +101,42 @@ export default function ProductDetails() {
                 {priceFormat(product.price)}
               </p>
 
+              {/* STOCK */}
               <span
                 className={`inline-block px-4 py-1 text-sm rounded-full font-medium ${
-                  product.in_stock
+                  product.inStock
                     ? "bg-green-100 text-green-700"
                     : "bg-red-100 text-red-600"
                 }`}
               >
-                {product.in_stock ? "In Stock" : "Out of Stock"}
+                {product.inStock ? "In Stock" : "Out of Stock"}
               </span>
+
+              {/* CONDITION TEXT */}
+              {product.condition && (
+                <p className="mt-4 text-sm font-bold text-red-800">
+                  Condition:{" "}
+                  <span className="font-semibold text-gray-700">
+                    {getConditionLabel(product.condition)}
+                  </span>
+                </p>
+              )}
             </div>
 
             {/* ACTIONS */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => {
-                  addToCart(product);
-                  toast.success("Added to cart");
-                }}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition shadow-md"
-              >
-                Add to Cart
-              </button>
-
-              <button className="flex-1 border border-green-600 text-green-700 hover:bg-green-50 py-3 rounded-xl font-semibold transition">
-                Buy Now
-              </button>
-            </div>
+            {product.inStock && (
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => {
+                    addToCart(product);
+                    toast.success("Added to cart");
+                  }}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition shadow-md"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
