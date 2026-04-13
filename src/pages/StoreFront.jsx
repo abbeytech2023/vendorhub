@@ -11,9 +11,12 @@ export default function StoreFront() {
   const { products, isLoading } = useAllProducts();
 
   const { id } = useParams();
+  console.log(id);
+
   const { addToCart } = useCartContext();
-  const paramId = parseInt(id, 10);
-  const { vendor } = useVendor(paramId);
+  // const paramId = parseInt(id, 10);
+  const { vendor } = useVendor(id);
+  console.log();
 
   const vendorProducts = products?.filter((prd) => prd?.uid === vendor?.uid);
 
@@ -46,9 +49,7 @@ export default function StoreFront() {
           {isLoading ? (
             <Spinner />
           ) : vendorProducts?.length === 0 ? (
-            <p className="text-gray-500 text-center py-10">
-              No products available
-            </p>
+            <Spinner />
           ) : (
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
               {vendorProducts.map((product) => (

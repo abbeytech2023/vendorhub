@@ -4,31 +4,53 @@ import { FaDownload, FaTimes } from "react-icons/fa";
 
 export default function InstallButton() {
   const { installApp, canInstall, isInstalled, isIOS } = usePWAInstall();
+
   const [dismissed, setDismissed] = useState(false);
   const [isRunningStandalone, setIsRunningStandalone] = useState(false);
 
+  // 🔹 load saved dismissal
   useEffect(() => {
+    const saved = localStorage.getItem("pwa_dismissed");
+    if (saved === "true") setDismissed(true);
+
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true; // iOS fallback
+      window.navigator.standalone === true;
 
     setIsRunningStandalone(isStandalone);
   }, []);
 
-  // 🚫 Hide if installed or dismissed
+  // 🔥 save dismissal permanently
+  const handleDismiss = () => {
+    setDismissed(true);
+    localStorage.setItem("pwa_dismissed", "true");
+  };
+
+  // 🔥 mark installed permanently
+  useEffect(() => {
+    if (isInstalled) {
+      localStorage.setItem("pwa_installed", "true");
+    }
+  }, [isInstalled]);
+
+  const alreadyInstalled = localStorage.getItem("pwa_installed") === "true";
+
+  // 🚫 HIDE LOGIC (IMPORTANT)
   if (
+    dismissed ||
+    alreadyInstalled ||
     isInstalled ||
     isRunningStandalone ||
-    dismissed ||
     (!canInstall && !isIOS)
-  )
+  ) {
     return null;
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        onClick={() => setDismissed(true)}
+        onClick={handleDismiss}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
@@ -36,7 +58,7 @@ export default function InstallButton() {
       <div className="relative w-[90%] max-w-md rounded-2xl bg-white shadow-2xl p-6 animate-fade-in">
         {/* Close */}
         <button
-          onClick={() => setDismissed(true)}
+          onClick={handleDismiss}
           className="absolute top-3 right-3 text-gray-500 hover:text-black"
         >
           <FaTimes size={18} />

@@ -8,11 +8,14 @@ import {
   FaListAlt,
   FaLock,
 } from "react-icons/fa";
+
 import LoadingButton from "../components/LoadingButton";
 import StateSelect from "../components/StateSelect";
 import LocalGovtSelect from "../components/LgaSelect";
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+
+import { generateUniqueSlug, slugify } from "../utility/slug";
 
 export default function VendorRegistration() {
   const { signup, isPending } = useSignup();
@@ -33,7 +36,8 @@ export default function VendorRegistration() {
   const password = watch("password");
   const role = watch("role");
 
-  const onSubmit = (data) => {
+  // 🔥 UPDATED ON SUBMIT
+  const onSubmit = async (data) => {
     const {
       fullName,
       email,
@@ -48,6 +52,8 @@ export default function VendorRegistration() {
       nin,
     } = data;
 
+    const slug = slugify(storeName);
+
     signup({
       fullName,
       email,
@@ -60,6 +66,7 @@ export default function VendorRegistration() {
       localGovernment,
       role,
       nin,
+      slug, // ✅ now included
     });
   };
 
@@ -110,7 +117,7 @@ export default function VendorRegistration() {
             rules={{ required: "Full name required" }}
           />
 
-          {/* Vendor-only fields */}
+          {/* Store fields (vendor only) */}
           {role === "vendor" && (
             <>
               {/* Store Name */}
@@ -179,14 +186,13 @@ export default function VendorRegistration() {
             </>
           )}
 
-          {/* State */}
+          {/* Location */}
           <StateSelect
             register={register}
             selectedState={selectedState}
             setSelectedState={setSelectedState}
           />
 
-          {/* LGA */}
           <LocalGovtSelect register={register} selectedState={selectedState} />
 
           {/* Email */}

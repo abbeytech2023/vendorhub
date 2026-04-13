@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 
 export default function VendorAdmin() {
   const { data: user } = useUserProfileTable();
-  const id = user?.id;
+  const id = user?.slug;
 
   const { vendor, loading: vendorLoading } = useVendor(id);
   console.log(vendor, id);

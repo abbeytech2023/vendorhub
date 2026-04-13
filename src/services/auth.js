@@ -1,4 +1,5 @@
 import supabase from "../lib/supabaseClients";
+import { generateUniqueSlug } from "../utility/slug";
 
 // Sign up function
 export async function signUp({
@@ -14,8 +15,7 @@ export async function signUp({
   role,
   nin,
 }) {
-  console.log(email, password, state, localGovernment);
-
+  // 🔹 1. Create auth user first
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -29,17 +29,24 @@ export async function signUp({
   });
 
   if (error) throw new Error(error.message);
-  // console.log(error);
 
   const user = data.user;
-  console.log(user);
 
   if (!user) {
-    console.log("user not returned from auth signup");
+    console.log("User not returned from auth signup");
     return;
   }
 
-  // insert into the users table
+  console.log(user);
+
+  // 🔥 2. Generate slug AFTER we have user.id
+  let slug = null;
+
+  if (role === "vendor") {
+    slug = generateUniqueSlug(storeName, user.id);
+  }
+
+  // 🔹 3. Insert into users table
   const { error: insertError } = await supabase.from("users").insert([
     {
       uid: user.id,
@@ -53,17 +60,16 @@ export async function signUp({
       phone,
       role,
       nin,
+      slug, // ✅ correct
     },
   ]);
 
   if (insertError) {
-    console.error("database inserterror:,", insertError);
+    console.error("Database insert error:", insertError);
     return;
   }
 
-  console.log("user registered and saved successfully");
-
-  // console.log(data)
+  console.log("User registered and saved successfully");
 
   return data;
 }
@@ -97,19 +103,4 @@ export async function login({ email, password }) {
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
-}
-
-export async function checkIfAdmin() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return false;
-
-  console.log(user.email);
-
-  const isAdmin = user.email === "yogeezyentertainment@gmail.com";
-  console.log(isAdmin);
-
-  return isAdmin;
 }

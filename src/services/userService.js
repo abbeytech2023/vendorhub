@@ -37,11 +37,13 @@ export async function getVendors() {
 }
 
 export const getVendorById = async (id) => {
+  console.log(id);
+
   const { data, error } = await supabase
     .from("users")
     .select("*")
     .eq("role", "vendor")
-    .eq("id", id)
+    .eq("slug", id)
     .single();
 
   if (error) throw error;
