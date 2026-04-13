@@ -23,9 +23,10 @@ export default function Cart() {
   };
 
   const vendorCarts = Object.values(cart);
+  console.log(vendorCarts);
 
   const generateWhatsappLink = (vendorCart) => {
-    let message = `Hello ${vendorCart.vendor}, I want to order:\n\n`;
+    let message = `Hello ${vendorCart}, I want to order:\n\n`;
 
     vendorCart.items.forEach((item) => {
       message += `${item.qty} x ${item.name} - ${formatPrice(item.price)}\n`;
