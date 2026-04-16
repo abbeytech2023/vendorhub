@@ -23,75 +23,77 @@ export default function StoreFront() {
   return (
     <section className="bg-green-100 min-h-screen py-10 px-4">
       {!vendorProducts && <Spinner />}
-      <div className="max-w-6xl mx-auto  rounded-2xl shadow-md overflow-hidden">
-        {/* 🔹 STORE HEADER */}
-        <VendorProfile
-          vendor={vendor}
-          showEditButton={false}
-          background="bg-transparent"
-          cardBg="bg-green-900"
-        />
+      {vendorProducts && (
+        <div className="max-w-6xl mx-auto  rounded-2xl shadow-md overflow-hidden">
+          {/* 🔹 STORE HEADER */}
+          <VendorProfile
+            vendor={vendor}
+            showEditButton={false}
+            background="bg-transparent"
+            cardBg="bg-green-900"
+          />
 
-        {/* 🔹 PRODUCTS SECTION */}
-        <div className="px-6 pb-8">
-          {/* HEADER */}
-          <div className="flex items-center justify-between mb-6 border-t pt-6">
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-              Products
-            </h2>
+          {/* 🔹 PRODUCTS SECTION */}
+          <div className="px-6 mt-21 pb-8">
+            {/* HEADER */}
+            <div className="flex items-center justify-between mb-6 border-t pt-6">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+                Products
+              </h2>
 
-            <span className="text-sm text-gray-500">
-              {vendorProducts?.length || 0} items
-            </span>
-          </div>
-
-          {/* LOADING */}
-          {isLoading ? (
-            <Spinner />
-          ) : vendorProducts?.length === 0 ? (
-            <Spinner />
-          ) : (
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
-              {vendorProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition"
-                >
-                  <Link to={`/details/${product.id}`}>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-40 object-cover"
-                    />
-
-                    <div className="p-3 space-y-1">
-                      <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
-                        {product.name}
-                      </h3>
-
-                      <p className="text-green-600 font-medium">
-                        {priceFormat(product.price)}
-                      </p>
-                    </div>
-                  </Link>
-
-                  <div className="p-3 pt-0">
-                    <button
-                      onClick={() => {
-                        addToCart(product);
-                        toast.success("Added To Cart");
-                      }}
-                      className="w-full text-sm bg-green-600 cursor-pointer text-white py-2 rounded-lg hover:bg-green-700 transition"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              ))}
+              <span className="text-sm text-gray-500">
+                {vendorProducts?.length || 0} items
+              </span>
             </div>
-          )}
+
+            {/* LOADING */}
+            {isLoading ? (
+              <Spinner />
+            ) : vendorProducts?.length === 0 ? (
+              <p>This vendor is yet to add a product</p>
+            ) : (
+              <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
+                {vendorProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition"
+                  >
+                    <Link to={`/details/${product.id}`}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-40 object-cover"
+                      />
+
+                      <div className="p-3 space-y-1">
+                        <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                          {product.name}
+                        </h3>
+
+                        <p className="text-green-600 font-medium">
+                          {priceFormat(product.price)}
+                        </p>
+                      </div>
+                    </Link>
+
+                    <div className="p-3 pt-0">
+                      <button
+                        onClick={() => {
+                          addToCart(product);
+                          toast.success("Added To Cart");
+                        }}
+                        className="w-full text-sm bg-green-600 cursor-pointer text-white py-2 rounded-lg hover:bg-green-700 transition"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

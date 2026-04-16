@@ -44,12 +44,6 @@ export default function AddProductForm() {
     });
   };
 
-  const handleImage = (file) => {
-    if (!file) return;
-    setValue("imageFile", file, { shouldValidate: true });
-    setPreview(URL.createObjectURL(file));
-  };
-
   const handleGenerateDescription = () => {
     const base = `${formData.name || "This product"} in the ${
       formData.category || "item"
@@ -60,6 +54,12 @@ export default function AddProductForm() {
       `${base}. A reliable and affordable everyday choice.`,
       `${base}. Designed for performance and long-term use.`,
     ]);
+  };
+
+  const handleImage = (file) => {
+    if (!file) return;
+    setValue("imageFile", file, { shouldValidate: true });
+    setPreview(URL.createObjectURL(file));
   };
 
   const selectSuggestion = (text) => {

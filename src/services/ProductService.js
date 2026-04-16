@@ -4,11 +4,84 @@ import supabase from "../lib/supabaseClients";
 export const uploadProductImage = async (file) => {
   if (!file) return "";
 
-  const fileName = `${Date.now()}-${file.name}`;
+  const MAX_FILE_SIZE_KB = 500;
+
+  const compressImage = (file, maxWidth = 1000, quality = 0.7) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        img.src = event.target.result;
+      };
+
+      reader.onerror = () => {
+        reject(new Error("Failed to read image file"));
+      };
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          const scale = maxWidth / width;
+          width = maxWidth;
+          height = height * scale;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Failed to compress image"));
+              return;
+            }
+
+            const compressedFile = new File(
+              [blob],
+              file.name.replace(/\.\w+$/, ".jpg"),
+              {
+                type: "image/jpeg",
+              },
+            );
+
+            resolve(compressedFile);
+          },
+          "image/jpeg",
+          quality,
+        );
+      };
+
+      img.onerror = () => {
+        reject(new Error("Invalid image file"));
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const compressedFile = await compressImage(file);
+
+  const compressedSizeKB = compressedFile.size / 1024;
+
+  if (compressedSizeKB > MAX_FILE_SIZE_KB) {
+    throw new Error(
+      `Compressed image is too large. Maximum allowed size is ${MAX_FILE_SIZE_KB}KB`,
+    );
+  }
+
+  const fileName = `${Date.now()}-${compressedFile.name}`;
 
   const { error } = await supabase.storage
     .from("product-image")
-    .upload(fileName, file);
+    .upload(fileName, compressedFile);
 
   if (error) throw new Error(error.message);
 

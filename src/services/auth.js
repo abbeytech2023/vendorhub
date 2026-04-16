@@ -1,6 +1,5 @@
 import supabase from "../lib/supabaseClients";
-import { generateUniqueSlug } from "../utility/slug";
-
+import { slugify } from "../utility/slugify";
 // Sign up function
 export async function signUp({
   fullName,
@@ -15,7 +14,6 @@ export async function signUp({
   role,
   nin,
 }) {
-  // 🔹 1. Create auth user first
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -32,21 +30,15 @@ export async function signUp({
 
   const user = data.user;
 
-  if (!user) {
-    console.log("User not returned from auth signup");
-    return;
-  }
+  if (!user) return;
 
-  console.log(user);
-
-  // 🔥 2. Generate slug AFTER we have user.id
   let slug = null;
 
   if (role === "vendor") {
-    slug = generateUniqueSlug(storeName, user.id);
+    const shortId = user.id.slice(0, 8);
+    slug = `${slugify(storeName)}-${shortId}`;
   }
 
-  // 🔹 3. Insert into users table
   const { error: insertError } = await supabase.from("users").insert([
     {
       uid: user.id,
@@ -60,7 +52,7 @@ export async function signUp({
       phone,
       role,
       nin,
-      slug, // ✅ correct
+      slug,
     },
   ]);
 
@@ -68,8 +60,6 @@ export async function signUp({
     console.error("Database insert error:", insertError);
     return;
   }
-
-  console.log("User registered and saved successfully");
 
   return data;
 }

@@ -10,7 +10,6 @@ export default function VendorAdmin() {
   const id = user?.slug;
 
   const { vendor, loading: vendorLoading } = useVendor(id);
-  console.log(vendor, id);
 
   return (
     <>
