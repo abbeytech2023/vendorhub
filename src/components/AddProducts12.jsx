@@ -109,11 +109,11 @@ export default function AddProductForm() {
               className={inputStyle}
             >
               <option value="">Select</option>
-              <option value="electronics">Electronics</option>
-              <option value="fashion">Fashion</option>
-              <option value="phones">Phones</option>
-              <option value="stationeries">Books & Stationery</option>
-              <option value="food">Food</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Phones&Accessories">Phones & Accessories</option>
+              <option value="Stationeries">Books & Stationery</option>
+              <option value="Food">Food</option>
             </select>
             {errors.category && (
               <p className={errorText}>{errors.category.message}</p>

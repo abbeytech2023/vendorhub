@@ -5,16 +5,52 @@ import Spinner from "../components/Spinner";
 
 export default function ProductsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCondition, setSelectedCondition] = useState("All");
+
   const { products, isLoading, error } = useAllProducts();
 
-  // Extract categories safely
-  const categories = ["All", ...new Set(products?.map((p) => p.category))];
+  const categories = [
+    "All",
+    ...new Set(products?.map((p) => p.category).filter(Boolean)),
+  ];
 
-  // Filter products
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products?.filter((p) => p.category === selectedCategory);
+  const conditions = [
+    "All",
+    ...new Set(products?.map((p) => p.condition).filter(Boolean)),
+  ];
+
+  const filteredProducts = products?.filter((p) => {
+    const categoryMatch =
+      selectedCategory === "All" || p.category === selectedCategory;
+
+    const conditionMatch =
+      selectedCondition === "All" || p.condition === selectedCondition;
+
+    return categoryMatch && conditionMatch;
+  });
+
+  // 🔥 FILTER MESSAGE LOGIC
+  const getFilterMessage = () => {
+    const categoryText =
+      selectedCategory === "All" ? "" : `${selectedCategory} products`;
+
+    const conditionText =
+      selectedCondition === "All" ? "" : `${selectedCondition} items`;
+
+    if (selectedCategory === "All" && selectedCondition === "All") {
+      return "Showing all products";
+    }
+
+    if (selectedCategory !== "All" && selectedCondition === "All") {
+      return `Showing ${categoryText}`;
+    }
+
+    if (selectedCategory === "All" && selectedCondition !== "All") {
+      return `Showing ${conditionText}`;
+    }
+
+    return `Showing ${categoryText} • ${conditionText}`;
+  };
 
   return (
     <section className="py-16 bg-gray-50">
@@ -22,8 +58,9 @@ export default function ProductsSection() {
         {/* Heading */}
         <h2 className="text-3xl font-bold text-center">Top Products</h2>
 
-        {/* Category Filter */}
-        <div className="flex justify-center">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Category */}
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -35,6 +72,24 @@ export default function ProductsSection() {
               </option>
             ))}
           </select>
+
+          {/* Condition */}
+          <select
+            value={selectedCondition}
+            onChange={(e) => setSelectedCondition(e.target.value)}
+            className="px-4 py-2 border rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            {conditions.map((cond, index) => (
+              <option key={index} value={cond}>
+                {cond}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* 🔥 FILTER STATUS MESSAGE */}
+        <div className="text-center text-gray-600 text-sm font-medium">
+          {getFilterMessage()}
         </div>
 
         {/* Loading */}
