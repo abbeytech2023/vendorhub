@@ -134,7 +134,7 @@ export default function VendorProfile({
               onClick={copyLink}
               className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm"
             >
-              <FaShareAlt /> Copy
+              <FaShareAlt /> Copy page link
             </button>
           </div>
         </div>

@@ -18,26 +18,28 @@ export default function Navbar() {
   const count = getCartCount();
   const vendor = data?.role === "vendor";
 
-  // 🔥 Styles
   const navItemDesktop = "px-2 py-1 hover:text-green-600 transition";
 
   const navItemMobile =
     "px-4 py-2 rounded-lg border border-gray-200 bg-gray-50";
 
-  // Scroll shadow
   useEffect(() => {
     const handleScroll = () => {
       setShadow(window.scrollY > 10);
     };
+
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  refetch();
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <nav
-      className={`fixed w-full top-0 left-0 z-50 bg-white ${
+      className={`fixed top-0 left-0 z-50 w-full bg-white transition-shadow duration-300 ${
         shadow ? "shadow-lg" : ""
       }`}
     >
@@ -47,14 +49,22 @@ export default function Navbar() {
           VendorHub
         </Link>
 
-        {/* Desktop */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
+          <Link to="/" className={navItemDesktop}>
+            Home
+          </Link>
+
           <Link to="/shop" className={navItemDesktop}>
             Shop
           </Link>
 
           <Link to="/vendors" className={navItemDesktop}>
             Vendors
+          </Link>
+
+          <Link to="/about" className={navItemDesktop}>
+            About Us
           </Link>
 
           {user && vendor && (
@@ -85,7 +95,7 @@ export default function Navbar() {
           )}
 
           {/* Cart */}
-          <Link to="/cart" className="relative">
+          <Link to="/cart" className="relative hover:text-green-600 transition">
             <FaShoppingCart size={22} />
             {count > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -94,16 +104,16 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* WhatsApp */}
+          {/* WhatsApp Button */}
           <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
             <FaWhatsapp />
             Order
           </button>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden cursor-pointer"
+          className="md:hidden text-gray-700"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
@@ -112,8 +122,16 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden border-t bg-white">
-          <div className="flex flex-col p-6 gap-2">
+        <div className="md:hidden border-t border-gray-200 bg-white shadow-sm">
+          <div className="flex flex-col p-6 gap-3">
+            <Link
+              to="/"
+              onClick={() => setMenuOpen(false)}
+              className={navItemMobile}
+            >
+              Home
+            </Link>
+
             <Link
               to="/shop"
               onClick={() => setMenuOpen(false)}
@@ -128,6 +146,14 @@ export default function Navbar() {
               className={navItemMobile}
             >
               Vendors
+            </Link>
+
+            <Link
+              to="/about"
+              onClick={() => setMenuOpen(false)}
+              className={navItemMobile}
+            >
+              About Us
             </Link>
 
             {user && vendor && (
@@ -153,11 +179,11 @@ export default function Navbar() {
             <Link
               to="/cart"
               onClick={() => setMenuOpen(false)}
-              className={`${navItemMobile} relative flex justify-between`}
+              className={`${navItemMobile} flex items-center justify-between relative`}
             >
               Cart
               {count > 0 && (
-                <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {count}
                 </span>
               )}
@@ -179,13 +205,13 @@ export default function Navbar() {
                   logout();
                   setMenuOpen(false);
                 }}
-                className="px-4 py-2 cursor-pointer rounded-lg border text-white  border-red-800 bg-red-800"
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
               >
                 Logout
               </button>
             )}
 
-            <button className="flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded-lg">
+            <button className="flex items-center justify-center gap-2 bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition">
               <FaWhatsapp />
               Order on WhatsApp
             </button>

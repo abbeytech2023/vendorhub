@@ -17,6 +17,7 @@ import InstallButton from "./components/InstallButton";
 import Spinner from "./components/Spinner";
 
 import { useAuthContext } from "./hooks/useAuthContext";
+import AboutVendorHub from "./pages/AboutUs";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
@@ -38,6 +39,7 @@ export default function App() {
             <Route path="vendors" element={<VendorsSectionPage />} />
             <Route path="vendor/:id" element={<StoreFront />} />
             <Route path="login" element={<Login />} />
+            <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />

@@ -243,8 +243,22 @@ export default function VendorRegistration() {
             rules={{
               required: "Password required",
               minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters",
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              validate: (value) => {
+                const hasNumber = /[0-9]/.test(value);
+                const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+                if (!hasNumber) {
+                  return "Password must include at least one number";
+                }
+
+                if (!hasSpecial) {
+                  return "Password must include at least one special character";
+                }
+
+                return true;
               },
             }}
           />
