@@ -1,10 +1,11 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import Home from "./pages/Home";
 import Navigation from "./components/Navigation";
-import BecomeVendor from "./components/BecomeAVendor";
+import BecomeVendor from "./pages/BecomeAVendor";
 import VendorRegistration from "./pages/VendorRegistration";
+import SuperAdminDashboard from "./components/SuperAdmin";
 import VendorsSectionPage from "./components/VendorGrid";
 import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -15,19 +16,40 @@ import VendorAdmin from "./pages/VendorAdmin";
 import Login from "./pages/Login";
 import InstallButton from "./components/InstallButton";
 import Spinner from "./components/Spinner";
+import AboutVendorHub from "./pages/AboutUs";
 
 import { useAuthContext } from "./hooks/useAuthContext";
-import AboutVendorHub from "./pages/AboutUs";
+
+function NotFound() {
+  return (
+    <div className="min-h-screen flex items-center justify-center px-6">
+      <div className="text-center">
+        <h1 className="text-6xl font-bold text-green-600">404</h1>
+        <p className="mt-4 text-2xl font-semibold text-gray-800">
+          Page Not Found
+        </p>
+        <p className="mt-2 text-gray-500">
+          The page you are looking for does not exist.
+        </p>
+
+        <Link
+          to="/"
+          className="inline-block mt-6 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition"
+        >
+          Go Back Home
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const { authIsReady } = useAuthContext();
 
   return (
     <>
-      {/* Loader */}
       {!authIsReady && <Spinner />}
 
-      {/* App Content */}
       {authIsReady && (
         <div className="min-h-screen bg-gray-50">
           <Navigation />
@@ -42,21 +64,23 @@ export default function App() {
             <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
+            <Route path="superAdmin" element={<SuperAdminDashboard />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="seller-admin" element={<VendorAdmin />} />
             </Route>
+
+            {/* Catch All Route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       )}
 
-      {/* Floating Install Button */}
       <div className="fixed bottom-4 right-4 z-50">
         <InstallButton />
       </div>
 
-      {/* Toast Notifications */}
       <Toaster
         position="top-center"
         gutter={12}

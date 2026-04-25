@@ -12,6 +12,7 @@ export default function VendorProfile({
   background = "bg-gray-950",
   cardBg = "bg-gray-900",
   showEditButton = true,
+  showPageUrlButton = false,
 }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -130,12 +131,14 @@ export default function VendorProfile({
             </a>
 
             {/* COPY LINK */}
-            <button
-              onClick={copyLink}
-              className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm"
-            >
-              <FaShareAlt /> Copy page link
-            </button>
+            {showPageUrlButton && (
+              <button
+                onClick={copyLink}
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition text-sm"
+              >
+                <FaShareAlt /> Copy page link
+              </button>
+            )}
           </div>
         </div>
 

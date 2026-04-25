@@ -9,9 +9,9 @@ export default function VendorCard({ vendor }) {
         {/* Logo */}
         <div className="absolute -bottom-8 left-1/2 -translate-x-1/2">
           <img
-            src={vendor.logo}
+            src={vendor.profilePicture}
             alt={vendor.name}
-            className="h-14 w-14 sm:h-16 sm:w-16 rounded-full border-4 border-white object-cover"
+            className="h-18 w-18 sm:h-16 sm:w-16 rounded-full border-4 border-white object-cover"
           />
         </div>
       </div>

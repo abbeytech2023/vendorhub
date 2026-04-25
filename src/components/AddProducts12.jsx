@@ -8,6 +8,7 @@ export default function AddProductForm() {
   const { data: user } = useUserProfileTable();
 
   const storeName = user?.storeName;
+  const category = user?.category;
 
   const {
     register,
@@ -21,7 +22,7 @@ export default function AddProductForm() {
       name: "",
       description: "",
       price: "",
-      category: "",
+      category: category,
       condition: "", // ✅ added
       imageFile: null,
       inStock: true,

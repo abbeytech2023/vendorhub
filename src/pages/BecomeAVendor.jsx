@@ -1,7 +1,10 @@
-import { FaStore, FaUsers, FaChartLine } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaStore, FaUsers, FaChartLine, FaWhatsapp } from "react-icons/fa";
 
 export default function BecomeVendor() {
+  const message = encodeURIComponent(
+    "Hello, I want to become a vendor on VendorHub.",
+  );
+
   return (
     <section className="bg-green-600 text-white py-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -43,12 +46,15 @@ export default function BecomeVendor() {
 
         {/* CTA */}
         <div className="text-center">
-          <Link
-            to="/vendor/register"
-            className="bg-white text-green-600 font-semibold px-8 py-3 rounded-xl hover:bg-gray-100 transition"
+          <a
+            href={`https://wa.me/2349134813002?text=${message}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white text-green-600 font-semibold px-8 py-3 rounded-xl hover:bg-gray-100 transition"
           >
+            <FaWhatsapp size={20} />
             Become a Vendor
-          </Link>
+          </a>
         </div>
       </div>
     </section>

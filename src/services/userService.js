@@ -18,6 +18,7 @@ export async function getUserProfile() {
     .single();
 
   if (error) throw new Error(error.message);
+  // console.log(error);
 
   return data;
 }

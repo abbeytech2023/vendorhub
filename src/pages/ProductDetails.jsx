@@ -18,7 +18,6 @@ export default function ProductDetails() {
 
   const getConditionLabel = (condition) => {
     const c = normalizeCondition(condition);
-    console.log(c);
 
     if (c === "brand-new") return "Brand New";
     if (c === "uk-used") return "UK Used";

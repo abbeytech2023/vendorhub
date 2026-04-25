@@ -89,7 +89,7 @@ export default function Login() {
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
           <Link
-            to="/vendor/register"
+            to="/sell"
             className="text-green-500 font-semibold hover:underline"
           >
             Become a Vendor

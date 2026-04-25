@@ -139,10 +139,8 @@ export default function VendorRegistration() {
                     required: "Category required",
                   })}
                   className={`w-full pl-12 pr-4 h-14 text-base rounded-2xl border bg-white shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
-                  appearance-none ${
-                    errors.category ? "border-red-500" : "border-gray-300"
-                  }`}
+  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+  appearance-none ${errors.category ? "border-red-500" : "border-gray-300"}`}
                 >
                   <option value="">Select Category</option>
                   <option value="electronics">Electronics</option>
@@ -151,6 +149,8 @@ export default function VendorRegistration() {
                   <option value="food">Food</option>
                   <option value="home">Home & Living</option>
                   <option value="beauty">Beauty</option>
+                  <option value="automobiles">Automobiles</option>
+                  <option value="car-accessories">Car Accessories</option>
                 </select>
 
                 {errors.category && (

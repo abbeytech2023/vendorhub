@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from "../hooks/useLogout";
@@ -10,6 +10,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [shadow, setShadow] = useState(false);
 
+  const { pathname } = useLocation();
+
   const { getCartCount } = useCartContext();
   const { logout } = useLogout();
   const { user } = useAuthContext();
@@ -18,10 +20,19 @@ export default function Navbar() {
   const count = getCartCount();
   const vendor = data?.role === "vendor";
 
-  const navItemDesktop = "px-2 py-1 hover:text-green-600 transition";
+  const navItemDesktop = (path) =>
+    `px-2 py-1 transition ${
+      pathname === path
+        ? "text-green-600 font-semibold border-b-2 border-green-600"
+        : "text-gray-700 hover:text-green-600"
+    }`;
 
-  const navItemMobile =
-    "px-4 py-2 rounded-lg border border-gray-200 bg-gray-50";
+  const navItemMobile = (path) =>
+    `px-4 py-2 rounded-lg border transition ${
+      pathname === path
+        ? "border-green-600 bg-green-50 text-green-600 font-semibold"
+        : "border-gray-200 bg-gray-50 text-gray-700"
+    }`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +40,6 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -49,46 +59,50 @@ export default function Navbar() {
           VendorHub
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/" className={navItemDesktop}>
+          <Link to="/" className={navItemDesktop("/")}>
             Home
           </Link>
 
-          <Link to="/shop" className={navItemDesktop}>
+          <Link to="/shop" className={navItemDesktop("/shop")}>
             Shop
           </Link>
 
-          <Link to="/vendors" className={navItemDesktop}>
+          <Link to="/vendors" className={navItemDesktop("/vendors")}>
             Vendors
           </Link>
 
-          <Link to="/about" className={navItemDesktop}>
+          <Link to="/about" className={navItemDesktop("/about")}>
             About Us
           </Link>
 
-          {user && vendor && (
-            <Link to="/seller-admin" className={navItemDesktop}>
+          {vendor && (
+            <Link
+              to="/seller-admin"
+              className={navItemDesktop("/seller-admin")}
+            >
               Admin
             </Link>
           )}
 
           {!user && (
-            <Link to="/sell" className={navItemDesktop}>
+            <Link to="/sell" className={navItemDesktop("/sell")}>
               Become a Vendor
             </Link>
           )}
 
           {!user && (
-            <Link to="/login" className={navItemDesktop}>
+            <Link to="/login" className={navItemDesktop("/login")}>
               Login
             </Link>
           )}
 
+          {/* Logout */}
           {user && (
             <button
               onClick={logout}
-              className="hover:text-red-600 transition cursor-pointer"
+              className="text-gray-700 hover:text-red-600 font-medium transition"
             >
               Logout
             </button>
@@ -104,14 +118,14 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* WhatsApp Button */}
+          {/* WhatsApp */}
           <button className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
             <FaWhatsapp />
             Order
           </button>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-gray-700"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -127,7 +141,7 @@ export default function Navbar() {
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
-              className={navItemMobile}
+              className={navItemMobile("/")}
             >
               Home
             </Link>
@@ -135,7 +149,7 @@ export default function Navbar() {
             <Link
               to="/shop"
               onClick={() => setMenuOpen(false)}
-              className={navItemMobile}
+              className={navItemMobile("/shop")}
             >
               Shop
             </Link>
@@ -143,43 +157,53 @@ export default function Navbar() {
             <Link
               to="/vendors"
               onClick={() => setMenuOpen(false)}
-              className={navItemMobile}
+              className={navItemMobile("/vendors")}
             >
               Vendors
             </Link>
 
-            <Link
-              to="/about"
-              onClick={() => setMenuOpen(false)}
-              className={navItemMobile}
-            >
-              About Us
-            </Link>
-
-            {user && vendor && (
+            {vendor && (
               <Link
                 to="/seller-admin"
                 onClick={() => setMenuOpen(false)}
-                className={navItemMobile}
+                className={navItemMobile("/seller-admin")}
               >
                 Admin
               </Link>
             )}
 
+            <Link
+              to="/about"
+              onClick={() => setMenuOpen(false)}
+              className={navItemMobile("/about")}
+            >
+              About Us
+            </Link>
+
             {!user && (
               <Link
                 to="/sell"
                 onClick={() => setMenuOpen(false)}
-                className={navItemMobile}
+                className={navItemMobile("/sell")}
               >
                 Become a Vendor
+              </Link>
+            )}
+
+            {!user && (
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className={navItemMobile("/login")}
+              >
+                Login
               </Link>
             )}
 
             <Link
               to="/cart"
               onClick={() => setMenuOpen(false)}
-              className={`${navItemMobile} flex items-center justify-between relative`}
+              className="px-4 py-2 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-between"
             >
               Cart
               {count > 0 && (
@@ -188,16 +212,6 @@ export default function Navbar() {
                 </span>
               )}
             </Link>
-
-            {!user && (
-              <Link
-                to="/login"
-                onClick={() => setMenuOpen(false)}
-                className={navItemMobile}
-              >
-                Login
-              </Link>
-            )}
 
             {user && (
               <button
