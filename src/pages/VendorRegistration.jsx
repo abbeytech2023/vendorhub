@@ -161,7 +161,7 @@ export default function VendorRegistration() {
               </div>
 
               {/* NIN */}
-              <InputField
+              {/* <InputField
                 icon={<FaUser />}
                 placeholder="National Identification Number (NIN)"
                 name="nin"
@@ -182,7 +182,7 @@ export default function VendorRegistration() {
                     message: "NIN must be numeric",
                   },
                 }}
-              />
+              /> */}
             </>
           )}
 
