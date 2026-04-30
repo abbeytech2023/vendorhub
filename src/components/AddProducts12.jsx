@@ -115,6 +115,9 @@ export default function AddProductForm() {
               <option value="Phones&Accessories">Phones & Accessories</option>
               <option value="Stationeries">Books & Stationery</option>
               <option value="Food">Food</option>
+
+              <option value="Automobiles">Automobiles</option>
+              <option value="CarAccessories">Car Accessories</option>
             </select>
             {errors.category && (
               <p className={errorText}>{errors.category.message}</p>

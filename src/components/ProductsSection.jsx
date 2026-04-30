@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ProductCard from "./ProductCard";
 import { useAllProducts } from "../hooks/useFecthProducts";
 import Spinner from "../components/Spinner";
@@ -7,49 +7,51 @@ export default function ProductsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCondition, setSelectedCondition] = useState("All");
 
-  const { products, isLoading, error } = useAllProducts();
+  const { products = [], isLoading, error } = useAllProducts();
 
-  const categories = [
-    "All",
-    ...new Set(products?.map((p) => p.category).filter(Boolean)),
-  ];
+  // Categories & Conditions
+  const categories = useMemo(() => {
+    return ["All", ...new Set(products.map((p) => p.category).filter(Boolean))];
+  }, [products]);
 
-  const conditions = [
-    "All",
-    ...new Set(products?.map((p) => p.condition).filter(Boolean)),
-  ];
+  const conditions = useMemo(() => {
+    return [
+      "All",
+      ...new Set(products.map((p) => p.condition).filter(Boolean)),
+    ];
+  }, [products]);
 
-  const filteredProducts = products?.filter((p) => {
-    const categoryMatch =
-      selectedCategory === "All" || p.category === selectedCategory;
+  // Filter + Shuffle
+  const filteredProducts = useMemo(() => {
+    const filtered = products.filter((p) => {
+      const categoryMatch =
+        selectedCategory === "All" || p.category === selectedCategory;
 
-    const conditionMatch =
-      selectedCondition === "All" || p.condition === selectedCondition;
+      const conditionMatch =
+        selectedCondition === "All" || p.condition === selectedCondition;
 
-    return categoryMatch && conditionMatch;
-  });
+      return categoryMatch && conditionMatch;
+    });
 
-  // 🔥 FILTER MESSAGE LOGIC
+    // Shuffle (stable per filter change)
+    return [...filtered].sort(() => Math.random() - 0.5);
+  }, [products, selectedCategory, selectedCondition]);
+
+  // Filter message
   const getFilterMessage = () => {
-    const categoryText =
-      selectedCategory === "All" ? "" : `${selectedCategory} products`;
-
-    const conditionText =
-      selectedCondition === "All" ? "" : `${selectedCondition} items`;
-
     if (selectedCategory === "All" && selectedCondition === "All") {
       return "Showing all products";
     }
 
     if (selectedCategory !== "All" && selectedCondition === "All") {
-      return `Showing ${categoryText}`;
+      return `Showing ${selectedCategory} products`;
     }
 
     if (selectedCategory === "All" && selectedCondition !== "All") {
-      return `Showing ${conditionText}`;
+      return `Showing ${selectedCondition} items`;
     }
 
-    return `Showing ${categoryText} • ${conditionText}`;
+    return `Showing ${selectedCategory} • ${selectedCondition}`;
   };
 
   return (
@@ -66,8 +68,8 @@ export default function ProductsSection() {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="px-4 py-2 border rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            {categories.map((cat, index) => (
-              <option key={index} value={cat}>
+            {categories.map((cat, i) => (
+              <option key={i} value={cat}>
                 {cat}
               </option>
             ))}
@@ -79,15 +81,15 @@ export default function ProductsSection() {
             onChange={(e) => setSelectedCondition(e.target.value)}
             className="px-4 py-2 border rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            {conditions.map((cond, index) => (
-              <option key={index} value={cond}>
+            {conditions.map((cond, i) => (
+              <option key={i} value={cond}>
                 {cond}
               </option>
             ))}
           </select>
         </div>
 
-        {/* 🔥 FILTER STATUS MESSAGE */}
+        {/* Filter Message */}
         <div className="text-center text-gray-600 text-sm font-medium">
           {getFilterMessage()}
         </div>
@@ -100,9 +102,9 @@ export default function ProductsSection() {
           <p className="text-center text-red-500">Failed to load products</p>
         )}
 
-        {/* Products Grid */}
+        {/* Products */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredProducts?.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

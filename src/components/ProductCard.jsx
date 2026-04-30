@@ -39,7 +39,6 @@ export default function ProductCard({ product }) {
     <>
       {/* Image */}
       <div className="w-full aspect-square bg-gray-100 flex items-center justify-center overflow-hidden relative">
-        {/* Loader */}
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center">
             <MiniLoader size="w-6 h-6" />
@@ -54,17 +53,6 @@ export default function ProductCard({ product }) {
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
         />
-
-        {/* STOCK BADGE */}
-        <span
-          className={`absolute top-2 right-2 text-[10px] sm:text-xs px-2 py-1 rounded-full font-bold ${
-            product.inStock
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-500"
-          }`}
-        >
-          {product.inStock ? "In Stock" : "Out of Stock"}
-        </span>
 
         {/* CONDITION BADGE */}
         {product.condition && (
@@ -96,38 +84,22 @@ export default function ProductCard({ product }) {
   );
 
   return (
-    <div
-      className={`group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden ${
-        !product.inStock ? "grayscale opacity-70" : ""
-      }`}
-    >
-      {/* Conditional Link */}
-      {product.inStock ? (
-        <Link to={`/details/${product.id}`} className="flex-1 flex flex-col">
-          {CardContent}
-        </Link>
-      ) : (
-        <div className="flex-1 flex flex-col cursor-not-allowed">
-          {CardContent}
-        </div>
-      )}
+    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden">
+      {/* Link always enabled */}
+      <Link to={`/details/${product.id}`} className="flex-1 flex flex-col">
+        {CardContent}
+      </Link>
 
       {/* Button */}
       <div className="p-3 pt-0">
         <button
           onClick={() => {
-            if (!product.inStock) return;
             addToCart(product);
             toast.success("Added To Cart");
           }}
-          disabled={!product.inStock}
-          className={`w-full text-sm sm:text-base py-2 rounded-xl transition ${
-            product.inStock
-              ? "bg-green-600 text-white hover:bg-green-700 active:scale-95"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          className="w-full text-sm sm:text-base py-2 rounded-xl transition bg-green-600 text-white hover:bg-green-700 active:scale-95"
         >
-          {product.inStock ? "Add to Cart" : "Out of Stock"}
+          Add to Cart
         </button>
       </div>
     </div>
