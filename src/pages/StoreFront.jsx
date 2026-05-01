@@ -60,6 +60,14 @@ export default function StoreFront() {
             cardBg="bg-green-900"
           />
 
+          {/* PAYMENT WARNING NOTE */}
+          <div className="mx-6 mt-6 p-4 rounded-xl bg-yellow-100 border border-yellow-300 text-yellow-800 text-sm">
+            ⚠️ <span className="font-semibold">Important Notice:</span>
+            Please do not make payment to any bank account other than the one
+            displayed on this page. We are not responsible for any loss
+            resulting from payments made to unauthorized accounts.
+          </div>
+
           {/* PRODUCTS SECTION */}
           <div className="px-6 mt-21 pb-8">
             <div className="flex items-center justify-between mb-6 border-t pt-6">

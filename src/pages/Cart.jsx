@@ -51,7 +51,7 @@ export default function Cart() {
         <button
           onClick={handleClearCart}
           disabled={vendorCarts.length === 0}
-          className={`px-4 py-2 rounded-lg cursopo text-sm font-medium transition ${
+          className={`px-4 py-2 rounded-lg cursor-pointer text-sm font-medium transition ${
             vendorCarts.length === 0
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-red-600 text-white hover:bg-red-700"

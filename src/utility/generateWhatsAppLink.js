@@ -16,6 +16,7 @@ export const generateWhatsappLink = (vendorCart) => {
 
   vendorCart.items.forEach((item) => {
     message += `${item.qty} x ${item.name} - ${priceFormat(item.price)}\n`;
+    message += `Link: https://vendorhub.ng/details/${item.id}\n\n`;
   });
 
   const total = vendorCart.items.reduce(
@@ -23,7 +24,8 @@ export const generateWhatsappLink = (vendorCart) => {
     0,
   );
 
-  message += `\nTotal: ${priceFormat(total)}\nOrder from VendorHub`;
+  message += `Total: ${priceFormat(total)}\n`;
+  message += `Order from VendorHub`;
 
   const phone = formatWhatsappNumber(vendorCart.whatsapp);
 
