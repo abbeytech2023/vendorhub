@@ -89,7 +89,7 @@ export default function StoreFront() {
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-40 object-cover"
+                        className="w-full h-40 object-contain bg-gray-100"
                       />
 
                       <div className="p-3 space-y-1">

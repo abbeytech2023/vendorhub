@@ -15,6 +15,7 @@ export default function VendorProfile({
   showPageUrlButton = false,
 }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [showImage, setShowImage] = useState(false); // 🔥 NEW
 
   if (!vendor) return null;
 
@@ -65,7 +66,9 @@ export default function VendorProfile({
 
   const shareToFacebook = () => {
     window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        currentUrl,
+      )}`,
       "_blank",
     );
   };
@@ -91,7 +94,8 @@ export default function VendorProfile({
             <img
               src={vendor.profilePicture}
               alt={vendor.fullName}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-green-500"
+              onClick={() => setShowImage(true)} // 🔥 CLICK
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-green-500 cursor-pointer hover:scale-105 transition"
             />
 
             <div className="space-y-1">
@@ -130,7 +134,6 @@ export default function VendorProfile({
               <FaWhatsapp /> WhatsApp
             </a>
 
-            {/* COPY LINK */}
             {showPageUrlButton && (
               <button
                 onClick={copyLink}
@@ -206,7 +209,21 @@ export default function VendorProfile({
         )}
       </div>
 
-      {/* MODAL */}
+      {/* 🔥 IMAGE OVERLAY */}
+      {showImage && (
+        <div
+          onClick={() => setShowImage(false)}
+          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+        >
+          <img
+            src={vendor.profilePicture}
+            alt="Preview"
+            className="max-w-[90%] max-h-[90%] rounded-xl"
+          />
+        </div>
+      )}
+
+      {/* EDIT MODAL */}
       {isEditOpen && (
         <EditProfileModal
           vendor={vendor}
