@@ -101,11 +101,11 @@ export default function VendorProfile({
 
             <div className="space-y-1">
               <h1 className="text-base sm:text-xl font-semibold uppercase tracking-wide">
-                {vendor.fullName}
+                {vendor.storeName}
               </h1>
 
               <p className="text-gray-300 text-xs sm:text-sm uppercase">
-                {vendor.storeName}
+                {vendor.fullName}
               </p>
 
               <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 flex-wrap">
