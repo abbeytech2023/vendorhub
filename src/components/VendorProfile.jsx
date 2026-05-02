@@ -6,6 +6,7 @@ import {
   FaShareAlt,
 } from "react-icons/fa";
 import EditProfileModal from "./EditProfileModal";
+import toast from "react-hot-toast";
 
 export default function VendorProfile({
   vendor,
@@ -51,7 +52,7 @@ export default function VendorProfile({
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(currentUrl);
-      alert("Link copied to clipboard");
+      toast.success("Link copied to clipboard");
     } catch (err) {
       console.error("Failed to copy:", err);
     }

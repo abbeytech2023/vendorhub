@@ -7,6 +7,7 @@ import { useVendor } from "../hooks/useVendors";
 import { useUserProfileTable } from "../hooks/useUser";
 import Spinner from "../components/Spinner";
 import { checkProfileComplete } from "../utility/profileComplete";
+import toast from "react-hot-toast";
 
 export default function VendorAdmin() {
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -20,7 +21,7 @@ export default function VendorAdmin() {
 
   const handleToggleForm = () => {
     if (!isComplete) {
-      alert("Please complete your profile first before adding products.");
+      toast("Please complete your profile first before adding products.");
       return;
     }
 
