@@ -34,7 +34,7 @@ export default function ProductDetails() {
     // example: 2348012345678
 
     const message = `
-Hello, I want to buy this product.
+Hello,${product?.vendor} I want to buy this product.
 
 Product Name: ${product.name}
 Price: ${priceFormat(product.price)}
