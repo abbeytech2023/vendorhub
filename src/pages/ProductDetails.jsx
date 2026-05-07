@@ -14,7 +14,29 @@ export default function ProductDetails() {
 
   const storeId = vendors?.filter((vend) => vend?.uid === product?.uid);
   const vendorSlug = storeId && storeId[0];
-  // console.log(vendorSlug);
+
+  // ================= WHATSAPP BUY NOW =================
+  const handleBuyNow = () => {
+    const pageLink = window.location.href;
+
+    // Replace with vendor phone number from your DB
+    // Example: 2348012345678
+    const vendorPhone = product?.whatsapp;
+
+    const message = `
+Hello, I want to buy this product.
+
+Product Name: ${product.name}
+Price: ${priceFormat(product.price)}
+Link: ${pageLink}
+    `;
+
+    const whatsappUrl = `https://wa.me/${vendorPhone}?text=${encodeURIComponent(
+      message,
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
+  };
 
   // ================= CONDITION HELPERS =================
   const normalizeCondition = (condition) => {
@@ -132,7 +154,7 @@ export default function ProductDetails() {
                 </p>
               )}
 
-              {/* ================= STORE FRONT ================= */}
+              {/* STORE FRONT */}
               {product.vendor && (
                 <div className="mt-6 border border-gray-200 rounded-xl p-4 bg-green-50">
                   <p className="text-xs text-gray-500 uppercase">Sold by</p>
@@ -162,6 +184,14 @@ export default function ProductDetails() {
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition shadow-md"
                 >
                   Add to Cart
+                </button>
+
+                {/* BUY NOW BUTTON */}
+                <button
+                  onClick={handleBuyNow}
+                  className="flex-1 bg-black hover:bg-gray-800 text-white py-3 rounded-xl font-semibold transition shadow-md"
+                >
+                  Buy Now
                 </button>
               </div>
             )}
