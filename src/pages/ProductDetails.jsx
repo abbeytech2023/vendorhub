@@ -34,11 +34,10 @@ export default function ProductDetails() {
     // example: 2348012345678
 
     const message = `
-Hello,${product?.vendor} I want to buy this product.
-
-Product Name: ${product.name}
-Price: ${priceFormat(product.price)}
-Link: ${pageLink}
+Hello,${product?.vendor} I want to buy this product.\n
+Product Name: ${product.name}\n
+Price: ${priceFormat(product.price)}\n
+Link:  https://vendorhub.ng/details/${product.id}
   `;
 
     const whatsappUrl = `https://wa.me/${vendorPhone}?text=${encodeURIComponent(
