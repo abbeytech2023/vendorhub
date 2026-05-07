@@ -1,16 +1,25 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useProductById } from "../hooks/useProduct";
 import { priceFormat } from "../utility/priceFormat";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import GoBackButton from "../components/GoBackButton";
+import { useVendor } from "../hooks/useVendors";
+import { useUserProfileTable } from "../hooks/useUser";
 
 export default function ProductDetails() {
   const { addToCart } = useCartContext();
   const { id } = useParams();
   const { data: product, isLoading, error } = useProductById(id);
 
-  // ✅ normalize condition so it ALWAYS matches
+  const { data: user } = useUserProfileTable();
+  // console.log(user);
+
+  const vendorId = user?.slug;
+
+  const { vendor, loading: vendorLoading } = useVendor(vendorId);
+
+  // ================= CONDITION HELPERS =================
   const normalizeCondition = (condition) => {
     if (!condition) return "";
     return condition.toLowerCase().replace(/\s/g, "").replace(/_/g, "");
@@ -36,6 +45,7 @@ export default function ProductDetails() {
     return "bg-gray-200 text-gray-700";
   };
 
+  // ================= LOADING =================
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-green-600 text-lg">
@@ -44,6 +54,7 @@ export default function ProductDetails() {
     );
   }
 
+  // ================= ERROR =================
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-500">
@@ -88,14 +99,17 @@ export default function ProductDetails() {
           {/* DETAILS */}
           <div className="p-6 sm:p-10 flex flex-col justify-between">
             <div>
+              {/* NAME */}
               <h1 className="text-3xl font-bold text-green-800 mb-3">
                 {product.name}
               </h1>
 
+              {/* DESCRIPTION */}
               <p className="text-gray-600 mb-6 leading-relaxed">
                 {product.description}
               </p>
 
+              {/* PRICE */}
               <p className="text-3xl font-bold text-red-600 mb-4">
                 {priceFormat(product.price)}
               </p>
@@ -119,6 +133,24 @@ export default function ProductDetails() {
                     {getConditionLabel(product.condition)}
                   </span>
                 </p>
+              )}
+
+              {/* ================= STORE FRONT ================= */}
+              {product.vendor && (
+                <div className="mt-6 border border-gray-200 rounded-xl p-4 bg-green-50">
+                  <p className="text-xs text-gray-500 uppercase">Sold by</p>
+
+                  <p className="text-green-800 font-semibold mb-3">
+                    {product.vendor || "Vendor Store"}
+                  </p>
+
+                  <Link
+                    to={`/vendor/${vendorId}`}
+                    className="inline-block px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition"
+                  >
+                    Visit Store
+                  </Link>
+                </div>
               )}
             </div>
 

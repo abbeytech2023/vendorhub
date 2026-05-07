@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { useCartContext } from "../hooks/useCartContext";
 import { useAllProducts } from "../hooks/useFecthProducts";
@@ -10,6 +10,10 @@ export default function ProductListPage() {
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCondition, setSelectedCondition] = useState("All");
+
+  // PAGINATION STATE
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12;
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -38,6 +42,19 @@ export default function ProductListPage() {
     });
   }, [products, selectedCategory, selectedCondition]);
 
+  // RESET PAGE WHEN FILTER CHANGES
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedCondition]);
+
+  // PAGINATION LOGIC
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
   // 🔥 FILTER MESSAGE
   const getFilterMessage = () => {
     if (selectedCategory === "All" && selectedCondition === "All") {
@@ -63,7 +80,8 @@ export default function ProductListPage() {
           <h1 className="text-2xl font-bold text-gray-800">All Products</h1>
 
           <span className="text-gray-600 font-medium">
-            Cart: {cart.length} item{cart.length !== 1 ? "s" : ""}
+            Cart: {cart.length} item
+            {cart.length !== 1 ? "s" : ""}
           </span>
         </div>
       </header>
@@ -95,7 +113,7 @@ export default function ProductListPage() {
         </select>
       </div>
 
-      {/* 🔥 FILTER NOTE */}
+      {/* FILTER NOTE */}
       <div className="text-center mt-4 text-sm text-gray-600 font-medium">
         {getFilterMessage()}
       </div>
@@ -103,8 +121,8 @@ export default function ProductListPage() {
       {/* Products Grid */}
       <section className="py-12 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+          {paginatedProducts.length > 0 ? (
+            paginatedProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -117,6 +135,56 @@ export default function ProductListPage() {
             </p>
           )}
         </div>
+
+        {/* PAGINATION */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-15 flex-wrap">
+            {/* Previous */}
+            <button
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 rounded-md border text-sm font-medium transition ${
+                currentPage === 1
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              Prev
+            </button>
+
+            {/* Page Numbers */}
+            {[...Array(totalPages)].map((_, index) => {
+              const page = index + 1;
+
+              return (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 rounded-md text-sm font-semibold transition ${
+                    currentPage === page
+                      ? "bg-green-700 text-white"
+                      : "bg-white border text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+
+            {/* Next */}
+            <button
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 rounded-md border text-sm font-medium transition ${
+                currentPage === totalPages
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-white hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );

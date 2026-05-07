@@ -7,7 +7,10 @@ export async function getUserProfile() {
     error: authError,
   } = await supabase.auth.getUser();
 
+  console.log(user.id);
+
   if (authError) throw new Error(authError.message);
+
   if (!user) return null;
 
   // fetch user row from "users" table
@@ -17,8 +20,14 @@ export async function getUserProfile() {
     .eq("uid", user.id) // assumes id matches auth user id
     .single();
 
+  console.log(data);
+
   if (error) throw new Error(error.message);
+  console.log(error);
+
   // console.log(error);
+
+  console.log(data);
 
   return data;
 }

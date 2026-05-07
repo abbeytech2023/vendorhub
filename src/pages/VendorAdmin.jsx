@@ -13,7 +13,10 @@ export default function VendorAdmin() {
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   const { data: user } = useUserProfileTable();
+
   const id = user?.slug;
+
+  console.log(user);
 
   const { vendor, loading: vendorLoading } = useVendor(id);
 
