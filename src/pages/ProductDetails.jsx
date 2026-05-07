@@ -4,20 +4,17 @@ import { priceFormat } from "../utility/priceFormat";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import GoBackButton from "../components/GoBackButton";
-import { useVendor } from "../hooks/useVendors";
-import { useUserProfileTable } from "../hooks/useUser";
+import { useVendors } from "../hooks/useVendors";
 
 export default function ProductDetails() {
   const { addToCart } = useCartContext();
   const { id } = useParams();
   const { data: product, isLoading, error } = useProductById(id);
+  const { data: vendors } = useVendors();
 
-  const { data: user } = useUserProfileTable();
-  // console.log(user);
-
-  const vendorId = user?.slug;
-
-  const { vendor, loading: vendorLoading } = useVendor(vendorId);
+  const storeId = vendors?.filter((vend) => vend?.uid === product?.uid);
+  const vendorSlug = storeId && storeId[0];
+  // console.log(vendorSlug);
 
   // ================= CONDITION HELPERS =================
   const normalizeCondition = (condition) => {
@@ -145,7 +142,7 @@ export default function ProductDetails() {
                   </p>
 
                   <Link
-                    to={`/vendor/${vendorId}`}
+                    to={`/vendor/${vendorSlug?.slug}`}
                     className="inline-block px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition"
                   >
                     Visit Store
