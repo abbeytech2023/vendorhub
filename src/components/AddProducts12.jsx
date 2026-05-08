@@ -158,6 +158,7 @@ export default function AddProductForm() {
               <option value="HomeDecor">Home Decor</option>
               <option value="Kitchen">Kitchen Utensils</option>
               <option value="Bedding">Bedding</option>
+              <option value="Home&Living">Home & Living</option>
 
               {/* Kids */}
               <option value="BabyProducts">Baby Products</option>

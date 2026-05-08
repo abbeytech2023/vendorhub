@@ -36,9 +36,19 @@ export default function EditProfileModal({ vendor, onClose }) {
     }));
   };
 
+  console.log(formData);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate({ id: vendor.id, updates: formData }, { onSuccess: onClose });
+    mutate(
+      {
+        id: vendor.id,
+        updates: formData,
+      },
+      {
+        onSuccess: onClose,
+      },
+    );
   };
 
   const input =
@@ -47,7 +57,6 @@ export default function EditProfileModal({ vendor, onClose }) {
   const disabledInput =
     "w-full p-3 rounded-lg bg-gray-800 text-gray-400 opacity-60 cursor-not-allowed";
 
-  // 🔥 helper: check if field already has value in DB
   const isFilled = (field) =>
     vendor?.[field] && vendor[field].toString().trim() !== "";
 
@@ -112,6 +121,7 @@ export default function EditProfileModal({ vendor, onClose }) {
                 disabled
                 className={disabledInput}
               />
+
               <input
                 value={formData.whatsapp}
                 disabled
@@ -132,6 +142,7 @@ export default function EditProfileModal({ vendor, onClose }) {
                 value={formData.state}
                 onChange={handleChange}
                 className={input}
+                placeholder="State"
               />
 
               <input
@@ -139,6 +150,7 @@ export default function EditProfileModal({ vendor, onClose }) {
                 value={formData.localGovernment}
                 onChange={handleChange}
                 className={input}
+                placeholder="Local Government"
               />
             </div>
           </section>
@@ -155,10 +167,11 @@ export default function EditProfileModal({ vendor, onClose }) {
               onChange={handleChange}
               rows={5}
               className={input}
+              placeholder="Office Address"
             />
           </section>
 
-          {/* 🔥 NIN */}
+          {/* NIN */}
           <section className="space-y-4">
             <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Identity (NIN)
@@ -168,49 +181,60 @@ export default function EditProfileModal({ vendor, onClose }) {
               name="nin"
               value={formData.nin}
               onChange={handleChange}
-              disabled={isFilled("nin")} // 🔒 only locked if filled
+              disabled={isFilled("nin")}
               className={isFilled("nin") ? disabledInput : input}
               placeholder="NIN"
             />
           </section>
 
-          {/* 💳 BANK DETAILS */}
+          {/* BANK DETAILS */}
           <section className="space-y-4">
             <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Bank Details
             </h3>
 
-            {/* Bank Name (always editable) */}
+            {/* Bank Name */}
             <div className="space-y-1">
               <label className="text-xs text-green-300">Bank Name</label>
+
               <input
                 name="bankName"
                 value={formData.bankName}
                 onChange={handleChange}
                 className={input}
+                placeholder="Bank Name"
               />
             </div>
 
-            {/* Account Name (locked if filled) */}
+            {/* Account Name (SELECT) */}
             <div className="space-y-1">
               <label className="text-xs text-green-300">Account Name</label>
-              <input
+
+              <select
                 name="accountName"
                 value={formData.accountName}
                 onChange={handleChange}
-                disabled={isFilled("accountName")} // 🔒 lock if filled
-                className={isFilled("accountName") ? disabledInput : input}
-              />
+                // disabled={isFilled("accountName")}
+                className={input}
+              >
+                <option value="">Select Account Name</option>
+
+                <option value={vendor?.fullName}>{vendor?.fullName}</option>
+
+                <option value={vendor?.storeName}>{vendor?.storeName}</option>
+              </select>
             </div>
 
-            {/* Account Number (always editable) */}
+            {/* Account Number */}
             <div className="space-y-1">
               <label className="text-xs text-green-300">Account Number</label>
+
               <input
                 name="accountNumber"
                 value={formData.accountNumber}
                 onChange={handleChange}
                 className={input}
+                placeholder="Account Number"
               />
             </div>
           </section>

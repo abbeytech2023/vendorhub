@@ -1,4 +1,5 @@
 import { FaWhatsapp } from "react-icons/fa";
+import { useVendors } from "../hooks/useVendors";
 
 export default function CartSection({
   vendorCarts,
@@ -7,6 +8,11 @@ export default function CartSection({
   formatPrice,
   addToCart,
 }) {
+  const { data: vendors } = useVendors();
+
+  // const storeId = vendors?.filter((vend) => vend?.uid === product?.uid);
+  // const vendorSlug = storeId && storeId[0];
+
   return (
     <section className="max-w-7xl mx-auto mt-10 px-4 sm:px-6 lg:px-8 space-y-10">
       {vendorCarts.map((vendorCart) => {
@@ -30,10 +36,12 @@ export default function CartSection({
 
                 {/* Name */}
                 <div>
+                  {/* <Link to={`/vendor/${vendorSlug?.slug}`}> */}
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
                     {vendorCart.vendor?.charAt(0).toUpperCase() +
                       vendorCart.vendor?.slice(1)}
                   </h3>
+                  {/* </Link> */}
                   <p className="text-xs text-green-600 mt-1 font-medium">
                     Verified Vendor
                   </p>
