@@ -109,15 +109,79 @@ export default function AddProductForm() {
               {...register("category", { required: "Select category" })}
               className={inputStyle}
             >
-              <option value="">Select</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Phones&Accessories">Phones & Accessories</option>
-              <option value="Stationeries">Books & Stationery</option>
-              <option value="Food">Food</option>
+              <option value="">Select Category</option>
 
+              {/* Electronics */}
+              <option value="Electronics">Electronics</option>
+              <option value="PhonesAccessories">Phones & Accessories</option>
+              <option value="Computers">Computers</option>
+              <option value="Laptops">Laptops</option>
+              <option value="Gaming">Gaming</option>
+              <option value="HomeAppliances">Home Appliances</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Cameras">Cameras</option>
+              <option value="Audio">Audio & Speakers</option>
+              <option value="SmartDevices">Smart Devices</option>
+
+              {/* Fashion */}
+              <option value="Fashion">Fashion</option>
+              <option value="MensFashion">Men's Fashion</option>
+              <option value="WomensFashion">Women's Fashion</option>
+              <option value="Shoes">Shoes</option>
+              <option value="Bags">Bags</option>
+              <option value="Jewelry">Jewelry</option>
+              <option value="Watches">Watches</option>
+              <option value="Beauty">Beauty & Cosmetics</option>
+
+              {/* School */}
+              <option value="BooksStationery">Books & Stationery</option>
+              <option value="SchoolSupplies">School Supplies</option>
+              <option value="OfficeSupplies">Office Supplies</option>
+
+              {/* Food */}
+              <option value="Food">Food</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Drinks">Drinks & Beverages</option>
+              <option value="Snacks">Snacks</option>
+              <option value="Restaurant">Restaurant</option>
+
+              {/* Vehicles */}
               <option value="Automobiles">Automobiles</option>
+              <option value="Cars">Cars</option>
+              <option value="Motorcycles">Motorcycles</option>
+              <option value="Trucks">Trucks</option>
               <option value="CarAccessories">Car Accessories</option>
+              <option value="SpareParts">Spare Parts</option>
+
+              {/* Home */}
+              <option value="Furniture">Furniture</option>
+              <option value="HomeDecor">Home Decor</option>
+              <option value="Kitchen">Kitchen Utensils</option>
+              <option value="Bedding">Bedding</option>
+
+              {/* Kids */}
+              <option value="BabyProducts">Baby Products</option>
+              <option value="Toys">Toys & Games</option>
+
+              {/* Health */}
+              <option value="Health">Health & Wellness</option>
+              <option value="Fitness">Fitness & Gym</option>
+
+              {/* Services */}
+              <option value="Services">Services</option>
+              <option value="DigitalServices">Digital Services</option>
+              <option value="Repairs">Repairs</option>
+
+              {/* Agriculture */}
+              <option value="Agriculture">Agriculture</option>
+              <option value="FarmProduce">Farm Produce</option>
+
+              {/* Others */}
+              <option value="RealEstate">Real Estate</option>
+              <option value="Pets">Pets</option>
+              <option value="MusicalInstruments">Musical Instruments</option>
+              <option value="Art">Art & Crafts</option>
+              <option value="Others">Others</option>
             </select>
             {errors.category && (
               <p className={errorText}>{errors.category.message}</p>

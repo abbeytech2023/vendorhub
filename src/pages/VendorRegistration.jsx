@@ -143,14 +143,19 @@ export default function VendorRegistration() {
   appearance-none ${errors.category ? "border-red-500" : "border-gray-300"}`}
                 >
                   <option value="">Select Category</option>
-                  <option value="electronics">Electronics</option>
-                  <option value="fashion">Fashion</option>
+
                   <option value="phones">Phones & Accessories</option>
-                  <option value="food">Food</option>
                   <option value="home">Home & Living</option>
-                  <option value="beauty">Beauty</option>
-                  <option value="automobiles">Automobiles</option>
-                  <option value="car-accessories">Car Accessories</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Fashion">Fashion</option>
+                  <option value="School">School</option>
+                  <option value="Vehicles">Vehicles</option>
+                  <option value="Homes">Homes</option>
+                  <option value="Kids">Kids</option>
+                  <option value="Health">Health</option>
+                  <option value="Services">Services</option>
+                  <option value="Agriculture">Agriculture</option>
+                  <option value="Others">Others</option>
                 </select>
 
                 {errors.category && (
