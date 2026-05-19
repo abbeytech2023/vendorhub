@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Navigation from "./components/Navigation";
 import BecomeVendor from "./pages/BecomeAVendor";
 import VendorRegistration from "./pages/VendorRegistration";
-import SuperAdminDashboard from "./components/SuperAdmin";
+import SuperAdminDashboard from "./pages/SuperAdmin";
 import VendorsSectionPage from "./components/VendorGrid";
 import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";

@@ -213,3 +213,20 @@ export async function deleteProduct(product) {
 
   return true;
 }
+
+// INSERT PRODUCT BY ADMIN
+export const createProductAdmin = async (productData) => {
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .insert([productData])
+      .select();
+
+    if (error) throw error;
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
