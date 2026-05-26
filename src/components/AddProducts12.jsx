@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+
 import { useAddProduct } from "../hooks/useAddProduct";
 import { useUserProfileTable } from "../hooks/useUser";
+
+import { categoryOptions, conditionOptions } from "../constants/productOptions";
 
 export default function AddProductForm() {
   const { addProduct, isLoading } = useAddProduct();
@@ -22,11 +25,11 @@ export default function AddProductForm() {
       name: "",
       description: "",
       price: "",
-      category: category,
-      condition: "", // ✅ added
+      category: category || "",
+      condition: "",
       imageFile: null,
       inStock: true,
-      vendor: storeName,
+      vendor: storeName || "",
     },
   });
 
@@ -34,6 +37,11 @@ export default function AddProductForm() {
   const [suggestions, setSuggestions] = useState([]);
 
   const formData = watch();
+
+  const inputStyle =
+    "mt-1 w-full p-3 rounded-xl bg-gray-900 border border-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500";
+
+  const errorText = "text-red-400 text-xs mt-1";
 
   const onSubmit = (data) => {
     addProduct(data, {
@@ -59,19 +67,21 @@ export default function AddProductForm() {
 
   const handleImage = (file) => {
     if (!file) return;
-    setValue("imageFile", file, { shouldValidate: true });
+
+    setValue("imageFile", file, {
+      shouldValidate: true,
+    });
+
     setPreview(URL.createObjectURL(file));
   };
 
   const selectSuggestion = (text) => {
-    setValue("description", text, { shouldValidate: true });
+    setValue("description", text, {
+      shouldValidate: true,
+    });
+
     setSuggestions([]);
   };
-
-  const inputStyle =
-    "mt-1 w-full p-3 rounded-xl bg-gray-900 border border-gray-700 text-white outline-none focus:ring-2 focus:ring-green-500";
-
-  const errorText = "text-red-400 text-xs mt-1";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 p-4 sm:p-6">
@@ -84,106 +94,48 @@ export default function AddProductForm() {
           <h2 className="text-2xl font-semibold text-white">
             Create New Product
           </h2>
+
           <p className="text-gray-400 text-sm mt-1">
             Add product details to your store
           </p>
         </div>
 
-        {/* GRID */}
+        {/* FORM GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* NAME */}
+          {/* PRODUCT NAME */}
           <div className="sm:col-span-2">
             <label className="text-sm text-gray-300">Product Name</label>
+
             <input
-              {...register("name", { required: "Product name is required" })}
+              {...register("name", {
+                required: "Product name is required",
+              })}
               className={inputStyle}
               placeholder="e.g. iPhone 13 Pro"
             />
+
             {errors.name && <p className={errorText}>{errors.name.message}</p>}
           </div>
 
           {/* CATEGORY */}
           <div>
             <label className="text-sm text-gray-300">Category</label>
+
             <select
-              {...register("category", { required: "Select category" })}
+              {...register("category", {
+                required: "Select category",
+              })}
               className={inputStyle}
             >
               <option value="">Select Category</option>
 
-              {/* Electronics */}
-              <option value="Electronics">Electronics</option>
-              <option value="PhonesAccessories">Phones & Accessories</option>
-              <option value="Computers">Computers</option>
-              <option value="Laptops">Laptops</option>
-              <option value="Gaming">Gaming</option>
-              <option value="HomeAppliances">Home Appliances</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Cameras">Cameras</option>
-              <option value="Audio">Audio & Speakers</option>
-              <option value="SmartDevices">Smart Devices</option>
-
-              {/* Fashion */}
-              <option value="Fashion">Fashion</option>
-              <option value="MensFashion">Men's Fashion</option>
-              <option value="WomensFashion">Women's Fashion</option>
-              <option value="Shoes">Shoes</option>
-              <option value="Bags">Bags</option>
-              <option value="Jewelry">Jewelry</option>
-              <option value="Watches">Watches</option>
-              <option value="Beauty">Beauty & Cosmetics</option>
-
-              {/* School */}
-              <option value="BooksStationery">Books & Stationery</option>
-              <option value="SchoolSupplies">School Supplies</option>
-              <option value="OfficeSupplies">Office Supplies</option>
-
-              {/* Food */}
-              <option value="Food">Food</option>
-              <option value="Groceries">Groceries</option>
-              <option value="Drinks">Drinks & Beverages</option>
-              <option value="Snacks">Snacks</option>
-              <option value="Restaurant">Restaurant</option>
-
-              {/* Vehicles */}
-              <option value="Automobiles">Automobiles</option>
-              <option value="Cars">Cars</option>
-              <option value="Motorcycles">Motorcycles</option>
-              <option value="Trucks">Trucks</option>
-              <option value="CarAccessories">Car Accessories</option>
-              <option value="SpareParts">Spare Parts</option>
-
-              {/* Home */}
-              <option value="Furniture">Furniture</option>
-              <option value="HomeDecor">Home Decor</option>
-              <option value="Kitchen">Kitchen Utensils</option>
-              <option value="Bedding">Bedding</option>
-              <option value="Home&Living">Home & Living</option>
-
-              {/* Kids */}
-              <option value="BabyProducts">Baby Products</option>
-              <option value="Toys">Toys & Games</option>
-
-              {/* Health */}
-              <option value="Health">Health & Wellness</option>
-              <option value="Fitness">Fitness & Gym</option>
-
-              {/* Services */}
-              <option value="Services">Services</option>
-              <option value="DigitalServices">Digital Services</option>
-              <option value="Repairs">Repairs</option>
-
-              {/* Agriculture */}
-              <option value="Agriculture">Agriculture</option>
-              <option value="FarmProduce">Farm Produce</option>
-
-              {/* Others */}
-              <option value="RealEstate">Real Estate</option>
-              <option value="Pets">Pets</option>
-              <option value="MusicalInstruments">Musical Instruments</option>
-              <option value="Art">Art & Crafts</option>
-              <option value="Others">Others</option>
+              {categoryOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
+
             {errors.category && (
               <p className={errorText}>{errors.category.message}</p>
             )}
@@ -192,6 +144,7 @@ export default function AddProductForm() {
           {/* CONDITION */}
           <div>
             <label className="text-sm text-gray-300">Condition</label>
+
             <select
               {...register("condition", {
                 required: "Select product condition",
@@ -199,9 +152,12 @@ export default function AddProductForm() {
               className={inputStyle}
             >
               <option value="">Select condition</option>
-              <option value="Brand-New">Brand New</option>
-              <option value="Uk-Used">UK Used</option>
-              <option value="Japa-Sales">Japa Sales</option>
+
+              {conditionOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
 
             {errors.condition && (
@@ -212,12 +168,16 @@ export default function AddProductForm() {
           {/* PRICE */}
           <div>
             <label className="text-sm text-gray-300">Price</label>
+
             <input
               type="number"
-              {...register("price", { required: "Price is required" })}
+              {...register("price", {
+                required: "Price is required",
+              })}
               className={inputStyle}
               placeholder="₦0.00"
             />
+
             {errors.price && (
               <p className={errorText}>{errors.price.message}</p>
             )}
@@ -232,7 +192,7 @@ export default function AddProductForm() {
             <button
               type="button"
               onClick={handleGenerateDescription}
-              className="text-xs bg-green-600 px-3 py-1 rounded-lg hover:bg-green-700"
+              className="text-xs bg-green-600 px-3 py-1 rounded-lg hover:bg-green-700 transition"
             >
               AI Suggest
             </button>
@@ -253,14 +213,14 @@ export default function AddProductForm() {
 
           {suggestions.length > 0 && (
             <div className="mt-3 space-y-2 bg-gray-800 border border-gray-700 p-3 rounded-xl">
-              {suggestions.map((s, i) => (
+              {suggestions.map((suggestion, index) => (
                 <button
-                  key={i}
+                  key={index}
                   type="button"
-                  onClick={() => selectSuggestion(s)}
-                  className="w-full text-left text-sm text-gray-200 hover:bg-gray-700 p-2 rounded-lg"
+                  onClick={() => selectSuggestion(suggestion)}
+                  className="w-full text-left text-sm text-gray-200 hover:bg-gray-700 p-2 rounded-lg transition"
                 >
-                  {s}
+                  {suggestion}
                 </button>
               ))}
             </div>
@@ -271,12 +231,14 @@ export default function AddProductForm() {
         <div>
           <label className="text-sm text-gray-300">Product Image</label>
 
-          <label className="mt-2 flex flex-col items-center justify-center border-2 border-dashed border-gray-700 rounded-xl p-6 cursor-pointer hover:border-green-500">
+          <label className="mt-2 flex flex-col items-center justify-center border-2 border-dashed border-gray-700 rounded-xl p-6 cursor-pointer hover:border-green-500 transition">
             <input
               type="file"
               className="hidden"
-              onChange={(e) => handleImage(e.target.files[0])}
+              accept="image/*"
+              onChange={(e) => handleImage(e.target.files?.[0])}
             />
+
             <p className="text-gray-400 text-sm">
               Click to upload product image
             </p>
@@ -289,6 +251,7 @@ export default function AddProductForm() {
           {preview && (
             <img
               src={preview}
+              alt="Preview"
               className="w-24 h-24 mt-3 rounded-xl object-cover border border-gray-700"
             />
           )}
@@ -296,6 +259,7 @@ export default function AddProductForm() {
 
         {/* SUBMIT */}
         <button
+          type="submit"
           disabled={isLoading}
           className="w-full py-3 bg-green-600 hover:bg-green-700 rounded-xl text-white font-medium disabled:opacity-50 transition"
         >

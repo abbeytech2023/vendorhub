@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { useVendors } from "../hooks/useVendors";
 import { useAllProducts } from "../hooks/useFecthProducts";
 import { useAuthContext } from "../hooks/useAuthContext";
+import toast from "react-hot-toast";
+
+import { categoryOptions, conditionOptions } from "../constants/ProductOptions";
 
 import {
   uploadProductImage,
@@ -21,10 +24,12 @@ export default function SuperAdminDashboard() {
     register,
     handleSubmit,
     watch,
-    setValue,
     reset,
     formState: { errors },
   } = useForm();
+
+  // REGISTER IMAGE FIELD
+  const imageRegister = register("image");
 
   // WATCH STORE
   const selectedStoreId = watch("store");
@@ -34,17 +39,22 @@ export default function SuperAdminDashboard() {
     (store) => String(store.id) === String(selectedStoreId),
   );
 
-  // STORE DATA
+  // STORE VALUES
   const storeUid = selectedStore?.uid || "";
   const storeWhatsapp = selectedStore?.whatsapp || "";
   const storeCategory = selectedStore?.category || "";
+  const storeName = selectedStore?.storeName || "";
 
-  // SUBMIT FORM
+  // SUBMIT
   const onSubmit = async (data) => {
     try {
       setLoading(true);
 
       let imageUrl = "";
+
+      console.log("FORM DATA:", data);
+      console.log("IMAGE:", data.image);
+      console.log("FIRST IMAGE:", data.image?.[0]);
 
       // UPLOAD IMAGE
       if (data.image?.[0]) {
@@ -54,26 +64,33 @@ export default function SuperAdminDashboard() {
       // CREATE PRODUCT
       await createProductAdmin({
         name: data.productName,
-        store_id: data.store,
         uid: storeUid,
         whatsapp: storeWhatsapp,
-        category: data.category,
+
+        // STORE CATEGORY
+        category: data.productCategory,
+
+        // PRODUCT CONDITION
         condition: data.condition,
+
         price: Number(data.price),
+        inStock: true,
         description: data.description,
         image: imageUrl,
-        sponsored: data.sponsored || false,
-        featured: data.featured || false,
-        created_by: user?.id,
+
+        // OPTIONAL FLAGS
+        // sponsored: data.sponsored || false,
+        // featured: data.featured || false,
+
+        vendor: storeName,
       });
 
-      alert("Product added successfully");
+      toast.success("Product added successfully");
 
       reset();
       setImagePreview(null);
     } catch (error) {
-      console.error(error);
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -198,36 +215,60 @@ export default function SuperAdminDashboard() {
               />
             </div>
 
-            {/* CATEGORY */}
+            {/* PRODUCT CATEGORY */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Category
-              </label>
-
-              <input
-                type="text"
-                value={storeCategory}
-                readOnly
-                {...register("category")}
-                className="w-full border border-slate-300 rounded-2xl px-4 py-3 bg-slate-100 outline-none"
-              />
-            </div>
-
-            {/* CONDITION */}
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Condition
+                Product Category
               </label>
 
               <select
-                {...register("condition")}
+                {...register("productCategory", {
+                  required: "Select product category",
+                })}
                 className="w-full border border-slate-300 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
               >
-                <option value="">Select condition</option>
-                <option value="Brand-New">Brand New</option>
-                <option value="Uk-Used">UK Used</option>
-                <option value="Japa-Sales">Japa Sales</option>
+                <option value="">Select Product Category</option>
+
+                {categoryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
+
+              {errors.productCategory && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.productCategory.message}
+                </p>
+              )}
+            </div>
+
+            {/* PRODUCT CONDITION */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Product Condition
+              </label>
+
+              <select
+                {...register("condition", {
+                  required: "Select product condition",
+                })}
+                className="w-full border border-slate-300 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+              >
+                <option value="">Select Product Condition</option>
+
+                {conditionOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
+              {errors.condition && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.condition.message}
+                </p>
+              )}
             </div>
 
             {/* PRICE */}
@@ -276,11 +317,11 @@ export default function SuperAdminDashboard() {
             <input
               type="file"
               accept="image/*"
-              {...register("image")}
+              {...imageRegister}
               onChange={(e) => {
-                const file = e.target.files[0];
+                imageRegister.onChange(e);
 
-                setValue("image", e.target.files);
+                const file = e.target.files?.[0];
 
                 if (file) {
                   setImagePreview(URL.createObjectURL(file));

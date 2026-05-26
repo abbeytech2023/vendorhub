@@ -20,13 +20,9 @@ export async function getUserProfile() {
     .eq("uid", user.id) // assumes id matches auth user id
     .single();
 
-  console.log(data);
-
   if (error) throw new Error(error.message);
 
   // console.log(error);
-
-  console.log(data);
 
   return data;
 }
