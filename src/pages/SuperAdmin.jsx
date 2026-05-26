@@ -343,7 +343,7 @@ export default function SuperAdminDashboard() {
           </div>
 
           {/* CHECKBOXES */}
-          <div className="mt-5 flex gap-6 flex-wrap">
+          {/* <div className="mt-5 flex gap-6 flex-wrap">
             <label className="flex items-center gap-2 text-sm text-slate-700">
               <input type="checkbox" {...register("sponsored")} />
               Sponsored Product
@@ -353,7 +353,7 @@ export default function SuperAdminDashboard() {
               <input type="checkbox" {...register("featured")} />
               Featured On Homepage
             </label>
-          </div>
+          </div> */}
 
           {/* BUTTON */}
           <button
