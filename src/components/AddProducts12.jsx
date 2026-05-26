@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAddProduct } from "../hooks/useAddProduct";
 import { useUserProfileTable } from "../hooks/useUser";
 
-import { categoryOptions, conditionOptions } from "../constants/productOptions";
-
+import { categoryOptions, conditionOptions } from "../constants/ProductOptions";
 export default function AddProductForm() {
   const { addProduct, isLoading } = useAddProduct();
   const { data: user } = useUserProfileTable();
