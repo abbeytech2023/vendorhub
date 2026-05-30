@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaWhatsapp,
   FaPhone,
@@ -12,11 +13,12 @@ export default function VendorProfile({
   vendor,
   background = "bg-gray-950",
   cardBg = "bg-gray-900",
+  showAdminButon = false,
   showEditButton = true,
   showPageUrlButton = false,
 }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [showImage, setShowImage] = useState(false); // 🔥 NEW
+  const [showImage, setShowImage] = useState(false);
 
   if (!vendor) return null;
 
@@ -39,14 +41,12 @@ export default function VendorProfile({
     </div>
   );
 
-  // 🔥 Mask NIN
   const maskNIN = (nin) => {
     if (!nin) return "Not verified";
     if (nin.length < 7) return nin;
     return `${nin.slice(0, 4)}****${nin.slice(-3)}`;
   };
 
-  // 🔥 Share logic
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const copyLink = async () => {
@@ -95,7 +95,7 @@ export default function VendorProfile({
             <img
               src={vendor.profilePicture}
               alt={vendor.fullName}
-              onClick={() => setShowImage(true)} // 🔥 CLICK
+              onClick={() => setShowImage(true)}
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-green-500 cursor-pointer hover:scale-105 transition"
             />
 
@@ -134,6 +134,15 @@ export default function VendorProfile({
             >
               <FaWhatsapp /> WhatsApp
             </a>
+
+            {showAdminButon && vendor?.admin && (
+              <Link
+                to="/superadmin"
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition text-sm"
+              >
+                Super Admin
+              </Link>
+            )}
 
             {showPageUrlButton && (
               <button
@@ -210,7 +219,7 @@ export default function VendorProfile({
         )}
       </div>
 
-      {/* 🔥 IMAGE OVERLAY */}
+      {/* IMAGE OVERLAY */}
       {showImage && (
         <div
           onClick={() => setShowImage(false)}

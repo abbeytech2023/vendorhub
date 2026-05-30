@@ -16,8 +16,6 @@ export default function VendorAdmin() {
 
   const id = user?.slug;
 
-  console.log(user);
-
   const { vendor, loading: vendorLoading } = useVendor(id);
 
   const { isComplete, missingFields } = checkProfileComplete(vendor);
@@ -55,7 +53,7 @@ export default function VendorAdmin() {
 
             {/* PROFILE */}
             <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
-              <VendorProfile vendor={vendor} />
+              <VendorProfile showAdminButon={true} vendor={vendor} />
             </div>
 
             {/* ADD PRODUCT */}

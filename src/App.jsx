@@ -14,6 +14,7 @@ import ProductDetails from "./pages/ProductDetails";
 import StoreFront from "./pages/StoreFront";
 import VendorAdmin from "./pages/VendorAdmin";
 import Login from "./pages/Login";
+import SuperAdminRoute from "./components/SuperAdminRouter";
 import InstallButton from "./components/InstallButton";
 import Spinner from "./components/Spinner";
 import AboutVendorHub from "./pages/AboutUs";
@@ -64,9 +65,10 @@ export default function App() {
             <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
-            <Route path="superAdmin" element={<SuperAdminDashboard />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />
-
+            <Route element={<SuperAdminRoute />}>
+              <Route path="superAdmin" element={<SuperAdminDashboard />} />
+            </Route>
             <Route element={<ProtectedRoute />}>
               <Route path="seller-admin" element={<VendorAdmin />} />
             </Route>

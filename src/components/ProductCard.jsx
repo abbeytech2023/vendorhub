@@ -38,7 +38,7 @@ export default function ProductCard({ product }) {
   const CardContent = (
     <>
       {/* Image */}
-      <div className="w-full aspect-square bg-gray-100 flex items-center justify-center overflow-hidden relative">
+      <div className="w-full aspect-square text-center bg-gray-100 flex items-center justify-center overflow-hidden relative">
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center">
             <MiniLoader size="w-6 h-6" />
@@ -86,7 +86,10 @@ export default function ProductCard({ product }) {
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden">
       {/* Link always enabled */}
-      <Link to={`/details/${product.id}`} className="flex-1 flex flex-col">
+      <Link
+        to={`/details/${product.id}`}
+        className="flex-1 text-center flex flex-col"
+      >
         {CardContent}
       </Link>
 
