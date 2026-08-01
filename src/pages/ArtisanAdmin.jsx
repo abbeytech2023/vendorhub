@@ -24,16 +24,14 @@ export default function ServiceProviderDashboard() {
         <div className="bg-white rounded-3xl shadow-sm p-8">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             {/* Avatar */}
-            {!vendor?.profilePicture && <MiniLoader />}
-
-            {vendor?.profilePicture && (
-              <>
-                <img
-                  src={vendor?.profilePicture}
-                  alt="Provider"
-                  className="w-28 h-28 rounded-full object-cover border-4 border-green-500"
-                />
-              </>
+            {!vendor?.profilePicture ? (
+              <MiniLoader />
+            ) : (
+              <img
+                src={vendor?.profilePicture}
+                alt="Provider"
+                className="w-28 h-28 rounded-full object-cover border-4 border-green-500"
+              />
             )}
 
             {/* Bio */}
