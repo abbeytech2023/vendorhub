@@ -111,7 +111,7 @@ export default function ServiceProviderDashboard() {
           </h2>
 
           <div className="flex flex-wrap gap-4">
-            <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl flex items-center gap-2">
+            <button className="bg-green-600 hover:bg-green-800 text-white px-6 py-3 rounded-xl flex items-center gap-2">
               <FaPlus />
               Add Service
             </button>
