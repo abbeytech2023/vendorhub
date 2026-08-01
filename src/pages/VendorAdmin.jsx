@@ -17,6 +17,7 @@ export default function VendorAdmin() {
   const id = user?.slug;
 
   const { vendor, loading: vendorLoading } = useVendor(id);
+  console.log(vendor, id);
 
   const { isComplete, missingFields } = checkProfileComplete(vendor);
 
@@ -43,7 +44,9 @@ export default function VendorAdmin() {
               <h1 className="text-lg sm:text-2xl font-semibold text-gray-100">
                 {vendor?.storeName
                   ? `${vendor.storeName} Dashboard`
-                  : "Loading..."}
+                  : `${vendor?.fullName}`
+                    ? `${vendor.fullName} Dashboard`
+                    : "Loading..."}
               </h1>
 
               <p className="text-xs sm:text-sm text-gray-400">
@@ -52,53 +55,55 @@ export default function VendorAdmin() {
             </div>
 
             {/* PROFILE */}
-            <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
+            <div className="w-full bg-gray-900/70  backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
               <VendorProfile showAdminButon={true} vendor={vendor} />
             </div>
 
             {/* ADD PRODUCT */}
-            <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
-              {/* TITLE + WARNING */}
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-white">
-                  Add Product
-                </h2>
+            {vendor.role === "vendor" && (
+              <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">
+                {/* TITLE + WARNING */}
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-white">
+                    Add Product
+                  </h2>
 
-                <button
-                  onClick={handleToggleForm}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-                    isComplete
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-gray-600 cursor-not-allowed"
-                  }`}
-                >
-                  {showAddProduct ? <FaMinus /> : <FaPlus />}
-                  {showAddProduct ? "Close Form" : "Open Form"}
-                </button>
+                  <button
+                    onClick={handleToggleForm}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
+                      isComplete
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-gray-600 cursor-not-allowed"
+                    }`}
+                  >
+                    {showAddProduct ? <FaMinus /> : <FaPlus />}
+                    {showAddProduct ? "Close Form" : "Open Form"}
+                  </button>
+                </div>
+
+                {/* ❗ MISSING FIELDS WARNING */}
+                {!isComplete && (
+                  <div className="text-yellow-400 text-sm mb-3 space-y-1">
+                    <p>
+                      ⚠️ Profile incomplete —{" "}
+                      <span className="font-bold">{missingFields.length}</span>{" "}
+                      field{missingFields.length > 1 ? "s" : ""} missing.
+                    </p>
+
+                    <p className="text-gray-300 text-xs">
+                      Complete your profile before you can add products.
+                    </p>
+                  </div>
+                )}
+
+                {/* FORM */}
+                {showAddProduct && isComplete && (
+                  <div className="mt-4">
+                    <AddProduct12 />
+                  </div>
+                )}
               </div>
-
-              {/* ❗ MISSING FIELDS WARNING */}
-              {!isComplete && (
-                <div className="text-yellow-400 text-sm mb-3 space-y-1">
-                  <p>
-                    ⚠️ Profile incomplete —{" "}
-                    <span className="font-bold">{missingFields.length}</span>{" "}
-                    field{missingFields.length > 1 ? "s" : ""} missing.
-                  </p>
-
-                  <p className="text-gray-300 text-xs">
-                    Complete your profile before you can add products.
-                  </p>
-                </div>
-              )}
-
-              {/* FORM */}
-              {showAddProduct && isComplete && (
-                <div className="mt-4">
-                  <AddProduct12 />
-                </div>
-              )}
-            </div>
+            )}
 
             {/* PRODUCTS */}
             <div className="w-full bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 sm:p-6 shadow-lg">

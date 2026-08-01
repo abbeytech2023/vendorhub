@@ -18,7 +18,7 @@ export default function Navbar() {
   const { data, refetch } = useUserProfileTable();
 
   const count = getCartCount();
-  const vendor = data?.role === "vendor";
+  const vendor = data?.role === "vendor" || data?.role === "artisan";
 
   const navItemDesktop = (path) =>
     `px-2 py-1 transition ${

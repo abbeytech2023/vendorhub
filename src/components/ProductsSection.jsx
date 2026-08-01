@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useAllProducts } from "../hooks/useFecthProducts";
 import Spinner from "../components/Spinner";
@@ -6,10 +7,6 @@ import Spinner from "../components/Spinner";
 export default function ProductsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCondition, setSelectedCondition] = useState("All");
-
-  // Pagination state
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
 
   const { products = [], isLoading, error } = useAllProducts();
 
@@ -42,16 +39,18 @@ export default function ProductsSection() {
 
   // Reset page when filters change
   useEffect(() => {
-    setCurrentPage(1);
+    setVisibleCount(itemsPerPage);
   }, [selectedCategory, selectedCondition]);
 
   // Pagination logic
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  // const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  // Show More state
+  const itemsPerPage = 12;
+  const [visibleCount, setVisibleCount] = useState(itemsPerPage);
 
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filteredProducts.slice(start, start + itemsPerPage);
-  }, [filteredProducts, currentPage]);
+  const visibleProducts = useMemo(() => {
+    return filteredProducts.slice(0, visibleCount);
+  }, [filteredProducts, visibleCount]);
 
   const getFilterMessage = () => {
     if (selectedCategory === "All" && selectedCondition === "All") {
@@ -110,13 +109,31 @@ export default function ProductsSection() {
 
         {/* Products */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {paginatedProducts.map((product) => (
+          {visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
+        <div className="flex justify-center items-center gap-4 pt-8 flex-wrap">
+          {visibleCount < filteredProducts.length && (
+            <button
+              onClick={() => setVisibleCount((prev) => prev + itemsPerPage)}
+              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              Show More
+            </button>
+          )}
+
+          <Link
+            to="/shop"
+            className="px-6 py-3 border border-green-600 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition"
+          >
+            View All Products
+          </Link>
+        </div>
+
         {/* Pagination Controls */}
-        {totalPages > 1 && (
+        {/* {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 pt-8">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
@@ -146,7 +163,7 @@ export default function ProductsSection() {
               Next
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );

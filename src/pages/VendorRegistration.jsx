@@ -52,6 +52,8 @@ export default function VendorRegistration() {
       nin,
     } = data;
 
+    console.log(data);
+
     const slug = slugify(storeName);
 
     signup({
@@ -100,6 +102,7 @@ export default function VendorRegistration() {
               <option value="">Select Role</option>
               <option value="vendor">Vendor</option>
               <option value="shopper">Shopper</option>
+              <option value="artisan">Service Provider</option>
             </select>
 
             {errors.role && (
@@ -164,30 +167,56 @@ export default function VendorRegistration() {
                   </p>
                 )}
               </div>
+            </>
+          )}
 
-              {/* NIN */}
-              {/* <InputField
-                icon={<FaUser />}
-                placeholder="National Identification Number (NIN)"
-                name="nin"
+          {/* Store fields (vendor only) */}
+          {role === "artisan" && (
+            <>
+              {/* Store Name */}
+              <InputField
+                icon={<FaStore />}
+                placeholder="Store Name"
+                name="storeName"
                 register={register}
                 errors={errors}
-                rules={{
-                  required: "NIN is required",
-                  minLength: {
-                    value: 11,
-                    message: "NIN must be 11 digits",
-                  },
-                  maxLength: {
-                    value: 11,
-                    message: "NIN must be 11 digits",
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: "NIN must be numeric",
-                  },
-                }}
-              /> */}
+                rules={{ required: "Store name required" }}
+              />
+
+              {/* Category */}
+              <div className="relative">
+                <FaListAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
+
+                <select
+                  {...register("category", {
+                    required: "Category required",
+                  })}
+                  className={`w-full pl-12 pr-4 h-14 text-base rounded-2xl border bg-white shadow-sm
+  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500
+  appearance-none ${errors.category ? "border-red-500" : "border-gray-300"}`}
+                >
+                  <option value="">Select Category</option>
+
+                  <option value="phones">Phones & Accessories</option>
+                  <option value="home">Home & Living</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Fashion">Fashion</option>
+                  <option value="School">School</option>
+                  <option value="Vehicles">Vehicles</option>
+                  <option value="Homes">Homes</option>
+                  <option value="Kids">Kids</option>
+                  <option value="Health">Health</option>
+                  <option value="Services">Services</option>
+                  <option value="Agriculture">Agriculture</option>
+                  <option value="Others">Others</option>
+                </select>
+
+                {errors.category && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.category.message}
+                  </p>
+                )}
+              </div>
             </>
           )}
 

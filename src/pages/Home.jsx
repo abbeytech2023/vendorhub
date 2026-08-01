@@ -5,9 +5,11 @@ import Features from "../components/Features";
 import { useVendor } from "../hooks/useVendors";
 import ProfileCompletionChecker from "../components/ProfileCompletion";
 import { useUserProfileTable } from "../hooks/useUser";
+import ServiceProviders from "../components/ServiceProvider";
 
 export default function Home() {
-  const { data: user } = useUserProfileTable();
+  const { data: user, error } = useUserProfileTable();
+  console.log(error);
   const id = user?.slug;
   const { vendor } = useVendor(id);
 
@@ -44,7 +46,7 @@ export default function Home() {
 
                 <button className="flex items-center justify-center gap-2 bg-black px-6 py-3 rounded-xl w-full sm:w-auto">
                   <FaWhatsapp />
-                  Order via WhatsApp
+                  Artisans
                 </button>
               </div>
             </div>
@@ -61,6 +63,7 @@ export default function Home() {
         </section>
 
         <ProductsSection />
+        <ServiceProviders />
         <Features />
         <Footer />
       </div>

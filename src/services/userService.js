@@ -7,8 +7,6 @@ export async function getUserProfile() {
     error: authError,
   } = await supabase.auth.getUser();
 
-  console.log(user.id);
-
   if (authError) throw new Error(authError.message);
 
   if (!user) return null;
@@ -28,11 +26,11 @@ export async function getUserProfile() {
 }
 
 // Fetch all vendors
-export async function getVendors() {
+export async function getVendors(role) {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("role", "vendor");
+    .eq("role", role);
 
   if (error) {
     throw new Error(error.message);
@@ -42,10 +40,12 @@ export async function getVendors() {
 }
 
 export const getVendorById = async (id) => {
+  const currentUser = await getUserProfile();
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("role", "vendor")
+    // .eq("role", "vendor")
+    .eq("role", currentUser?.role)
     .eq("slug", id)
     .single();
 

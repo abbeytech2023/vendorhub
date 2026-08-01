@@ -34,7 +34,7 @@ export async function signUp({
 
   let slug = null;
 
-  if (role === "vendor") {
+  if (role === "vendor" || role === "artisan") {
     const shortId = user.id.slice(0, 8);
     slug = `${slugify(storeName)}-${shortId}`;
   }

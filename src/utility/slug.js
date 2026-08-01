@@ -1,5 +1,3 @@
-import supabase from "../lib/supabaseClients";
-
 export const slugify = (text) => {
   return text
     .toLowerCase()

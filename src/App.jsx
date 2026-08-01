@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Navigation from "./components/Navigation";
 import BecomeVendor from "./pages/BecomeAVendor";
 import VendorRegistration from "./pages/VendorRegistration";
+import ArtisansPage from "./pages/Artisans";
 import SuperAdminDashboard from "./pages/SuperAdmin";
 import VendorsSectionPage from "./components/VendorGrid";
 import Cart from "./pages/Cart";
@@ -18,6 +19,8 @@ import SuperAdminRoute from "./components/SuperAdminRouter";
 import InstallButton from "./components/InstallButton";
 import Spinner from "./components/Spinner";
 import AboutVendorHub from "./pages/AboutUs";
+import ServiceProviderAdmin from "./pages/ArtisanAdmin";
+import ScrollToTop from "./components/ScrollToTop";
 
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -54,6 +57,7 @@ export default function App() {
       {authIsReady && (
         <div className="min-h-screen bg-gray-50">
           <Navigation />
+          <ScrollToTop />
 
           <Routes>
             <Route path="/" element={<Home />} />
@@ -62,17 +66,18 @@ export default function App() {
             <Route path="vendors" element={<VendorsSectionPage />} />
             <Route path="vendor/:id" element={<StoreFront />} />
             <Route path="login" element={<Login />} />
+            <Route path="artisans" element={<ArtisansPage />} />
             <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
             <Route path="/vendor/register" element={<VendorRegistration />} />
+            <Route path="/artisan/:id" element={<ServiceProviderAdmin />} />
             <Route element={<SuperAdminRoute />}>
               <Route path="superAdmin" element={<SuperAdminDashboard />} />
             </Route>
             <Route element={<ProtectedRoute />}>
               <Route path="seller-admin" element={<VendorAdmin />} />
             </Route>
-
             {/* Catch All Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>

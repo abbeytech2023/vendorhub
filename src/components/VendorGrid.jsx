@@ -3,7 +3,7 @@ import Spinner from "./Spinner";
 import { useVendors } from "../hooks/useVendors";
 
 export default function VendorsSectionPage() {
-  const { data: vendors, isLoading, error } = useVendors();
+  const { data: vendors, isLoading, error } = useVendors("vendor");
 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">

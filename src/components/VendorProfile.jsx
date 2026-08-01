@@ -186,6 +186,14 @@ export default function VendorProfile({
           <h2 className="text-gray-200 font-semibold">Business Info</h2>
 
           <Row label="Store Name" value={vendor.storeName} />
+
+          <div className="space-y-1">
+            <Label>Business Bio</Label>
+            <p className="text-gray-100 text-sm sm:text-base leading-7 whitespace-pre-wrap">
+              {vendor.bio || "No business bio available."}
+            </p>
+          </div>
+
           <Row label="State" value={vendor.state} />
           <Row label="LGA" value={vendor.localGovernment} />
           <Row

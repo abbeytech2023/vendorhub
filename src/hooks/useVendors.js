@@ -4,11 +4,20 @@ import { getVendors } from "../services/userService";
 import { useEffect, useState } from "react";
 import { getVendorById } from "../services/userService";
 
-export function useVendors() {
+// export function useVendors(role) {
+//   return useQuery({
+//     queryKey: ["vendors"],
+//     queryFn: getVendors(role),
+//     staleTime: 1000 * 60 * 5, // 5 minutes cache
+//   });
+// }
+
+export function useVendors(role) {
   return useQuery({
-    queryKey: ["vendors"],
-    queryFn: getVendors,
-    staleTime: 1000 * 60 * 5, // 5 minutes cache
+    queryKey: ["vendors", role],
+    queryFn: () => getVendors(role),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: !!role, // Only run if role is provided
   });
 }
 

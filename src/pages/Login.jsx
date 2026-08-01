@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { FaStore } from "react-icons/fa";
+import { FaStore, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useLogin } from "../hooks/useLogin";
 import LoadingButton from "../components/LoadingButton";
 
 export default function Login() {
   const { login, isPending } = useLogin();
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -13,7 +17,7 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await login({ ...data });
+    await login(data);
   };
 
   return (
@@ -42,7 +46,9 @@ export default function Login() {
             <input
               type="email"
               placeholder="Enter your email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required",
+              })}
               className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
             />
 
@@ -57,12 +63,25 @@ export default function Login() {
           <div>
             <label className="text-sm text-gray-600">Password</label>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", { required: "Password is required" })}
-              className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-            />
+            <div className="relative mt-1">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                className="w-full px-4 py-2 pr-12 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
+            </div>
 
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">
@@ -71,21 +90,15 @@ export default function Login() {
             )}
           </div>
 
-          {/* Button */}
-          {/* <button
-            type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold transition"
-          ></button> */}
-          {
-            <LoadingButton
-              isLoading={isPending}
-              text="Login"
-              loadingText="logging in..."
-            />
-          }
+          {/* Login Button */}
+          <LoadingButton
+            isLoading={isPending}
+            text="Login"
+            loadingText="Logging in..."
+          />
         </form>
 
-        {/* Register link */}
+        {/* Register Link */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
           <Link

@@ -25,6 +25,9 @@ export default function EditProfileModal({ vendor, onClose }) {
       accountName: vendor.accountName || "",
       accountNumber: vendor.accountNumber || "",
       officeAddress: vendor.officeAddress || "",
+      bio: vendor.bio || "",
+      services: vendor.services || "",
+
       nin: vendor.nin || "",
     });
   }, [vendor]);
@@ -106,6 +109,52 @@ export default function EditProfileModal({ vendor, onClose }) {
                 className={input}
                 placeholder="Store Name"
               />
+            </div>
+          </section>
+
+          {/* SERVICES */}
+          <section className="space-y-4">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
+              Services
+            </h3>
+
+            <textarea
+              name="services"
+              value={formData.services}
+              onChange={handleChange}
+              rows={4}
+              maxLength={300}
+              className={input}
+              placeholder="Examples: Plumbing, Pipe Installation, Leak Repairs, Water Heater Installation, Drain Cleaning, Bathroom Renovation..."
+            />
+
+            <div className="flex justify-end">
+              <span className="text-xs text-gray-500">
+                {(formData.services || "").length}/300
+              </span>
+            </div>
+          </section>
+
+          {/* BIO */}
+          <section className="space-y-4">
+            <h3 className="text-gray-400 text-xs uppercase tracking-wider">
+              Business Bio
+            </h3>
+
+            <textarea
+              name="bio"
+              value={formData.bio}
+              onChange={handleChange}
+              rows={5}
+              maxLength={500}
+              className={input}
+              placeholder="Tell customers about your business, experience, services, and why they should choose you..."
+            />
+
+            <div className="flex justify-end">
+              <span className="text-xs text-gray-500">
+                {(formData.bio || "").length}/500
+              </span>
             </div>
           </section>
 
