@@ -10,7 +10,7 @@ import {
   FaEdit,
 } from "react-icons/fa";
 
-import { supabase } from "../services/supabase";
+import supabase from "../lib/supabaseClients";
 import MiniLoader from "../components/MiniLoader";
 
 export default function ServiceProviderDashboard() {
