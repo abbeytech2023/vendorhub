@@ -2,7 +2,7 @@ import { BadgeCheck, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import React from "react";
 
-export default function ArtisanCard({ providers }) {
+export default function ArtisanGrid({ providers }) {
   console.log(providers);
 
   return (

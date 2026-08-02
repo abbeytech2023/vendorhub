@@ -17,6 +17,8 @@ export default function ServiceProviderDashboard() {
 
   const slug = user?.slug;
   const { vendor, loading: vendorLoading } = useVendor(slug);
+  console.log(slug);
+  console.log(vendor);
 
   if (!slug || vendorLoading) {
     return (

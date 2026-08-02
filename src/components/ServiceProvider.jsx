@@ -2,7 +2,7 @@ import { Star, MapPin, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useVendors } from "../hooks/useVendors";
 
-import ArtisanCard from "./ArtisanCard";
+import ArtisanGrid from "./ArtisanCard";
 
 export default function ServiceProviders() {
   const { data: providers, isLoading, error } = useVendors("artisan");
@@ -25,7 +25,7 @@ export default function ServiceProviders() {
           </p>
         </div>
         <div className="">
-          <ArtisanCard providers={providers} />
+          <ArtisanGrid providers={providers} />
         </div>
 
         <div className="text-center mt-14">
