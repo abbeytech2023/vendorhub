@@ -9,18 +9,17 @@ import {
 } from "react-icons/fa";
 
 import MiniLoader from "../components/MiniLoader";
+import { useParams } from "react-router-dom";
 import { useVendor } from "../hooks/useVendors";
 import { useUserProfileTable } from "../hooks/useUser";
 
 export default function ServiceProviderDashboard() {
-  const { data: user } = useUserProfileTable();
+  const { id } = useParams();
 
-  const slug = user?.slug;
-  const { vendor, loading: vendorLoading } = useVendor(slug);
-  console.log(slug);
+  const { vendor, loading: vendorLoading } = useVendor(id);
   console.log(vendor);
 
-  if (!slug || vendorLoading) {
+  if (!id || vendorLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <MiniLoader />
