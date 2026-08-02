@@ -44,7 +44,6 @@ export const getVendorById = async (id) => {
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    // .eq("role", "vendor")
     .eq("role", currentUser?.role)
     .eq("slug", id)
     .single();

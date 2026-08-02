@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   FaStar,
   FaMapMarkerAlt,
@@ -8,21 +10,59 @@ import {
   FaEdit,
 } from "react-icons/fa";
 
+import { supabase } from "../services/supabase";
 import MiniLoader from "../components/MiniLoader";
-import { useParams } from "react-router-dom";
-import { useVendor } from "../hooks/useVendors";
-import { useUserProfileTable } from "../hooks/useUser";
 
 export default function ServiceProviderDashboard() {
   const { id } = useParams();
 
-  const { vendor, loading: vendorLoading } = useVendor(id);
-  console.log(vendor);
+  const [vendor, setVendor] = useState(null);
+  const [vendorLoading, setVendorLoading] = useState(true);
 
-  if (!id || vendorLoading) {
+  useEffect(() => {
+    async function fetchVendor() {
+      if (!id) {
+        setVendorLoading(false);
+        return;
+      }
+
+      setVendorLoading(true);
+
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("role", "artisan")
+        .eq("slug", id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error fetching artisan:", error);
+        setVendor(null);
+      } else {
+        console.log("Vendor:", data);
+        setVendor(data);
+      }
+
+      setVendorLoading(false);
+    }
+
+    fetchVendor();
+  }, [id]);
+
+  if (vendorLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <MiniLoader />
+      </div>
+    );
+  }
+
+  if (!vendor) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h2 className="text-2xl font-semibold text-gray-700">
+          Artisan not found
+        </h2>
       </div>
     );
   }
@@ -33,49 +73,47 @@ export default function ServiceProviderDashboard() {
         {/* Profile Card */}
         <div className="bg-white rounded-3xl shadow-sm p-8">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
-            {/* Avatar */}
             <img
-              src={vendor?.profilePicture || "/default-avatar.png"}
-              alt={vendor?.fullName || "Service Provider"}
+              src={vendor.profilePicture || "/default-avatar.png"}
+              alt={vendor.fullName}
               className="w-28 h-28 rounded-full object-cover border-4 border-green-500"
             />
 
-            {/* Bio */}
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-3xl font-bold text-gray-800">
-                  {vendor?.fullName || "Service Provider"}
+                  {vendor.fullName}
                 </h1>
 
                 <FaCheckCircle className="text-green-500" />
               </div>
 
-              {vendor?.services && (
+              {vendor.services && (
                 <p className="text-green-600 uppercase font-medium mt-1">
                   {vendor.services}
                 </p>
               )}
 
-              {vendor?.bio && (
+              {vendor.bio && (
                 <p className="text-gray-500 mt-4 leading-7">{vendor.bio}</p>
               )}
 
               <div className="flex flex-wrap gap-5 mt-5 text-gray-600 text-sm">
-                {vendor?.location && (
+                {vendor.location && (
                   <span className="flex items-center gap-2">
                     <FaMapMarkerAlt />
                     {vendor.location}
                   </span>
                 )}
 
-                {vendor?.phone && (
+                {vendor.phone && (
                   <span className="flex items-center gap-2">
                     <FaPhone />
                     {vendor.phone}
                   </span>
                 )}
 
-                {vendor?.email && (
+                {vendor.email && (
                   <span className="flex items-center gap-2">
                     <FaEnvelope />
                     {vendor.email}
@@ -84,17 +122,14 @@ export default function ServiceProviderDashboard() {
               </div>
             </div>
 
-            {/* Rating */}
             <div className="text-center">
               <div className="bg-yellow-50 rounded-2xl p-5">
                 <FaStar className="text-yellow-500 text-3xl mx-auto mb-2" />
 
-                <h2 className="text-3xl font-bold">
-                  {vendor?.rating || "0.0"}
-                </h2>
+                <h2 className="text-3xl font-bold">{vendor.rating || "0.0"}</h2>
 
                 <p className="text-gray-500 text-sm">
-                  {vendor?.reviews || 0} Reviews
+                  {vendor.reviews || 0} Reviews
                 </p>
               </div>
             </div>
@@ -105,28 +140,28 @@ export default function ServiceProviderDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-6">
           <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-green-600">
-              {vendor?.completedJobs || 0}
+              {vendor.completedJobs || 0}
             </h2>
             <p className="text-gray-500 mt-2">Completed Jobs</p>
           </div>
 
           <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-blue-600">
-              {vendor?.activeBookings || 0}
+              {vendor.activeBookings || 0}
             </h2>
             <p className="text-gray-500 mt-2">Active Bookings</p>
           </div>
 
           <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-purple-600">
-              {vendor?.servicesCount || 0}
+              {vendor.servicesCount || 0}
             </h2>
             <p className="text-gray-500 mt-2">Services</p>
           </div>
 
           <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-orange-500">
-              ₦{vendor?.earnings?.toLocaleString() || "0"}
+              ₦{(vendor.earnings || 0).toLocaleString()}
             </h2>
             <p className="text-gray-500 mt-2">Total Earnings</p>
           </div>
