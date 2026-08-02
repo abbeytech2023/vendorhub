@@ -138,33 +138,33 @@ export default function ServiceProviderDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-6">
-          <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
+          {/* <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-green-600">
               {vendor.completedJobs || 0}
             </h2>
             <p className="text-gray-500 mt-2">Completed Jobs</p>
-          </div>
+          </div> */}
 
-          <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
+          {/* <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-blue-600">
               {vendor.activeBookings || 0}
             </h2>
             <p className="text-gray-500 mt-2">Active Bookings</p>
-          </div>
+          </div> */}
 
-          <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
+          {/* <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-purple-600">
               {vendor.servicesCount || 0}
             </h2>
             <p className="text-gray-500 mt-2">Services</p>
-          </div>
+          </div> */}
 
-          <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
+          {/* <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
             <h2 className="text-3xl font-bold text-orange-500">
               ₦{(vendor.earnings || 0).toLocaleString()}
             </h2>
             <p className="text-gray-500 mt-2">Total Earnings</p>
-          </div>
+          </div> */}
         </div>
 
         {/* Quick Actions */}
