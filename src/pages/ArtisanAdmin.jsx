@@ -16,6 +16,7 @@ export default function ServiceProviderDashboard() {
 
   const id = user?.slug;
   const { vendor, loading: vendorLoading } = useVendor(id);
+  console.log(vendor);
 
   return (
     <div className="min-h-screen bg-gray-100 mt-21 p-6">
