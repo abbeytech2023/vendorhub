@@ -19,6 +19,7 @@ export default function ServiceProviderDashboard() {
 
   const [vendor, setVendor] = useState(null);
   const [vendorLoading, setVendorLoading] = useState(true);
+  console.log(vendor?.googleRatings);
 
   useEffect(() => {
     async function fetchVendor() {
@@ -233,17 +234,39 @@ export default function ServiceProviderDashboard() {
             </div>
 
             {/* Rating Card */}
-            <div className="bg-gradient-to-br from-yellow-400 to-orange-400 rounded-3xl p-8 text-center text-white shadow-lg">
-              <FaStar className="text-5xl mx-auto mb-4" />
+            {/* Google Reviews */}
+            {vendor.googleRatings && (
+              <div className="bg-white rounded-3xl shadow-sm p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaStar className="text-yellow-500 text-2xl" />
 
-              <h2 className="text-5xl font-bold">{vendor.rating || "0.0"}</h2>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800">
+                      Google Reviews
+                    </h3>
 
-              <p className="mt-2 text-lg">Average Rating</p>
+                    <p className="text-gray-500 text-sm">
+                      View verified customer reviews on Google
+                    </p>
+                  </div>
+                </div>
 
-              <div className="mt-4 inline-block bg-white/20 px-4 py-2 rounded-full">
-                {vendor.reviews || 0} Reviews
+                {vendor.googleratings ? (
+                  <a
+                    href={vendor.googleRatings}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-2xl py-4 font-semibold flex items-center justify-center"
+                  >
+                    View Google Reviews
+                  </a>
+                ) : (
+                  <div className="text-center py-4 text-gray-500">
+                    Google Reviews not available.
+                  </div>
+                )}
               </div>
-            </div>
+            )}
 
             {/* WhatsApp CTA */}
             <div className="bg-white rounded-3xl shadow-sm p-8">
