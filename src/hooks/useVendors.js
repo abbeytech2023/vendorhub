@@ -44,5 +44,7 @@ export const useVendor = (id) => {
     fetchVendor();
   }, [id]);
 
+  console.log(vendor);
+
   return { vendor, loading, error };
 };

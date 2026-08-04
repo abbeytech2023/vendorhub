@@ -1,23 +1,46 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
-import { useVendor } from "../hooks/useVendors";
 import Spinner from "../components/Spinner";
 import { useAllProducts } from "../hooks/useFecthProducts";
-import MiniLoader from "../components/MiniLoader";
+import supabase from "../lib/supabaseClients";
 
 export default function StoreFront() {
   const { products, isLoading } = useAllProducts();
-
   const { id } = useParams();
-  console.log(id);
-
   const { addToCart } = useCartContext();
-  // const paramId = parseInt(id, 10);
-  const { vendor, loading } = useVendor(id);
-  console.log(vendor);
+
+  const [vendor, setVendor] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchVendor() {
+      setLoading(true);
+
+      const { data, error } = await supabase
+        .from("users") // Change if your table name is different
+        .select("*")
+        .eq("slug", id)
+        .eq("role", "vendor")
+        .single();
+
+      if (error) {
+        console.error(error);
+        setVendor(null);
+      } else {
+        setVendor(data);
+      }
+
+      setLoading(false);
+    }
+
+    if (id) {
+      fetchVendor();
+    }
+  }, [id]);
 
   const vendorProducts = products?.filter((prd) => prd?.uid === vendor?.uid);
 
@@ -51,7 +74,6 @@ export default function StoreFront() {
         </div>
       ) : (
         <div className="max-w-6xl mx-auto rounded-2xl shadow-md overflow-hidden">
-          {/* STORE HEADER */}
           <VendorProfile
             vendor={vendor}
             showEditButton={false}
@@ -60,15 +82,13 @@ export default function StoreFront() {
             cardBg="bg-green-900"
           />
 
-          {/* PAYMENT WARNING NOTE */}
           <div className="mx-6 mt-6 p-4 rounded-xl bg-yellow-100 border border-yellow-300 text-yellow-800 text-sm">
-            ⚠️ <span className="font-semibold">Important Notice:</span>
-            Please do not make payment to any bank account other than the one
-            displayed on this page. We are not responsible for any loss
-            resulting from payments made to unauthorized accounts.
+            ⚠️ <span className="font-semibold">Important Notice:</span> Please
+            do not make payment to any bank account other than the one displayed
+            on this page. We are not responsible for any loss resulting from
+            payments made to unauthorized accounts.
           </div>
 
-          {/* PRODUCTS SECTION */}
           <div className="px-6 mt-21 pb-8">
             <div className="flex items-center justify-between mb-6 border-t pt-6">
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
@@ -84,7 +104,7 @@ export default function StoreFront() {
               <Spinner />
             ) : vendorProducts?.length === 0 ? (
               <p className="text-gray-600">
-                This vendor is yet to add a product
+                This vendor is yet to add a product.
               </p>
             ) : (
               <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6">
@@ -117,7 +137,7 @@ export default function StoreFront() {
                           addToCart(product);
                           toast.success("Added To Cart");
                         }}
-                        className="w-full text-sm bg-green-600 cursor-pointer text-white py-2 rounded-lg hover:bg-green-700 transition"
+                        className="w-full text-sm bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
                       >
                         Add to Cart
                       </button>
