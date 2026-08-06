@@ -58,7 +58,18 @@ export default function ServiceProviderDashboard() {
     );
   }
 
-  const whatsappNumber = vendor.phone?.replace(/\D/g, "");
+  const whatsappNumber = vendor.phone?.replace(/\D/g, "").replace(/^0/, "234");
+  const message = `Hello ${vendor.fullName},
+
+I found your profile on VendorHub and I'm interested in your ${vendor.services} services.
+
+Could you please provide more information about your pricing and availability?
+
+Thank you.`;
+
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    message,
+  )}`;
 
   return (
     <div className="min-h-screen bg-slate-100 pt-24 pb-10">
@@ -106,7 +117,7 @@ export default function ServiceProviderDashboard() {
               </div>
 
               <a
-                href={`https://wa.me/${whatsappNumber}`}
+                href={`${whatsappLink}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white hover:bg-gray-100 transition rounded-2xl px-8 py-4 flex items-center justify-center gap-3 font-bold text-green-700 shadow-lg"
@@ -275,7 +286,7 @@ export default function ServiceProviderDashboard() {
               </p>
 
               <a
-                href={`https://wa.me/${whatsappNumber}`}
+                href={`${whatsappLink}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white rounded-2xl py-4 font-semibold flex items-center justify-center gap-3 transition duration-300"
