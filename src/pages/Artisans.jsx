@@ -123,8 +123,6 @@ import { useVendors } from "../hooks/useVendors";
 export default function ArtisansPage() {
   const { data: artisans, isLoading, error } = useVendors("artisan");
 
-  console.log(artisans);
-
   return (
     <div className="min-h-screen bg-green-50">
       {/* Hero */}

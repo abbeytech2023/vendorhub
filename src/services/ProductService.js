@@ -174,19 +174,13 @@ export async function updateRow({ table, id, updates }) {
 }
 
 export async function deleteProduct(product) {
-  console.log(product);
-
   if (!product) throw new Error("Product is required");
 
   const { id, image } = product;
 
-  console.log(image);
-
   // 1. Delete image from storage (if exists)
   if (image) {
     const fileName = image.split("/").pop(); // extract file name
-
-    console.log(fileName);
 
     const { error: storageError } = await supabase.storage
       .from("product-image") // your bucket name
@@ -194,7 +188,7 @@ export async function deleteProduct(product) {
 
     if (storageError) {
       console.error("Storage delete error:", storageError.message);
-      console.log(storageError.message);
+      // console.log(storageError.message);
 
       throw new Error("Failed to delete product image");
     }

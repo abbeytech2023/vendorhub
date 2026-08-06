@@ -54,7 +54,7 @@ export default function VendorProfile({
       await navigator.clipboard.writeText(currentUrl);
       toast.success("Link copied to clipboard");
     } catch (err) {
-      console.error("Failed to copy:", err);
+      toast.error(err.message);
     }
   };
 

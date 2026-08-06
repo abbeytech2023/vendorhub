@@ -47,7 +47,7 @@ export function useUpdateRow({ table, queryKey }) {
 
     // ❌ Error
     onError: (error, variables, context) => {
-      console.error("Update failed:", error);
+      e.error("Update failed:", error);
 
       // Rollback
       if (context?.previousData !== undefined) {

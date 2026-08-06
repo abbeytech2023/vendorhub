@@ -39,6 +39,20 @@ export async function getVendors(role) {
   return data;
 }
 
+export async function fetchVendorsBySlug(slug) {
+  const { data, error } = await supabase
+    .from("users") // Change if your table name is different
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
 export const getVendorById = async (id) => {
   const currentUser = await getUserProfile();
   const { data, error } = await supabase

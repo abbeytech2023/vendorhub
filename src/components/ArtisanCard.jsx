@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import React from "react";
 
 export default function ArtisanGrid({ providers }) {
-  console.log(providers);
-
   return (
     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {providers?.map((provider) => {

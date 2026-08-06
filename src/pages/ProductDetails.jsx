@@ -11,12 +11,10 @@ export default function ProductDetails() {
   const { id } = useParams();
   const { data: product, isLoading, error } = useProductById(id);
   const { data: vendors } = useVendors("vendor");
-  console.log(vendors);
 
   const storeId = vendors?.filter((vend) => vend?.uid === product?.uid);
 
   const vendorSlug = storeId && storeId[0];
-  console.log(vendorSlug);
 
   // ================= WHATSAPP BUY NOW =================
   const handleBuyNow = () => {

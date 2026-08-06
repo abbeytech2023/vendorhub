@@ -57,7 +57,7 @@ export async function signUp({
   ]);
 
   if (insertError) {
-    console.error("Database insert error:", insertError);
+    // console.error("Database insert error:", insertError);
     return;
   }
 
@@ -71,8 +71,6 @@ export async function getCurrentUser() {
 
   const { data, error } = await supabase.auth.getUser();
 
-  console.log(data);
-
   return data?.user;
 }
 
@@ -84,7 +82,6 @@ export async function login({ email, password }) {
   });
 
   if (error) throw new Error(error.message);
-  console.log(data);
 
   return { data, error };
 }

@@ -52,9 +52,9 @@ export default function SuperAdminDashboard() {
 
       let imageUrl = "";
 
-      console.log("FORM DATA:", data);
-      console.log("IMAGE:", data.image);
-      console.log("FIRST IMAGE:", data.image?.[0]);
+      // console.log("FORM DATA:", data);
+      // console.log("IMAGE:", data.image);
+      // console.log("FIRST IMAGE:", data.image?.[0]);
 
       // UPLOAD IMAGE
       if (data.image?.[0]) {

@@ -52,8 +52,6 @@ export default function VendorRegistration() {
       nin,
     } = data;
 
-    console.log(data);
-
     const slug = slugify(storeName);
 
     signup({

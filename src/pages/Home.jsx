@@ -9,7 +9,6 @@ import ServiceProviders from "../components/ServiceProvider";
 
 export default function Home() {
   const { data: user, error } = useUserProfileTable();
-  console.log(error);
   const id = user?.slug;
   const { vendor } = useVendor(id);
 

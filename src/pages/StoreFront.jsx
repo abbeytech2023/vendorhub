@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import VendorProfile from "../components/VendorProfile";
 import { useCartContext } from "../hooks/useCartContext";
@@ -6,47 +5,20 @@ import toast from "react-hot-toast";
 import { priceFormat } from "../utility/priceFormat";
 import Spinner from "../components/Spinner";
 import { useAllProducts } from "../hooks/useFecthProducts";
-import supabase from "../lib/supabaseClients";
+import { useFetchVendorBySlug } from "../hooks/useFetchVendorsBySlug";
 
 export default function StoreFront() {
   const { products, isLoading } = useAllProducts();
   const { id } = useParams();
   const { addToCart } = useCartContext();
 
-  const [vendor, setVendor] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchVendor() {
-      setLoading(true);
-
-      const { data, error } = await supabase
-        .from("users") // Change if your table name is different
-        .select("*")
-        .eq("slug", id)
-        .eq("role", "vendor")
-        .single();
-
-      if (error) {
-        console.error(error);
-        setVendor(null);
-      } else {
-        setVendor(data);
-      }
-
-      setLoading(false);
-    }
-
-    if (id) {
-      fetchVendor();
-    }
-  }, [id]);
+  const { vendor, isLoading: isLoadingVendor } = useFetchVendorBySlug(id);
 
   const vendorProducts = products?.filter((prd) => prd?.uid === vendor?.uid);
 
   return (
     <section className="bg-green-100 min-h-screen py-10 px-4">
-      {loading ? (
+      {isLoadingVendor ? (
         <Spinner />
       ) : !vendor ? (
         <div className="min-h-[60vh] flex items-center justify-center px-6">

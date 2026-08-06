@@ -8,8 +8,6 @@ export function useUser() {
     queryFn: getCurrentUser,
   });
 
-  console.log(user);
-
   return {
     isPending,
     user,

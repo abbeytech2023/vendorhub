@@ -10,47 +10,18 @@ import {
   FaBriefcase,
   FaUser,
 } from "react-icons/fa";
+import { useFetchVendorBySlug } from "../hooks/useFetchVendorsBySlug";
 
+import { FaWifi, FaRedoAlt } from "react-icons/fa";
 import supabase from "../lib/supabaseClients";
 import MiniLoader from "../components/MiniLoader";
 
 export default function ServiceProviderDashboard() {
   const { id } = useParams();
+  const { vendor, isLoading, refetch } = useFetchVendorBySlug(id);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  const [vendor, setVendor] = useState(null);
-  const [vendorLoading, setVendorLoading] = useState(true);
-  console.log(vendor?.googleRatings);
-
-  useEffect(() => {
-    async function fetchVendor() {
-      if (!id) {
-        setVendorLoading(false);
-        return;
-      }
-
-      setVendorLoading(true);
-
-      const { data, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("role", "artisan")
-        .eq("slug", id)
-        .maybeSingle();
-
-      if (error) {
-        console.error(error);
-        setVendor(null);
-      } else {
-        setVendor(data);
-      }
-
-      setVendorLoading(false);
-    }
-
-    fetchVendor();
-  }, [id]);
-
-  if (vendorLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <MiniLoader />
@@ -60,10 +31,29 @@ export default function ServiceProviderDashboard() {
 
   if (!vendor) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h2 className="text-2xl font-semibold text-gray-700">
-          Artisan not found
-        </h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 text-center">
+          <div className="flex justify-center mb-5">
+            <div className="bg-red-100 p-5 rounded-full">
+              <FaWifi className="text-5xl text-red-600" />
+            </div>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-800">Connection Lost</h2>
+
+          <p className="mt-3 text-gray-500">
+            We couldn't load the vendor information. Please check your internet
+            connection and try again.
+          </p>
+
+          <button
+            onClick={() => refetch()}
+            className="mt-8 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200"
+          >
+            <FaRedoAlt />
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
@@ -82,7 +72,12 @@ export default function ServiceProviderDashboard() {
                 <img
                   src={vendor.profilePicture || "/default-avatar.png"}
                   alt={vendor.fullName}
-                  className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-lg"
+                  onClick={() =>
+                    setPreviewImage(
+                      vendor.profilePicture || "/default-avatar.png",
+                    )
+                  }
+                  className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer hover:scale-105 transition duration-300"
                 />
 
                 <div className="text-white text-center sm:text-left">
@@ -292,6 +287,26 @@ export default function ServiceProviderDashboard() {
           </div>
         </div>
       </div>
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setPreviewImage(null)}
+        >
+          <img
+            src={previewImage}
+            alt="Profile"
+            className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button
+            onClick={() => setPreviewImage(null)}
+            className="absolute top-6 right-6 text-white cursor-pointer text-4xl font-bold hover:text-gray-300"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   );
 }

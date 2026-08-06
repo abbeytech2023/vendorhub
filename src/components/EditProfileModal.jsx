@@ -39,8 +39,6 @@ export default function EditProfileModal({ vendor, onClose }) {
     }));
   };
 
-  console.log(formData);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(
