@@ -62,7 +62,7 @@ export default function Home() {
         </section>
 
         <ProductsSection />
-        <ServiceProviders />
+        {/* <ServiceProviders /> */}
         <Features />
         <Footer />
       </div>
