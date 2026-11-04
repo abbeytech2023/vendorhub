@@ -83,7 +83,7 @@ export default function VendorProfile({
 
   return (
     <div
-      className={`w-full min-h-screen ${background} text-gray-100 px-3 sm:px-6 py-5`}
+      className={` w-full min-h-screen ${background} text-gray-100 px-3 sm:px-6 py-5`}
     >
       <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         {/* HEADER */}
