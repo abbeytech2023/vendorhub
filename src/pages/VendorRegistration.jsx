@@ -202,8 +202,10 @@ export default function VendorRegistration() {
                   <option value="School">School</option>
                   <option value="Vehicles">Vehicles</option>
                   <option value="Homes">Homes</option>
-                  <option value="Kids">Kids</option>
+                  <option value="real-estate">Real-Estates</option>
                   <option value="Health">Health</option>
+                  <option value="housing-agents">Housing Agents</option>
+                  <option value="Kids">Kids</option>
                   <option value="Services">Services</option>
                   <option value="Agriculture">Agriculture</option>
                   <option value="Others">Others</option>

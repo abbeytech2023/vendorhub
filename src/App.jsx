@@ -21,7 +21,9 @@ import Spinner from "./components/Spinner";
 import AboutVendorHub from "./pages/AboutUs";
 import ServiceProviderAdmin from "./pages/ArtisanAdmin";
 import ScrollToTop from "./components/ScrollToTop";
+import RealEstateAgents from "./pages/EstateAgents";
 
+import PublicRoute from "./components/PublicRoute";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 function NotFound() {
@@ -29,9 +31,11 @@ function NotFound() {
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-green-600">404</h1>
+
         <p className="mt-4 text-2xl font-semibold text-gray-800">
           Page Not Found
         </p>
+
         <p className="mt-2 text-gray-500">
           The page you are looking for does not exist.
         </p>
@@ -60,34 +64,47 @@ export default function App() {
           <ScrollToTop />
 
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="sell" element={<BecomeVendor />} />
             <Route path="shop" element={<ProductListPage />} />
             <Route path="vendors" element={<VendorsSectionPage />} />
             <Route path="vendor/:id" element={<StoreFront />} />
-            <Route path="login" element={<Login />} />
+            <Route path="/estate_agents" element={<RealEstateAgents />} />
             <Route path="artisans" element={<ArtisansPage />} />
             <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
-            <Route path="/vendor/register" element={<VendorRegistration />} />
             <Route path="/artisan/:id" element={<ServiceProviderAdmin />} />
+
+            {/* Routes accessible only to logged-out users */}
+            <Route element={<PublicRoute />}>
+              <Route path="login" element={<Login />} />
+              <Route path="vendor/register" element={<VendorRegistration />} />
+            </Route>
+
+            {/* Super Admin Routes */}
             <Route element={<SuperAdminRoute />}>
               <Route path="superAdmin" element={<SuperAdminDashboard />} />
             </Route>
+
+            {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="seller-admin" element={<VendorAdmin />} />
             </Route>
+
             {/* Catch All Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       )}
 
+      {/* Install App Button */}
       <div className="fixed bottom-4 right-4 z-50">
         <InstallButton />
       </div>
 
+      {/* Toast Notifications */}
       <Toaster
         position="top-center"
         gutter={12}

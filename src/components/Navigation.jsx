@@ -72,6 +72,12 @@ export default function Navbar() {
           <Link to="/vendors" className={navItemDesktop("/vendors")}>
             Vendors
           </Link>
+          <Link
+            to="/estate_agents"
+            className={navItemDesktop("/estate_agents")}
+          >
+            Estate-Agents
+          </Link>
 
           <Link to="/about" className={navItemDesktop("/about")}>
             About Us
@@ -160,6 +166,14 @@ export default function Navbar() {
               className={navItemMobile("/vendors")}
             >
               Vendors
+            </Link>
+
+            <Link
+              to="/estate_agents"
+              onClick={() => setMenuOpen(false)}
+              className={navItemMobile("/estate_agents")}
+            >
+              Estate-Agents
             </Link>
 
             {vendor && (
