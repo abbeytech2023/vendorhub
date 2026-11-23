@@ -26,7 +26,7 @@ export default function ArtisansPage() {
           </p>
 
           {/* Search */}
-          <div className="mt-10 bg-white rounded-2xl p-4 flex flex-col md:flex-row gap-4 shadow-xl">
+          {/* <div className="mt-10 bg-white rounded-2xl p-4 flex flex-col md:flex-row gap-4 shadow-xl">
             <div className="flex-1 flex items-center border rounded-xl px-4">
               <Search className="text-gray-400" size={20} />
 
@@ -50,16 +50,16 @@ export default function ArtisansPage() {
             <button className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-xl text-white font-semibold transition">
               Search
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
 
       {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 py-8 flex justify-between items-center">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+          {/* <h2 className="text-xl md:text-2xl font-bold text-gray-800">
             Service Providers
-          </h2>
+          </h2> */}
 
           <p className="text-gray-500 text-sm mt-1">
             {artisans.length} providers available

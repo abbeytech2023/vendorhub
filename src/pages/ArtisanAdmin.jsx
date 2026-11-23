@@ -75,60 +75,92 @@ Thank you.`;
     <div className="min-h-screen bg-slate-100 pt-24 pb-10">
       <div className="max-w-6xl mx-auto px-4">
         {/* HERO */}
+        <div className="relative bg-gradient-to-br from-green-950 via-green-800 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
+          {/* Decorative Background */}
+          <div className="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-emerald-300/10 rounded-full blur-3xl"></div>
 
-        <div className="bg-gradient-to-r from-green-800 via-green-700 to-emerald-500 rounded-3xl overflow-hidden shadow-xl">
-          <div className="p-8 lg:p-10">
+          <div className="relative p-6 sm:p-8 lg:p-10">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-                <img
-                  src={vendor.profilePicture || "/default-avatar.png"}
-                  alt={vendor.fullName}
-                  onClick={() =>
-                    setPreviewImage(
-                      vendor.profilePicture || "/default-avatar.png",
-                    )
-                  }
-                  className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-lg cursor-pointer hover:scale-105 transition duration-300"
-                />
+              {/* Business Information */}
+              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start min-w-0">
+                {/* Business Profile Picture */}
+                <div className="shrink-0">
+                  <img
+                    src={vendor.profilePicture || "/default-avatar.png"}
+                    alt={vendor.storeName || vendor.fullName}
+                    onClick={() =>
+                      setPreviewImage(
+                        vendor.profilePicture || "/default-avatar.png",
+                      )
+                    }
+                    className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-4 border-white/90 shadow-xl cursor-pointer hover:scale-105 transition duration-300"
+                  />
+                </div>
 
-                <div className="text-white text-center sm:text-left">
+                {/* Details */}
+                <div className="text-white text-center sm:text-left min-w-0">
+                  {/* Business Name */}
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                    <h1 className="text-4xl font-bold">{vendor.fullName}</h1>
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight break-words">
+                      {vendor.storeName || vendor.fullName}
+                    </h1>
 
-                    <FaCheckCircle className="text-white" />
+                    <FaCheckCircle className="text-green-300 text-xl shrink-0" />
                   </div>
 
+                  {/* Business Category */}
                   {vendor.services && (
-                    <p className="uppercase tracking-widest mt-2 font-semibold">
+                    <p className="uppercase tracking-widest mt-2 text-green-200 text-xs sm:text-sm font-bold">
                       {vendor.services}
                     </p>
                   )}
 
+                  {/* Owner Name */}
+                  <p className="text-green-100 mt-3 text-sm">
+                    Owned and managed by{" "}
+                    <span className="font-semibold text-white">
+                      {vendor.fullName}
+                    </span>
+                  </p>
+
+                  {/* Rating */}
                   <div className="flex justify-center sm:justify-start items-center gap-2 mt-5">
-                    <FaStar className="text-yellow-300" />
+                    <div className="flex items-center gap-1 bg-white/15 backdrop-blur-sm px-3 py-2 rounded-xl">
+                      <FaStar className="text-yellow-300" />
 
-                    <span className="font-bold">{vendor.rating || "0.0"}</span>
+                      <span className="font-bold text-white">
+                        {vendor.rating || "0.0"}
+                      </span>
+                    </div>
 
-                    <span className="opacity-90">
-                      ({vendor.reviews || 0} Reviews)
+                    <span className="text-green-100 text-sm">
+                      {vendor.reviews || 0} Customer Reviews
                     </span>
                   </div>
                 </div>
               </div>
 
-              <a
-                href={`${whatsappLink}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white hover:bg-gray-100 transition rounded-2xl px-8 py-4 flex items-center justify-center gap-3 font-bold text-green-700 shadow-lg"
-              >
-                <FaWhatsapp className="text-3xl" />
-                Book on WhatsApp
-              </a>
+              {/* Booking Section */}
+              <div className="flex flex-col gap-3 lg:min-w-[220px]">
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white hover:bg-green-50 transition-all rounded-2xl px-7 py-4 flex items-center justify-center gap-3 font-bold text-green-800 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                >
+                  <FaWhatsapp className="text-3xl text-green-600" />
+
+                  <span>Book on WhatsApp</span>
+                </a>
+
+                <p className="text-green-100 text-xs text-center">
+                  Contact the business directly
+                </p>
+              </div>
             </div>
           </div>
         </div>
-
         {/* CONTENT */}
 
         <div className="grid lg:grid-cols-3 gap-6 mt-8">
