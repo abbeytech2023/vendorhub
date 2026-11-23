@@ -203,7 +203,7 @@ export default function RealEstateAgents() {
                   {/* Location */}
                   <div className="flex items-center gap-2 text-gray-500 text-sm mt-4">
                     <MapPin size={16} className="text-green-600 shrink-0" />
-                    <span>{agent.location}</span>
+                    <span>{agent.localGovernment}</span>
                   </div>
 
                   {/* Experience */}
@@ -233,7 +233,7 @@ export default function RealEstateAgents() {
 
                   {/* Property Count */}
                   <div className="border-t border-gray-100 mt-5 pt-4 flex justify-between items-center">
-                    <div>
+                    {/* <div>
                       <p className="text-xl font-bold text-gray-900">
                         {agent.properties}
                       </p>
@@ -241,7 +241,7 @@ export default function RealEstateAgents() {
                       <p className="text-xs text-gray-500">
                         Properties handled
                       </p>
-                    </div>
+                    </div> */}
 
                     <Link
                       to={`/real-estate-agent/${agent.slug}`}

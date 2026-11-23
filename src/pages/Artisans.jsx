@@ -5,140 +5,33 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
+
 import { useVendors } from "../hooks/useVendors";
 
-// const serviceProviders = [
-//   {
-//     id: 1,
-//     name: "John Electricals",
-//     profession: "Electrician",
-//     location: "Lagos",
-//     rating: 4.9,
-//     jobs: 240,
-//     price: "₦8,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43b",
-//   },
-//   {
-//     id: 2,
-//     name: "Sarah Cleaners",
-//     profession: "Cleaning Services",
-//     location: "Abuja",
-//     rating: 4.8,
-//     jobs: 182,
-//     price: "₦12,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-//   },
-//   {
-//     id: 3,
-//     name: "Mike Plumbing",
-//     profession: "Plumber",
-//     location: "Port Harcourt",
-//     rating: 4.7,
-//     jobs: 154,
-//     price: "₦10,000",
-//     verified: false,
-//     image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
-//   },
-//   {
-//     id: 4,
-//     name: "AutoFix Garage",
-//     profession: "Mechanic",
-//     location: "Ibadan",
-//     rating: 4.9,
-//     jobs: 310,
-//     price: "₦15,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1504593811423-6dd665756598",
-//   },
-//   {
-//     id: 5,
-//     name: "Bright Painter",
-//     profession: "Painter",
-//     location: "Benin",
-//     rating: 4.8,
-//     jobs: 120,
-//     price: "₦18,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3",
-//   },
-//   {
-//     id: 6,
-//     name: "Royal AC Services",
-//     profession: "AC Technician",
-//     location: "Enugu",
-//     rating: 4.9,
-//     jobs: 210,
-//     price: "₦9,500",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-//   },
-//   {
-//     id: 7,
-//     name: "Elite Carpentry",
-//     profession: "Carpenter",
-//     location: "Abeokuta",
-//     rating: 4.6,
-//     jobs: 140,
-//     price: "₦20,000",
-//     verified: false,
-//     image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952",
-//   },
-//   {
-//     id: 8,
-//     name: "Spark Security",
-//     profession: "CCTV Installer",
-//     location: "Lagos",
-//     rating: 4.9,
-//     jobs: 400,
-//     price: "₦25,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
-//   },
-//   {
-//     id: 9,
-//     name: "Fresh Laundry",
-//     profession: "Laundry Services",
-//     location: "Ilorin",
-//     rating: 4.8,
-//     jobs: 190,
-//     price: "₦6,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a",
-//   },
-//   {
-//     id: 10,
-//     name: "Swift Movers",
-//     profession: "Moving Services",
-//     location: "Kano",
-//     rating: 4.7,
-//     jobs: 135,
-//     price: "₦30,000",
-//     verified: true,
-//     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-//   },
-// ];
-
 export default function ArtisansPage() {
-  const { data: artisans, isLoading, error } = useVendors("artisan");
+  const { data: artisans = [], isLoading, error } = useVendors("artisan");
 
   return (
     <div className="min-h-screen bg-green-50">
-      {/* Hero */}
-      <section className="bg-gradient-to-r from-green-700 to-green-500 text-white py-19">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-green-700 to-green-500 text-white py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-5xl font-bold">Find Trusted Service Providers</h1>
+          <h1 className="text-3xl md:text-5xl font-bold">
+            Find Trusted Service Providers
+          </h1>
 
           <p className="mt-4 max-w-2xl text-green-100">
             Discover verified artisans and professionals near you. Book trusted
             electricians, plumbers, cleaners, mechanics, technicians and more.
           </p>
 
+          {/* Search */}
           <div className="mt-10 bg-white rounded-2xl p-4 flex flex-col md:flex-row gap-4 shadow-xl">
             <div className="flex-1 flex items-center border rounded-xl px-4">
               <Search className="text-gray-400" size={20} />
+
               <input
+                type="text"
                 placeholder="Search service..."
                 className="w-full p-3 outline-none text-gray-700"
               />
@@ -146,13 +39,15 @@ export default function ArtisansPage() {
 
             <div className="flex-1 flex items-center border rounded-xl px-4">
               <MapPin className="text-gray-400" size={20} />
+
               <input
+                type="text"
                 placeholder="Location"
                 className="w-full p-3 outline-none text-gray-700"
               />
             </div>
 
-            <button className="bg-green-600 hover:bg-green-700 px-8 rounded-xl text-white font-semibold">
+            <button className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-xl text-white font-semibold transition">
               Search
             </button>
           </div>
@@ -161,80 +56,166 @@ export default function ArtisansPage() {
 
       {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 py-8 flex justify-between items-center">
-        <h2 className="text-2xl font-bold">10 Service Providers</h2>
+        <div>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+            Service Providers
+          </h2>
 
-        <button className="flex items-center gap-2 border px-5 py-2 rounded-xl hover:bg-green-100">
+          <p className="text-gray-500 text-sm mt-1">
+            {artisans.length} providers available
+          </p>
+        </div>
+
+        <button className="flex items-center gap-2 border border-gray-300 px-5 py-2 rounded-xl hover:bg-green-100 transition">
           <SlidersHorizontal size={18} />
           Filters
         </button>
       </div>
 
-      {/* Providers */}
+      {/* Providers Section */}
       <section className="max-w-7xl mx-auto px-4 pb-20">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {artisans?.map((provider) => (
-            <div
-              key={provider.id}
-              className="bg-white rounded-3xl overflow-hidden shadow hover:shadow-2xl hover:-translate-y-2 transition duration-300"
-            >
-              <img
-                src={provider.image}
-                alt={provider.name}
-                className="w-full h-60 object-cover"
-              />
+        {/* Loading */}
+        {isLoading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
 
-              <div className="p-6">
-                <div className="flex justify-between">
-                  <div>
-                    <h3 className="font-bold text-xl">{provider.fullName}</h3>
+            <p className="mt-4 text-gray-500">Loading service providers...</p>
+          </div>
+        )}
 
-                    <p className="text-green-600 font-semibold">
-                      {provider.services.charAt(0).toUpperCase() +
-                        provider.services.slice(1)}
-                    </p>
+        {/* Error */}
+        {!isLoading && error && (
+          <div className="text-center py-16">
+            <p className="text-red-600 font-semibold">
+              Unable to load service providers.
+            </p>
+
+            <p className="text-gray-500 mt-2">
+              {error.message || "Something went wrong. Please try again."}
+            </p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !error && artisans.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-2xl shadow-sm">
+            <div className="text-5xl mb-4">🔍</div>
+
+            <h3 className="text-xl font-bold text-gray-800">
+              No Service Providers Yet
+            </h3>
+
+            <p className="text-gray-500 mt-2">
+              There are currently no registered artisans available. Please check
+              back later.
+            </p>
+          </div>
+        )}
+
+        {/* Provider Cards */}
+        {!isLoading && !error && artisans.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8">
+            {artisans.map((provider) => (
+              <div
+                key={provider.id}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+              >
+                {/* Responsive Image */}
+                <div className="w-full aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3] overflow-hidden bg-gray-100">
+                  <img
+                    src={
+                      provider.profilePicture ||
+                      "https://placehold.co/600x450?text=Service+Provider"
+                    }
+                    alt={provider.fullName || "Service Provider"}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        "https://placehold.co/600x450?text=Service+Provider";
+                    }}
+                  />
+                </div>
+
+                {/* Card Content */}
+                <div className="p-4 sm:p-5 flex flex-col flex-1">
+                  {/* Name and Verification */}
+                  <div className="flex justify-between items-start gap-2">
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-lg sm:text-xl text-gray-800 truncate">
+                        {provider.fullName || "Unnamed Provider"}
+                      </h3>
+
+                      <p className="text-green-600 font-semibold mt-1 text-sm">
+                        {provider.services
+                          ? provider.services.charAt(0).toUpperCase() +
+                            provider.services.slice(1)
+                          : "Service Provider"}
+                      </p>
+                    </div>
+
+                    {provider.verified && (
+                      <BadgeCheck
+                        className="text-green-600 shrink-0"
+                        size={22}
+                      />
+                    )}
                   </div>
 
-                  {provider.verified && (
-                    <BadgeCheck className="text-green-600" size={22} />
-                  )}
-                </div>
+                  {/* Location */}
+                  <div className="flex items-center text-gray-500 mt-4 text-sm">
+                    <MapPin size={16} className="mr-2 shrink-0" />
 
-                <div className="flex items-center text-gray-500 mt-4">
-                  <MapPin size={16} className="mr-2" />
-                  {provider.localGovernment}
-                </div>
+                    <span className="truncate">
+                      {provider.localGovernment || "Location unavailable"}
+                    </span>
+                  </div>
 
-                <div className="flex justify-between mt-5">
-                  {/* <div className="flex items-center">
-                    <Star
-                      className="fill-yellow-400 text-yellow-400 mr-1"
-                      size={18}
-                    />
-                    <span className="font-medium">{provider.rating}</span>
-                  </div> */}
+                  {/* Rating and Jobs */}
+                  <div className="flex justify-between items-center mt-4">
+                    {provider.rating ? (
+                      <div className="flex items-center">
+                        <Star
+                          className="fill-yellow-400 text-yellow-400 mr-1"
+                          size={17}
+                        />
 
-                  <span className="text-gray-500 text-sm">
-                    {provider.jobs}+ Jobs
-                  </span>
-                </div>
+                        <span className="font-medium text-sm">
+                          {provider.rating}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-gray-400 text-xs">
+                        New Provider
+                      </span>
+                    )}
 
-                <div className="mt-5 flex justify-between items-center">
-                  <div>
+                    <span className="text-gray-500 text-xs sm:text-sm">
+                      {provider.jobs || 0} Jobs
+                    </span>
+                  </div>
+
+                  {/* Price */}
+                  <div className="mt-5">
                     <p className="text-xs text-gray-500">Starting From</p>
 
-                    <h4 className="font-bold text-2xl text-green-700">
-                      {provider.price}
+                    <h4 className="font-bold text-xl sm:text-2xl text-green-700">
+                      {provider.price || "Contact for price"}
                     </h4>
                   </div>
-                </div>
 
-                <button className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition">
-                  Book Now
-                </button>
+                  {/* Button */}
+                  <button className="w-full mt-auto pt-4">
+                    <span className="block bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition">
+                      Book Now
+                    </span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
