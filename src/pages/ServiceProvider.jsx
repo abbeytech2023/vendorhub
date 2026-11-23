@@ -2,7 +2,7 @@ import { Star, MapPin, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useVendors } from "../hooks/useVendors";
 
-import AryisanGrid from "../components/ArtisanCard";
+import ArtisanGrid from "../components/ArtisanCard";
 
 export default function ServiceProviders() {
   const { data: providers, isLoading, error } = useVendors("artisan");
