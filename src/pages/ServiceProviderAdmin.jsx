@@ -221,17 +221,6 @@ Thank you.`;
             {/* ADD REVIEW */}
 
             <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm min-w-0 overflow-hidden">
-              <div className="mb-5 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-                  Write a Review
-                </h2>
-
-                <p className="text-gray-500 mt-2 text-sm sm:text-base leading-6">
-                  Have you used this business before? Share your experience and
-                  help others make informed decisions.
-                </p>
-              </div>
-
               <AddReview vendor_id={vendor.id} user={user} />
             </div>
 
