@@ -5,7 +5,7 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
-
+import MenuGrid from "../components/MenuGrid";
 import { useVendors } from "../hooks/useVendors";
 
 export default function ArtisansPage() {
@@ -114,107 +114,108 @@ export default function ArtisansPage() {
 
         {/* Provider Cards */}
         {!isLoading && !error && artisans.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8">
-            {artisans.map((provider) => (
-              <div
-                key={provider.id}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
-              >
-                {/* Responsive Image */}
-                <div className="w-full aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3] overflow-hidden bg-gray-100">
-                  <img
-                    src={
-                      provider.profilePicture ||
-                      "https://placehold.co/600x450?text=Service+Provider"
-                    }
-                    alt={provider.fullName || "Service Provider"}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src =
-                        "https://placehold.co/600x450?text=Service+Provider";
-                    }}
-                  />
-                </div>
+          // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-8">
+          //   {artisans.map((provider) => (
+          //     <div
+          //       key={provider.id}
+          //       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+          //     >
+          //       {/* Responsive Image */}
+          //       <div className="w-full aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3] overflow-hidden bg-gray-100">
+          //         <img
+          //           src={
+          //             provider.profilePicture ||
+          //             "https://placehold.co/600x450?text=Service+Provider"
+          //           }
+          //           alt={provider.fullName || "Service Provider"}
+          //           loading="lazy"
+          //           className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+          //           onError={(e) => {
+          //             e.currentTarget.onerror = null;
+          //             e.currentTarget.src =
+          //               "https://placehold.co/600x450?text=Service+Provider";
+          //           }}
+          //         />
+          //       </div>
 
-                {/* Card Content */}
-                <div className="p-4 sm:p-5 flex flex-col flex-1">
-                  {/* Name and Verification */}
-                  <div className="flex justify-between items-start gap-2">
-                    <div className="min-w-0">
-                      <h3 className="font-bold text-lg sm:text-xl text-gray-800 truncate">
-                        {provider.fullName || "Unnamed Provider"}
-                      </h3>
+          //       {/* Card Content */}
+          //       <div className="p-4 sm:p-5 flex flex-col flex-1">
+          //         {/* Name and Verification */}
+          //         <div className="flex justify-between items-start gap-2">
+          //           <div className="min-w-0">
+          //             <h3 className="font-bold text-lg sm:text-xl text-gray-800 truncate">
+          //               {provider.fullName || "Unnamed Provider"}
+          //             </h3>
 
-                      <p className="text-green-600 font-semibold mt-1 text-sm">
-                        {provider.services
-                          ? provider.services.charAt(0).toUpperCase() +
-                            provider.services.slice(1)
-                          : "Service Provider"}
-                      </p>
-                    </div>
+          //             <p className="text-green-600 font-semibold mt-1 text-sm">
+          //               {provider.services
+          //                 ? provider.services.charAt(0).toUpperCase() +
+          //                   provider.services.slice(1)
+          //                 : "Service Provider"}
+          //             </p>
+          //           </div>
 
-                    {provider.verified && (
-                      <BadgeCheck
-                        className="text-green-600 shrink-0"
-                        size={22}
-                      />
-                    )}
-                  </div>
+          //           {provider.verified && (
+          //             <BadgeCheck
+          //               className="text-green-600 shrink-0"
+          //               size={22}
+          //             />
+          //           )}
+          //         </div>
 
-                  {/* Location */}
-                  <div className="flex items-center text-gray-500 mt-4 text-sm">
-                    <MapPin size={16} className="mr-2 shrink-0" />
+          //         {/* Location */}
+          //         <div className="flex items-center text-gray-500 mt-4 text-sm">
+          //           <MapPin size={16} className="mr-2 shrink-0" />
 
-                    <span className="truncate">
-                      {provider.localGovernment || "Location unavailable"}
-                    </span>
-                  </div>
+          //           <span className="truncate">
+          //             {provider.localGovernment || "Location unavailable"}
+          //           </span>
+          //         </div>
 
-                  {/* Rating and Jobs */}
-                  <div className="flex justify-between items-center mt-4">
-                    {provider.rating ? (
-                      <div className="flex items-center">
-                        <Star
-                          className="fill-yellow-400 text-yellow-400 mr-1"
-                          size={17}
-                        />
+          //         {/* Rating and Jobs */}
+          //         <div className="flex justify-between items-center mt-4">
+          //           {provider.rating ? (
+          //             <div className="flex items-center">
+          //               <Star
+          //                 className="fill-yellow-400 text-yellow-400 mr-1"
+          //                 size={17}
+          //               />
 
-                        <span className="font-medium text-sm">
-                          {provider.rating}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400 text-xs">
-                        New Provider
-                      </span>
-                    )}
+          //               <span className="font-medium text-sm">
+          //                 {provider.rating}
+          //               </span>
+          //             </div>
+          //           ) : (
+          //             <span className="text-gray-400 text-xs">
+          //               New Provider
+          //             </span>
+          //           )}
 
-                    <span className="text-gray-500 text-xs sm:text-sm">
-                      {provider.jobs || 0} Jobs
-                    </span>
-                  </div>
+          //           <span className="text-gray-500 text-xs sm:text-sm">
+          //             {provider.jobs || 0} Jobs
+          //           </span>
+          //         </div>
 
-                  {/* Price */}
-                  <div className="mt-5">
-                    <p className="text-xs text-gray-500">Starting From</p>
+          //         {/* Price */}
+          //         <div className="mt-5">
+          //           <p className="text-xs text-gray-500">Starting From</p>
 
-                    <h4 className="font-bold text-xl sm:text-2xl text-green-700">
-                      {provider.price || "Contact for price"}
-                    </h4>
-                  </div>
+          //           <h4 className="font-bold text-xl sm:text-2xl text-green-700">
+          //             {provider.price || "Contact for price"}
+          //           </h4>
+          //         </div>
 
-                  {/* Button */}
-                  <button className="w-full mt-auto pt-4">
-                    <span className="block bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition">
-                      Book Now
-                    </span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          //         {/* Button */}
+          //         <button className="w-full mt-auto pt-4">
+          //           <span className="block bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold text-sm transition">
+          //             Book Now
+          //           </span>
+          //         </button>
+          //       </div>
+          //     </div>
+          //   ))}
+          // </div>
+          <MenuGrid providers={artisans} />
         )}
       </section>
     </div>
