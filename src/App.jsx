@@ -15,11 +15,11 @@ import ProductDetails from "./pages/ProductDetails";
 import StoreFront from "./pages/StoreFront";
 import VendorAdmin from "./pages/VendorAdmin";
 import Login from "./pages/Login";
+import ServiceProviderDashboard from "./pages/ServiceProviderAdmin";
 import SuperAdminRoute from "./components/SuperAdminRouter";
 import InstallButton from "./components/InstallButton";
 import Spinner from "./components/Spinner";
 import AboutVendorHub from "./pages/AboutUs";
-import ServiceProviderAdmin from "./pages/ArtisanAdmin";
 import ScrollToTop from "./components/ScrollToTop";
 import RealEstateAgents from "./pages/EstateAgents";
 
@@ -75,7 +75,7 @@ export default function App() {
             <Route path="about" element={<AboutVendorHub />} />
             <Route path="cart" element={<Cart />} />
             <Route path="details/:id" element={<ProductDetails />} />
-            <Route path="/artisan/:id" element={<ServiceProviderAdmin />} />
+            <Route path="/artisan/:id" element={<ServiceProviderDashboard />} />
 
             {/* Routes accessible only to logged-out users */}
             <Route element={<PublicRoute />}>

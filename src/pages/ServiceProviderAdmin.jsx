@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+
 import {
   FaStar,
   FaMapMarkerAlt,
@@ -9,17 +10,37 @@ import {
   FaWhatsapp,
   FaBriefcase,
   FaUser,
+  FaWifi,
+  FaRedoAlt,
 } from "react-icons/fa";
-import { useFetchVendorBySlug } from "../hooks/useFetchVendorsBySlug";
 
-import { FaWifi, FaRedoAlt } from "react-icons/fa";
-import supabase from "../lib/supabaseClients";
+import AddReview from "../components/AddReview";
+import VendorReviews from "../components/VendorReviews";
 import MiniLoader from "../components/MiniLoader";
+
+import { useFetchVendorBySlug } from "../hooks/useFetchVendorsBySlug";
+import { useVendorReviews } from "../hooks/useReviews";
+import { useUser } from "../hooks/useUser";
 
 export default function ServiceProviderDashboard() {
   const { id } = useParams();
+
   const { vendor, isLoading, refetch } = useFetchVendorBySlug(id);
+
+  const { user } = useUser();
+
   const [previewImage, setPreviewImage] = useState(null);
+
+  // Fetch vendor reviews for the hero rating
+  const { reviews } = useVendorReviews(vendor?.id);
+
+  // Calculate average rating
+  const averageRating = reviews?.length
+    ? (
+        reviews.reduce((total, review) => total + Number(review.rating), 0) /
+        reviews.length
+      ).toFixed(1)
+    : "0.0";
 
   if (isLoading) {
     return (
@@ -59,6 +80,7 @@ export default function ServiceProviderDashboard() {
   }
 
   const whatsappNumber = vendor.phone?.replace(/\D/g, "").replace(/^0/, "234");
+
   const message = `Hello ${vendor.fullName},
 
 I found your profile on VendorHub and I'm interested in your ${vendor.services} services.
@@ -76,15 +98,15 @@ Thank you.`;
       <div className="max-w-6xl mx-auto px-4">
         {/* HERO */}
         <div className="relative bg-gradient-to-br from-green-950 via-green-800 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
-          {/* Decorative Background */}
           <div className="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+
           <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-emerald-300/10 rounded-full blur-3xl"></div>
 
           <div className="relative p-6 sm:p-8 lg:p-10">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-              {/* Business Information */}
+              {/* BUSINESS INFORMATION */}
               <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start min-w-0">
-                {/* Business Profile Picture */}
+                {/* PROFILE PICTURE */}
                 <div className="shrink-0">
                   <img
                     src={vendor.profilePicture || "/default-avatar.png"}
@@ -98,9 +120,8 @@ Thank you.`;
                   />
                 </div>
 
-                {/* Details */}
+                {/* DETAILS */}
                 <div className="text-white text-center sm:text-left min-w-0">
-                  {/* Business Name */}
                   <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
                     <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight break-words">
                       {vendor.storeName || vendor.fullName}
@@ -109,14 +130,12 @@ Thank you.`;
                     <FaCheckCircle className="text-green-300 text-xl shrink-0" />
                   </div>
 
-                  {/* Business Category */}
                   {vendor.services && (
                     <p className="uppercase tracking-widest mt-2 text-green-200 text-xs sm:text-sm font-bold">
                       {vendor.services}
                     </p>
                   )}
 
-                  {/* Owner Name */}
                   <p className="text-green-100 mt-3 text-sm">
                     Owned and managed by{" "}
                     <span className="font-semibold text-white">
@@ -124,24 +143,24 @@ Thank you.`;
                     </span>
                   </p>
 
-                  {/* Rating */}
+                  {/* DYNAMIC RATING */}
                   <div className="flex justify-center sm:justify-start items-center gap-2 mt-5">
                     <div className="flex items-center gap-1 bg-white/15 backdrop-blur-sm px-3 py-2 rounded-xl">
                       <FaStar className="text-yellow-300" />
 
                       <span className="font-bold text-white">
-                        {vendor.rating || "0.0"}
+                        {averageRating}
                       </span>
                     </div>
 
                     <span className="text-green-100 text-sm">
-                      {vendor.reviews || 0} Customer Reviews
+                      {reviews?.length || 0} Customer Reviews
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Booking Section */}
+              {/* BOOKING SECTION */}
               <div className="flex flex-col gap-3 lg:min-w-[220px]">
                 <a
                   href={whatsappLink}
@@ -161,14 +180,12 @@ Thank you.`;
             </div>
           </div>
         </div>
+
         {/* CONTENT */}
-
         <div className="grid lg:grid-cols-3 gap-6 mt-8">
-          {/* LEFT */}
-
+          {/* LEFT COLUMN */}
           <div className="lg:col-span-2 space-y-6">
             {/* ABOUT */}
-
             <div className="bg-white rounded-3xl p-8 shadow-sm">
               <div className="flex items-center gap-3 mb-5">
                 <FaUser className="text-green-600 text-xl" />
@@ -182,7 +199,6 @@ Thank you.`;
             </div>
 
             {/* SERVICES */}
-
             <div className="bg-white rounded-3xl p-8 shadow-sm">
               <div className="flex items-center gap-3 mb-5">
                 <FaBriefcase className="text-green-600 text-xl" />
@@ -194,11 +210,30 @@ Thank you.`;
                 {vendor.services || "General Services"}
               </div>
             </div>
+
+            {/* ADD REVIEW */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Write a Review
+                </h2>
+
+                <p className="text-gray-500 mt-2">
+                  Have you used this business before? Share your experience and
+                  help others make informed decisions.
+                </p>
+              </div>
+
+              <AddReview vendor_id={vendor.id} user={user} />
+            </div>
+
+            {/* VENDOR REVIEWS COMPONENT */}
+            <VendorReviews user_id={vendor.id} />
           </div>
 
           {/* RIGHT SIDEBAR */}
           <div className="space-y-6">
-            {/* Contact Card */}
+            {/* CONTACT CARD */}
             <div className="bg-white rounded-3xl shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">
                 Contact Information
@@ -271,8 +306,7 @@ Thank you.`;
               </div>
             </div>
 
-            {/* Rating Card */}
-            {/* Google Reviews */}
+            {/* GOOGLE REVIEWS */}
             {vendor.googleRatings && (
               <div className="bg-white rounded-3xl shadow-sm p-8">
                 <div className="flex items-center gap-3 mb-4">
@@ -289,24 +323,18 @@ Thank you.`;
                   </div>
                 </div>
 
-                {vendor.googleratings ? (
-                  <a
-                    href={vendor.googleRatings}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-2xl py-4 font-semibold flex items-center justify-center"
-                  >
-                    View Google Reviews
-                  </a>
-                ) : (
-                  <div className="text-center py-4 text-gray-500">
-                    Google Reviews not available.
-                  </div>
-                )}
+                <a
+                  href={vendor.googleRatings}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-2xl py-4 font-semibold flex items-center justify-center"
+                >
+                  View Google Reviews
+                </a>
               </div>
             )}
 
-            {/* WhatsApp CTA */}
+            {/* WHATSAPP CTA */}
             <div className="bg-white rounded-3xl shadow-sm p-8">
               <h3 className="text-xl font-bold text-gray-800">
                 Need this service?
@@ -318,7 +346,7 @@ Thank you.`;
               </p>
 
               <a
-                href={`${whatsappLink}`}
+                href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white rounded-2xl py-4 font-semibold flex items-center justify-center gap-3 transition duration-300"
@@ -330,6 +358,8 @@ Thank you.`;
           </div>
         </div>
       </div>
+
+      {/* IMAGE PREVIEW */}
       {previewImage && (
         <div
           className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"

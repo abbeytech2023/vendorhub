@@ -249,21 +249,33 @@ export default function VendorRegistration() {
           {/* Phone */}
           <InputField
             icon={<FaPhone />}
-            placeholder="Phone Number"
+            placeholder="Phone Number (11 digits)"
             name="phone"
             register={register}
             errors={errors}
-            rules={{ required: "Phone number required" }}
+            rules={{
+              required: "Phone number required",
+              pattern: {
+                value: /^[0-9]{11}$/,
+                message: "Phone number must contain exactly 11 digits",
+              },
+            }}
           />
 
           {/* WhatsApp */}
           <InputField
             icon={<FaWhatsapp />}
-            placeholder="WhatsApp Number"
+            placeholder="WhatsApp Number (11 digits)"
             name="whatsapp"
             register={register}
             errors={errors}
-            rules={{ required: "WhatsApp number required" }}
+            rules={{
+              required: "WhatsApp number required",
+              pattern: {
+                value: /^[0-9]{11}$/,
+                message: "WhatsApp number must contain exactly 11 digits",
+              },
+            }}
           />
 
           {/* Password */}
