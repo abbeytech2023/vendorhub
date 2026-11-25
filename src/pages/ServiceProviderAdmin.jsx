@@ -26,15 +26,12 @@ export default function ServiceProviderDashboard() {
   const { id } = useParams();
 
   const { vendor, isLoading, refetch } = useFetchVendorBySlug(id);
-
   const { user } = useUser();
 
   const [previewImage, setPreviewImage] = useState(null);
 
-  // Fetch vendor reviews for the hero rating
   const { reviews } = useVendorReviews(vendor?.id);
 
-  // Calculate average rating
   const averageRating = reviews?.length
     ? (
         reviews.reduce((total, review) => total + Number(review.rating), 0) /
@@ -44,7 +41,7 @@ export default function ServiceProviderDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen w-full flex items-center justify-center">
         <MiniLoader />
       </div>
     );
@@ -52,24 +49,26 @@ export default function ServiceProviderDashboard() {
 
   if (!vendor) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 text-center">
+      <div className="min-h-screen w-full flex items-center justify-center bg-gray-100 px-4 py-8">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center">
           <div className="flex justify-center mb-5">
             <div className="bg-red-100 p-5 rounded-full">
-              <FaWifi className="text-5xl text-red-600" />
+              <FaWifi className="text-4xl text-red-600" />
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-800">Connection Lost</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+            Connection Lost
+          </h2>
 
-          <p className="mt-3 text-gray-500">
+          <p className="mt-3 text-gray-500 text-sm sm:text-base">
             We couldn't load the vendor information. Please check your internet
             connection and try again.
           </p>
 
           <button
             onClick={() => refetch()}
-            className="mt-8 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200"
+            className="mt-6 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition w-full sm:w-auto"
           >
             <FaRedoAlt />
             Try Again
@@ -89,24 +88,25 @@ Could you please provide more information about your pricing and availability?
 
 Thank you.`;
 
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    message,
-  )}`;
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className="min-h-screen bg-slate-100 pt-24 pb-10">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* HERO */}
-        <div className="relative bg-gradient-to-br from-green-950 via-green-800 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
-          <div className="absolute -right-20 -top-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-slate-100 pt-20 sm:pt-24 pb-8 sm:pb-10">
+      <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 min-w-0">
+        {/* HERO SECTION */}
 
-          <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-emerald-300/10 rounded-full blur-3xl"></div>
+        <div className="relative w-full min-w-0 bg-gradient-to-br from-green-950 via-green-800 to-emerald-600 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
+          <div className="absolute -right-20 -top-20 w-48 sm:w-72 h-48 sm:h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative p-6 sm:p-8 lg:p-10">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <div className="absolute -left-20 -bottom-20 w-48 sm:w-64 h-48 sm:h-64 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative p-4 sm:p-6 md:p-8 lg:p-10">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-7 lg:gap-8 min-w-0">
               {/* BUSINESS INFORMATION */}
-              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start min-w-0">
-                {/* PROFILE PICTURE */}
+
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 items-center sm:items-start min-w-0 flex-1">
+                {/* PROFILE IMAGE */}
+
                 <div className="shrink-0">
                   <img
                     src={vendor.profilePicture || "/default-avatar.png"}
@@ -116,36 +116,38 @@ Thank you.`;
                         vendor.profilePicture || "/default-avatar.png",
                       )
                     }
-                    className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-4 border-white/90 shadow-xl cursor-pointer hover:scale-105 transition duration-300"
+                    className="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-2xl object-cover border-4 border-white/90 shadow-xl cursor-pointer"
                   />
                 </div>
 
-                {/* DETAILS */}
-                <div className="text-white text-center sm:text-left min-w-0">
-                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight break-words">
+                {/* BUSINESS DETAILS */}
+
+                <div className="text-white text-center sm:text-left min-w-0 w-full">
+                  <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap min-w-0">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight break-words [overflow-wrap:anywhere]">
                       {vendor.storeName || vendor.fullName}
                     </h1>
 
-                    <FaCheckCircle className="text-green-300 text-xl shrink-0" />
+                    <FaCheckCircle className="text-green-300 text-lg sm:text-xl shrink-0" />
                   </div>
 
                   {vendor.services && (
-                    <p className="uppercase tracking-widest mt-2 text-green-200 text-xs sm:text-sm font-bold">
+                    <p className="uppercase tracking-wider mt-2 text-green-200 text-xs sm:text-sm font-bold break-words">
                       {vendor.services}
                     </p>
                   )}
 
-                  <p className="text-green-100 mt-3 text-sm">
+                  <p className="text-green-100 mt-3 text-sm break-words">
                     Owned and managed by{" "}
                     <span className="font-semibold text-white">
                       {vendor.fullName}
                     </span>
                   </p>
 
-                  {/* DYNAMIC RATING */}
-                  <div className="flex justify-center sm:justify-start items-center gap-2 mt-5">
-                    <div className="flex items-center gap-1 bg-white/15 backdrop-blur-sm px-3 py-2 rounded-xl">
+                  {/* RATING */}
+
+                  <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 mt-4">
+                    <div className="flex items-center gap-2 bg-white/15 px-3 py-2 rounded-xl">
                       <FaStar className="text-yellow-300" />
 
                       <span className="font-bold text-white">
@@ -153,24 +155,25 @@ Thank you.`;
                       </span>
                     </div>
 
-                    <span className="text-green-100 text-sm">
+                    <span className="text-green-100 text-xs sm:text-sm">
                       {reviews?.length || 0} Customer Reviews
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* BOOKING SECTION */}
-              <div className="flex flex-col gap-3 lg:min-w-[220px]">
+              {/* BOOKING BUTTON */}
+
+              <div className="flex flex-col gap-2 w-full lg:w-auto lg:min-w-[210px] shrink-0">
                 <a
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white hover:bg-green-50 transition-all rounded-2xl px-7 py-4 flex items-center justify-center gap-3 font-bold text-green-800 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                  className="w-full bg-white hover:bg-green-50 rounded-xl sm:rounded-2xl px-4 py-3 sm:py-4 flex items-center justify-center gap-3 font-bold text-green-800 shadow-lg transition"
                 >
-                  <FaWhatsapp className="text-3xl text-green-600" />
+                  <FaWhatsapp className="text-2xl sm:text-3xl text-green-600 shrink-0" />
 
-                  <span>Book on WhatsApp</span>
+                  <span className="text-sm sm:text-base">Book on WhatsApp</span>
                 </a>
 
                 <p className="text-green-100 text-xs text-center">
@@ -181,44 +184,49 @@ Thank you.`;
           </div>
         </div>
 
-        {/* CONTENT */}
-        <div className="grid lg:grid-cols-3 gap-6 mt-8">
-          {/* LEFT COLUMN */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* ABOUT */}
-            <div className="bg-white rounded-3xl p-8 shadow-sm">
-              <div className="flex items-center gap-3 mb-5">
-                <FaUser className="text-green-600 text-xl" />
+        {/* MAIN CONTENT */}
 
-                <h2 className="text-2xl font-bold">About</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-5 sm:mt-8 min-w-0">
+          {/* LEFT COLUMN */}
+
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6 min-w-0">
+            {/* ABOUT */}
+
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm min-w-0">
+              <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                <FaUser className="text-green-600 text-lg sm:text-xl shrink-0" />
+
+                <h2 className="text-xl sm:text-2xl font-bold">About</h2>
               </div>
 
-              <p className="text-gray-600 leading-8">
+              <p className="text-gray-600 text-sm sm:text-base leading-7 sm:leading-8 break-words [overflow-wrap:anywhere]">
                 {vendor.bio || "This service provider hasn't added a bio yet."}
               </p>
             </div>
 
             {/* SERVICES */}
-            <div className="bg-white rounded-3xl p-8 shadow-sm">
-              <div className="flex items-center gap-3 mb-5">
-                <FaBriefcase className="text-green-600 text-xl" />
 
-                <h2 className="text-2xl font-bold">Services</h2>
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm min-w-0">
+              <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                <FaBriefcase className="text-green-600 text-lg sm:text-xl shrink-0" />
+
+                <h2 className="text-xl sm:text-2xl font-bold">Services</h2>
               </div>
 
-              <div className="inline-flex bg-green-100 text-green-700 rounded-full px-5 py-2 font-semibold">
+              <div className="inline-block max-w-full bg-green-100 text-green-700 rounded-full px-4 sm:px-5 py-2 font-semibold text-sm break-words">
                 {vendor.services || "General Services"}
               </div>
             </div>
 
             {/* ADD REVIEW */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm">
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm min-w-0 overflow-hidden">
+              <div className="mb-5 sm:mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                   Write a Review
                 </h2>
 
-                <p className="text-gray-500 mt-2">
+                <p className="text-gray-500 mt-2 text-sm sm:text-base leading-6">
                   Have you used this business before? Share your experience and
                   help others make informed decisions.
                 </p>
@@ -227,79 +235,98 @@ Thank you.`;
               <AddReview vendor_id={vendor.id} user={user} />
             </div>
 
-            {/* VENDOR REVIEWS COMPONENT */}
-            <VendorReviews user_id={vendor.id} />
+            {/* VENDOR REVIEWS */}
+
+            <div className="min-w-0 w-full overflow-hidden">
+              <VendorReviews user_id={vendor.id} />
+            </div>
           </div>
 
           {/* RIGHT SIDEBAR */}
-          <div className="space-y-6">
-            {/* CONTACT CARD */}
-            <div className="bg-white rounded-3xl shadow-sm p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">
+
+          <div className="space-y-4 sm:space-y-6 min-w-0">
+            {/* CONTACT INFORMATION */}
+
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 sm:p-6 md:p-8 min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-5 sm:mb-6">
                 Contact Information
               </h2>
 
-              <div className="space-y-6">
+              <div className="space-y-5 sm:space-y-6">
+                {/* LOCATION */}
+
                 {vendor.location && (
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-100 p-3 rounded-xl">
+                  <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                    <div className="bg-green-100 p-3 rounded-xl shrink-0">
                       <FaMapMarkerAlt className="text-green-600 text-lg" />
                     </div>
 
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm text-gray-500">Location</p>
 
-                      <p className="font-medium text-gray-800">
+                      <p className="font-medium text-gray-800 text-sm sm:text-base break-words [overflow-wrap:anywhere]">
                         {vendor.location}
                       </p>
                     </div>
                   </div>
                 )}
 
+                {/* OFFICE ADDRESS */}
+
                 {vendor.officeAddress && (
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-100 p-3 rounded-xl">
+                  <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                    <div className="bg-green-100 p-3 rounded-xl shrink-0">
                       <FaMapMarkerAlt className="text-green-600 text-lg" />
                     </div>
 
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm text-gray-500">Office Address</p>
 
-                      <p className="font-medium text-gray-800">
+                      <p className="font-medium text-gray-800 text-sm sm:text-base break-words [overflow-wrap:anywhere]">
                         {vendor.officeAddress}
                       </p>
                     </div>
                   </div>
                 )}
 
+                {/* PHONE */}
+
                 {vendor.phone && (
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-100 p-3 rounded-xl">
+                  <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                    <div className="bg-green-100 p-3 rounded-xl shrink-0">
                       <FaPhone className="text-green-600 text-lg" />
                     </div>
 
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm text-gray-500">Phone</p>
 
-                      <p className="font-medium text-gray-800">
+                      <a
+                        href={`tel:${vendor.phone}`}
+                        className="font-medium text-gray-800 text-sm sm:text-base break-all"
+                      >
                         {vendor.phone}
-                      </p>
+                      </a>
                     </div>
                   </div>
                 )}
 
+                {/* EMAIL */}
+
                 {vendor.email && (
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-100 p-3 rounded-xl">
+                  <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                    <div className="bg-green-100 p-3 rounded-xl shrink-0">
                       <FaEnvelope className="text-green-600 text-lg" />
                     </div>
 
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm text-gray-500">Email</p>
 
-                      <p className="font-medium text-gray-800 break-all">
+                      <a
+                        href={`mailto:${vendor.email}`}
+                        className="font-medium text-gray-800 text-sm sm:text-base break-all"
+                      >
                         {vendor.email}
-                      </p>
+                      </a>
                     </div>
                   </div>
                 )}
@@ -307,17 +334,18 @@ Thank you.`;
             </div>
 
             {/* GOOGLE REVIEWS */}
-            {vendor.googleRatings && (
-              <div className="bg-white rounded-3xl shadow-sm p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <FaStar className="text-yellow-500 text-2xl" />
 
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800">
+            {vendor.googleRatings && (
+              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 sm:p-6 md:p-8 min-w-0">
+                <div className="flex items-center gap-3 mb-4">
+                  <FaStar className="text-yellow-500 text-2xl shrink-0" />
+
+                  <div className="min-w-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-800">
                       Google Reviews
                     </h3>
 
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-xs sm:text-sm">
                       View verified customer reviews on Google
                     </p>
                   </div>
@@ -327,7 +355,7 @@ Thank you.`;
                   href={vendor.googleRatings}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-2xl py-4 font-semibold flex items-center justify-center"
+                  className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl sm:rounded-2xl py-3 sm:py-4 px-3 text-sm sm:text-base font-semibold flex items-center justify-center text-center"
                 >
                   View Google Reviews
                 </a>
@@ -335,12 +363,13 @@ Thank you.`;
             )}
 
             {/* WHATSAPP CTA */}
-            <div className="bg-white rounded-3xl shadow-sm p-8">
-              <h3 className="text-xl font-bold text-gray-800">
+
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 sm:p-6 md:p-8 min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800">
                 Need this service?
               </h3>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-500 mt-2 text-sm sm:text-base leading-6">
                 Contact this artisan directly on WhatsApp for instant booking
                 and enquiries.
               </p>
@@ -349,10 +378,11 @@ Thank you.`;
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white rounded-2xl py-4 font-semibold flex items-center justify-center gap-3 transition duration-300"
+                className="mt-5 sm:mt-6 w-full bg-green-600 hover:bg-green-700 text-white rounded-xl sm:rounded-2xl py-3 sm:py-4 px-3 font-semibold flex items-center justify-center gap-3 transition"
               >
-                <FaWhatsapp className="text-2xl" />
-                Book on WhatsApp
+                <FaWhatsapp className="text-2xl shrink-0" />
+
+                <span>Book on WhatsApp</span>
               </a>
             </div>
           </div>
@@ -360,21 +390,23 @@ Thank you.`;
       </div>
 
       {/* IMAGE PREVIEW */}
+
       {previewImage && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-3 sm:p-6"
           onClick={() => setPreviewImage(null)}
         >
           <img
             src={previewImage}
             alt="Profile"
-            className="max-w-full max-h-[90vh] rounded-2xl shadow-2xl object-contain"
+            className="max-w-full max-h-[85dvh] rounded-xl sm:rounded-2xl shadow-2xl object-contain"
             onClick={(e) => e.stopPropagation()}
           />
 
           <button
             onClick={() => setPreviewImage(null)}
-            className="absolute top-6 right-6 text-white cursor-pointer text-4xl font-bold hover:text-gray-300"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white cursor-pointer text-4xl font-bold hover:text-gray-300 p-2"
+            aria-label="Close image preview"
           >
             ×
           </button>
