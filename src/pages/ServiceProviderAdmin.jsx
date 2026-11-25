@@ -322,35 +322,6 @@ Thank you.`;
               </div>
             </div>
 
-            {/* GOOGLE REVIEWS */}
-
-            {vendor.googleRatings && (
-              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 sm:p-6 md:p-8 min-w-0">
-                <div className="flex items-center gap-3 mb-4">
-                  <FaStar className="text-yellow-500 text-2xl shrink-0" />
-
-                  <div className="min-w-0">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-800">
-                      Google Reviews
-                    </h3>
-
-                    <p className="text-gray-500 text-xs sm:text-sm">
-                      View verified customer reviews on Google
-                    </p>
-                  </div>
-                </div>
-
-                <a
-                  href={vendor.googleRatings}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl sm:rounded-2xl py-3 sm:py-4 px-3 text-sm sm:text-base font-semibold flex items-center justify-center text-center"
-                >
-                  View Google Reviews
-                </a>
-              </div>
-            )}
-
             {/* WHATSAPP CTA */}
 
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm p-4 sm:p-6 md:p-8 min-w-0">
