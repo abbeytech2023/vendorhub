@@ -134,7 +134,7 @@ export default function EditProfileModal({ vendor, onClose }) {
           </section>
 
           {/* BIO */}
-          <section className="space-y-4">
+          {/* <section className="space-y-4">
             <h3 className="text-gray-400 text-xs uppercase tracking-wider">
               Business Bio
             </h3>
@@ -154,7 +154,7 @@ export default function EditProfileModal({ vendor, onClose }) {
                 {(formData.bio || "").length}/500
               </span>
             </div>
-          </section>
+          </section> */}
 
           {/* CONTACT */}
           <section className="space-y-4">
